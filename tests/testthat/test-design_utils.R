@@ -176,7 +176,7 @@ test_that("speed() warns when a swap group is left frozen mid-search", {
       seed = 4,
       quiet = TRUE
     ),
-    "No treatments could be swapped at level `lvl2` within `site`",
+    "No treatments could be swapped at level 'lvl2' within 'site'",
     fixed = TRUE
   )
 })

@@ -132,12 +132,17 @@ swappable_groups <- function(design, swap, swap_within, swap_all) {
   }
 
   warning(
-    "No treatments could be swapped at level `",
+    "No treatments could be swapped at level '",
     level,
-    "` within `",
+    "' within '",
     swap_within,
-    "` groups ",
-    paste0(unequal, collapse = ", "),
+    "' group ",
+    unequal[1],
+    if (length(unequal) > 1) {
+      paste0(", and in ", length(unequal) - 1, " other group(s)")
+    } else {
+      ""
+    },
     ", because `swap_all = TRUE` only exchanges treatments with equal ",
     "replication and no two treatments there share a replication count.",
     " Those groups were left unchanged.",

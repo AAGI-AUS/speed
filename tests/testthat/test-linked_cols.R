@@ -343,6 +343,28 @@ test_that("linked_cols works via the optimise argument", {
   expect_pairing_preserved(df, result$design_df, "sp_trt", "sp_label")
 })
 
+test_that("a linked_cols named list combines with an optimise list untouched", {
+  # The vignette's reuse form: the hierarchy described by `optimise` alone, with
+  # the linked columns supplied alongside it as a named list
+  df <- split_plot_df()
+
+  result <- speed(
+    df,
+    optimise = list(
+      wp = list(swap = "wp_trt", swap_within = "block", swap_all = TRUE),
+      sp = list(swap = "sp_trt", swap_within = "wholeplot")
+    ),
+    linked_cols = list(wp = "wp_label", sp = "sp_label"),
+    iterations = 100,
+    early_stop_iterations = 30,
+    seed = 42,
+    quiet = TRUE
+  )
+
+  expect_pairing_preserved(df, result$design_df, "wp_trt", "wp_label")
+  expect_pairing_preserved(df, result$design_df, "sp_trt", "sp_label")
+})
+
 test_that("a level's own linked_cols wins over the argument", {
   # `wp` sets its own, so the argument only fills in `sp`
   resolved <- create_speed_input(

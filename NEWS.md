@@ -4,8 +4,7 @@
 
 - Added the `linked_cols` argument to `speed()`, naming columns that should be rearranged along with the
   `swap` column, for example a `variety_name` label belonging to a numeric `variety` code. For hierarchical
-  designs, pass a named list to link different columns at different levels.
-  ([#105](https://github.com/biometryhub/speed/issues/105))
+  designs, pass a named list to link different columns at different levels. (#105)
 - `speed()` now stops as soon as a design reaches the lowest score its layout allows, applicable only to the
   default `objective_function()`. This can be turned off per level with `optim_params(stop_at_optimal =
   FALSE)`. `summary()` now reports the lower bound score alongside the achieved one.
@@ -25,7 +24,7 @@
   argument's own default rather than the default for `spatial_factors`.
 - Columns that take no part in the optimisation are no longer converted to factors and back, so a class
   that cannot be rebuilt with `as.<class>()`, such as `Date`, is now returned unchanged instead of as
-  `character`.
+  `character`. (#122)
 
 # speed 0.0.10
 
