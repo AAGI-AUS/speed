@@ -76,6 +76,21 @@ test_that(".verify_speed_inputs works correctly", {
     "spatial_factors must be a one sided formula"
   )
 
+  # Test error: spatial_factors is a two sided formula
+  expect_error(
+    .verify_speed_inputs(
+      data = test_data,
+      swap = "treatment",
+      swap_within = "block",
+      spatial_factors = treatment ~ row + col,
+      iterations = 100,
+      early_stop_iterations = 50,
+      quiet = TRUE,
+      seed = 123
+    ),
+    "spatial_factors must be a one sided formula"
+  )
+
   # Test error: spatial factor column doesn't exist
   expect_error(
     .verify_speed_inputs(

@@ -19,6 +19,8 @@
 
 ## Bug Fixes
 
+- A two sided formula passed to `spatial_factors` is now rejected instead of silently accepted, and
+  hierarchical designs now run the same `spatial_factors`, `iterations` and `seed` checks as simple ones.
 - Named lists for hierarchical arguments such as `iterations` are now split per level under the `optimise`
   argument, as they already were when `swap` was a named list. A level the list leaves out now takes that
   argument's own default rather than the default for `spatial_factors`.
