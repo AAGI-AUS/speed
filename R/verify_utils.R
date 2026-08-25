@@ -84,11 +84,12 @@
   verify_column_exists(swap, data, "treatment")
 
   # currently support only 1 constraint
-  if (swap_within != "1") {
+  if (!(swap_within %in% c("1", "none"))) {
     verify_column_exists(swap_within, data, "constraint")
   }
 
-  if (!inherits(spatial_factors, "formula")) {
+  # one sided formulas have length 2 (`~` and rhs); two sided have length 3
+  if (!inherits(spatial_factors, "formula") || length(spatial_factors) != 2) {
     stop("spatial_factors must be a one sided formula", call. = FALSE)
   }
 
@@ -152,6 +153,21 @@
   if (!is.null(seed) && !is.numeric(seed)) {
     stop("`seed` must be numeric or NULL")
   }
+
+  first_level <- function(x) {
+    return(if (is.list(x)) x[[1]] else x)
+  }
+
+  .verify_speed_inputs(
+    data = data,
+    swap = first_level(swap),
+    swap_within = first_level(swap_within),
+    spatial_factors = first_level(spatial_factors),
+    iterations = first_level(iterations),
+    early_stop_iterations = first_level(early_stop_iterations),
+    quiet = quiet,
+    seed = seed
+  )
 
   return(invisible(NULL))
 }
