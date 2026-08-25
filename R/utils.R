@@ -290,7 +290,7 @@ create_speed_input <- function(
 #'
 #' @keywords internal
 .level_optimised_cols <- function(opt) {
-  return(unique(c(opt$swap, .level_fixed_cols(opt))))
+  return(c(opt$swap, .level_fixed_cols(opt)))
 }
 
 `%||%` <- function(a, b) if (!is.null(a)) a else b
