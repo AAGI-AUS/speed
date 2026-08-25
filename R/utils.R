@@ -171,33 +171,6 @@ to_types <- function(df, types) {
 #   return(parsed_args)
 # }
 
-#' Value a Single Level Takes From an Argument of `speed()`
-#'
-#' @description
-#' A named list naming only levels of the design supplies a value per level;
-#' anything else applies whole to every level. Matching on the level names is
-#' what tells `iterations = list(wp = 5, sp = 7)` apart from `grid_factors` and
-#' `optim_params()`, which are named lists of their own fields rather than of
-#' levels.
-#'
-#' @param value An argument of [speed()], as the user passed it.
-#' @param level Name of the level being built.
-#' @param levels Names of every level.
-#'
-#' @return The value for `level`; `NULL` where a per-level list omits it, which
-#'   leaves the caller to fall back to `.DEFAULT`.
-#'
-#' @keywords internal
-.level_value <- function(value, level, levels) {
-  if (
-    is.list(value) && !is.null(names(value)) && all(names(value) %in% levels)
-  ) {
-    return(value[[level]])
-  }
-
-  return(value)
-}
-
 #' Create Input for Internal speed Function
 #'
 #' @inheritParams speed
@@ -256,9 +229,23 @@ create_speed_input <- function(
   # list that names some levels but not others.
   for (optimise_name in names(optimise)) {
     for (arg in speed_args) {
-      optimise[[optimise_name]][[arg]] <- optimise[[optimise_name]][[arg]] %||%
-        .level_value(get(arg), optimise_name, names(optimise)) %||%
-        .DEFAULT[[arg]]
+      if (!is.null(optimise[[optimise_name]][[arg]])) {
+        next
+      }
+
+      # A named list keyed by level supplies a value per level; anything else,
+      # including `grid_factors` and `optim_params()`, which name their own
+      # fields, applies whole to every level
+      value <- get(arg)
+      if (
+        is.list(value) &&
+          !is.null(names(value)) &&
+          all(names(value) %in% names(optimise))
+      ) {
+        value <- value[[optimise_name]]
+      }
+
+      optimise[[optimise_name]][[arg]] <- value %||% .DEFAULT[[arg]]
     }
   }
 
