@@ -27,6 +27,8 @@
 - Columns that take no part in the optimisation are no longer converted to factors and back, so a class
   that cannot be rebuilt with `as.<class>()`, such as `Date`, is now returned unchanged instead of as
   `character`. (#122)
+- The swapped treatments passed to an objective function are now labels rather than factor codes, so
+  `objective_function_piepho()` updates the plots that actually moved.
 
 # speed 0.0.10
 

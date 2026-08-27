@@ -185,7 +185,9 @@ generate_single_swap_neighbour <- function(design, swap, swap_within, swap_count
       for (i in 1:swap_count) {
         # Select two random plots in this block
         swap_pair <- sample(block_indices, 2)
-        to_be_swapped <- new_design[[swap]][swap_pair]
+        # `as.character()` because the swap column is a factor, whose values
+        # would otherwise reach `swapped_items` as their integer codes
+        to_be_swapped <- as.character(new_design[[swap]][swap_pair])
 
         # If both plots have the same treatment, try to find a different one
         if (to_be_swapped[1] == to_be_swapped[2]) {
@@ -194,7 +196,7 @@ generate_single_swap_neighbour <- function(design, swap, swap_within, swap_count
           # Only proceed with swap if different treatments are available
           if (length(different_indices) > 0) {
             swap_pair[[2]] <- sample(different_indices, 1)
-            to_be_swapped[2] <- new_design[[swap]][[swap_pair[[2]]]]
+            to_be_swapped[2] <- as.character(new_design[[swap]][[swap_pair[[2]]]])
           } else {
             # Skip this swap - no different treatments available
             to_be_swapped <- NULL
@@ -241,7 +243,10 @@ generate_multi_swap_neighbour <- function(design, swap, swap_within, swap_count,
     # Get unique treatments within this group
     group_filter <- new_design[[swap_within]] == group & !is.na(new_design[[swap_within]])
     group_data <- new_design[group_filter & !is.na(new_design[[swap]]), ]
-    group_treatments <- unique(group_data[[swap]])
+    # `as.character()` so everything taken from it - `eligible`, `swap_pair`,
+    # and in turn `swapped_items` - is a treatment label rather than the integer
+    # code a factor contributes to a character vector
+    group_treatments <- as.character(unique(group_data[[swap]]))
 
     # Counted once: every swap below exchanges equally replicated treatments, so
     # these counts are unaffected by them

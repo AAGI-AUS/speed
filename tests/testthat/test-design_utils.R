@@ -224,6 +224,34 @@ test_that("speed() stops a level once every swap group is frozen", {
   expect_length(run(single_treatment)$scores$lvl2, 1)
 })
 
+test_that("swapped_items are treatment labels, not factor codes", {
+  # The swap column is a factor throughout the search, and a factor put into a
+  # character vector contributes its integer codes. `objective_function_piepho()`
+  # matches `swapped_items` against the design matrix, so codes silently mask
+  # every plot out of its incremental update.
+  design <- data.frame(
+    row = 1:8,
+    col = 1,
+    block = factor(rep(c("g1", "g2"), each = 4)),
+    treatment = factor(c("A", "A", "B", "B", "C", "C", "D", "D"))
+  )
+
+  for (swap_all in c(FALSE, TRUE)) {
+    withr::with_seed(3, {
+      result <- generate_neighbour(
+        design,
+        "treatment",
+        "block",
+        swap_all = swap_all,
+        swap_all_blocks = TRUE
+      )
+    })
+
+    swapped <- result$swapped_items[nzchar(result$swapped_items)]
+    expect_true(all(swapped %in% levels(design$treatment)))
+  }
+})
+
 test_that("speed() records why each level stopped", {
   df <- data.frame(
     row = rep(1:6, times = 2),
