@@ -27,6 +27,9 @@
 - Columns that take no part in the optimisation are no longer converted to factors and back, so a class
   that cannot be rebuilt with `as.<class>()`, such as `Date`, is now returned unchanged instead of as
   `character`. (#122)
+- Each level of a hierarchical design now starts from the best design found so far, rather than whichever
+  design the previous level's search last accepted. A level could otherwise be optimised, and reported on,
+  against a design that was never returned, or replace an earlier level's better result with a worse one.
 - The swapped treatments passed to an objective function are now labels rather than factor codes, so
   `objective_function_piepho()` updates the plots that actually moved.
 

@@ -224,6 +224,46 @@ test_that("speed() stops a level once every swap group is frozen", {
   expect_length(run(single_treatment)$scores$lvl2, 1)
 })
 
+test_that("a level searches from the best design found, not the last accepted", {
+  # Annealing usually ends above its own best, so the last accepted design and
+  # `best_design` - the one returned - differ. A level starting from the former
+  # optimises and diagnoses a design the caller never sees: here the returned
+  # design leaves both sites with no exchangeable pair, which went unreported.
+  df <- cross_cutting_df()
+  df$plot_id <- sprintf("P%02d", seq_len(nrow(df)))
+
+  run <- function() {
+    return(speed(
+      df,
+      swap = "lines",
+      optimise = list(
+        lvl1 = list(swap_within = "block", swap_all = TRUE),
+        lvl2 = list(swap_within = "site", swap_all = TRUE)
+      ),
+      linked_cols = "plot_id",
+      iterations = 30,
+      seed = 1,
+      quiet = TRUE
+    ))
+  }
+
+  expect_warning(
+    run(),
+    "No treatments could be swapped at level 'lvl2' within 'site'",
+    fixed = TRUE
+  )
+
+  result <- suppressWarnings(run())
+  expect_equal(result$metadata$per_level$lvl2$stop_reason, "frozen")
+
+  # The design handed back is the one the level was reported on
+  final <- result$design_df
+  final$site <- as.factor(final$site)
+  groups <- swappable_groups(final, "lines", "site", swap_all = TRUE)
+  expect_length(groups$swappable, 0)
+  expect_equal(groups$unequal_replication, c("a", "b"))
+})
+
 test_that("swapped_items are treatment labels, not factor codes", {
   # The swap column is a factor throughout the search, and a factor put into a
   # character vector contributes its integer codes. `objective_function_piepho()`

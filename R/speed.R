@@ -351,6 +351,12 @@ speed_hierarchical <- function(data, optimise, quiet, seed, ...) {
     stop_at_optimal <- optimise_params$stop_at_optimal
     spatial_cols <- all.vars(opt$spatial_factors)
 
+    # A level searches from the best design found so far, not from wherever the
+    # previous level's annealing happened to stop. `best_design` is what is
+    # returned, so starting anywhere else optimises - and diagnoses, via
+    # `swappable_groups()` below - a design the user never sees.
+    current_design <- best_design
+
     # Calculate initial score for this level
     current_score_obj <- opt$obj_function(current_design, opt$swap, spatial_cols, adj_weight = adj_weight,
                                           bal_weight = bal_weight, grid_index = grid_idx, ...)
