@@ -292,6 +292,46 @@ test_that("swapped_items are treatment labels, not factor codes", {
   }
 })
 
+test_that("a level ending on a score plateau returns a random point on it", {
+  # A whole plot spanning a full row makes its like-adjacencies irreducible, so
+  # every arrangement without like-neighbouring rows ties, the input included.
+  # The input is as valid an answer as any other tied design, so the test is not
+  # that it is avoided but that it is not privileged: were the best design only
+  # replaced on a strict improvement, every seed would return the input.
+  df <- data.frame(
+    row = rep(1:12, each = 4),
+    col = rep(1:4, times = 12),
+    block = rep(1:4, each = 12),
+    wholeplot_treatment = rep(rep(LETTERS[1:3], each = 4), times = 4)
+  )
+
+  run <- function(seed) {
+    return(speed(
+      df,
+      swap = "wholeplot_treatment",
+      swap_within = "block",
+      iterations = 2000,
+      early_stop_iterations = 1000,
+      swap_all = TRUE,
+      seed = seed,
+      quiet = TRUE
+    ))
+  }
+
+  results <- lapply(1:4, run)
+
+  # Every run sits on the plateau it started on
+  for (result in results) {
+    expect_equal(result$score, result$scores[1])
+    # A tie is not an improvement, so it must not keep the level running
+    expect_equal(result$metadata$per_level[[1]]$stop_reason, "no_improvement")
+  }
+
+  # ... but the seed decides which tied arrangement comes back
+  layouts <- lapply(results, function(r) return(r$design_df$wholeplot_treatment))
+  expect_gt(length(unique(layouts)), 1)
+})
+
 test_that("speed() records why each level stopped", {
   df <- data.frame(
     row = rep(1:6, times = 2),

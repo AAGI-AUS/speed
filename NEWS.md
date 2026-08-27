@@ -30,6 +30,9 @@
 - Each level of a hierarchical design now starts from the best design found so far, rather than whichever
   design the previous level's search last accepted. A level could otherwise be optimised, and reported on,
   against a design that was never returned, or replace an earlier level's better result with a worse one.
+- A design that ties the best score found now replaces it, so a search that ends on a score plateau returns
+  a random arrangement from that plateau rather than the systematic input it was given. Early stopping still
+  counts only strict improvements.
 - The swapped treatments passed to an objective function are now labels rather than factor codes, so
   `objective_function_piepho()` updates the plots that actually moved.
 

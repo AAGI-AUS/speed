@@ -437,11 +437,15 @@ speed_hierarchical <- function(data, optimise, quiet, seed, ...) {
         current_design <- new_design$design
         current_score <- new_score
         current_score_obj <- new_score_obj
-        if (new_score < best_score) {
+        # Ties move the best design too, so a plateau returns a random point on
+        # it rather than the input; only a strict improvement resets the clock
+        if (new_score <= best_score) {
+          if (new_score < best_score) {
+            last_improvement_iter <- iter
+          }
           best_design <- new_design$design
           best_score_obj <- new_score_obj
           best_score <- new_score
-          last_improvement_iter <- iter
         }
       }
 

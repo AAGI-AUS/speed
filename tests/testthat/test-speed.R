@@ -832,7 +832,7 @@ test_that("speed handles split-split plot designs", {
   expect_equal(sapply(result$scores, length), c(wp = 229, sp = 201, ssp = 1000))
 
   # Check numerical output
-  expect_equal(result$score, 497)
+  expect_equal(result$score, 393)
   expect_equal(result$iterations_run, 1430)
   expect_equal(result$stopped_early, c(wp = TRUE, sp = TRUE, ssp = FALSE))
   expect_equal(result$seed, 42)
@@ -920,7 +920,7 @@ test_that("speed handles strip plot designs", {
   expect_equal(sapply(result$scores, length), c(ht = 232, vt = 369))
 
   # Check numerical output
-  expect_equal(result$score, 145)
+  expect_equal(result$score, 138)
   expect_equal(result$iterations_run, 601)
   expect_equal(result$stopped_early, c(ht = TRUE, vt = TRUE))
   expect_equal(result$seed, 42)
