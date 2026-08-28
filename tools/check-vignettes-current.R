@@ -56,14 +56,32 @@ for (f in orig) {
   # A fresh hash says nothing about whether the render is well formed. knitr
   # emits unfenced source if its markdown hooks were never installed, which
   # leaves every chunk as prose, so require the chunks to come back as code.
+  qmd_lines <- readLines(qmd, warn = FALSE)
   has_chunks <- any(grepl("^```\\{", readLines(src, warn = FALSE)))
-  if (has_chunks && !any(grepl("^```", readLines(qmd, warn = FALSE)))) {
+  if (has_chunks && !any(grepl("^```", qmd_lines))) {
     problems <- c(
       problems,
       sprintf(
         "%s has chunks but %s has no fenced code blocks",
         f,
         basename(qmd)
+      )
+    )
+  }
+
+  # The manifest only hashes the source, so content written straight into the
+  # generated file is invisible to it. An executable chunk there would run
+  # during `R CMD build`, which is what pre-computing exists to avoid.
+  live <- grep("^```\\{", qmd_lines)
+  if (length(live)) {
+    problems <- c(
+      problems,
+      sprintf(
+        "%s has %d unexecuted chunk(s) (line %s) - edit %s instead",
+        basename(qmd),
+        length(live),
+        paste(live, collapse = ", "),
+        f
       )
     )
   }
