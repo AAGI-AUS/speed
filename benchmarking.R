@@ -1,13 +1,14 @@
 source("./bench/utils.R")
 source("./bench/large.R")
-source("./bench/irregular.R")
+# source("./bench/irregular.R")
 source("./bench/split-plot.R")
 source("./bench/2d-block.R")
 
 designs <- list(
   `split-plot` = split_design(),
   large = large_design(),
-  irr = irr_design()
+  # irr = irr_design(),
+  `2d-block` = two_d_design()
 )
 
 run_benchmarks(designs, 1:10)
@@ -345,53 +346,53 @@ run_benchmarks(designs, 1:10)
 #   )
 # )
 
-results <- read.csv("benchmark-split-plot.csv")
-metrics <- c(
-  run_time = "Run time (s) - lower better",
-  aefficiency = "A-efficiency - higher better",
-  eefficiency = "E-efficiency - higher better",
-  sub_adjacency = "Subtreatment adjacency - lower better"
-  # adjacency = "Adjacency - lower better"
-)
-long <- do.call(
-  rbind,
-  lapply(names(metrics), function(m) {
-    data.frame(
-      tool = results$tool,
-      metric = unname(metrics[m]),
-      value = results[[m]]
-    )
-  })
-)
-long$tool <- factor(long$tool, levels = c("speed", "digger", "odw"))
-long$metric <- factor(long$metric, levels = unname(metrics))
-
-# pull the efficiency panels' y axes down to floor(min - 0.1) at 1 decimal
-eff_floors <- do.call(
-  rbind,
-  lapply(unname(metrics[c("aefficiency", "eefficiency")]), function(m) {
-    values <- long$value[long$metric == m]
-    data.frame(
-      tool = long$tool[1],
-      metric = factor(m, levels = levels(long$metric)),
-      value = floor((min(values, na.rm = TRUE) - 0.1) * 10) / 10 + 0.05
-    )
-  })
-)
-
-png("bench-split-plot-compare.png", height = 1440, width = 1920)
-ggplot(long, aes(tool, value, fill = tool)) +
-  geom_boxplot(outlier.shape = NA, alpha = 0.55, width = 0.6) +
-  geom_jitter(width = 0.12, height = 0, size = 1.6, alpha = 0.8) +
-  geom_blank(data = eff_floors) +
-  facet_wrap(~metric, scales = "free_y", nrow = 2) +
-  scale_fill_brewer(palette = "Set2", guide = "none") +
-  labs(
-    title = "Split plot design: tool comparison across metrics",
-    subtitle = "10 seeds per tool; points are individual runs",
-    x = NULL,
-    y = NULL
-  ) +
-  theme_bw(base_size = 23) +
-  theme(strip.text = element_text(face = "bold"))
-dev.off()
+# results <- read.csv("./bench-out/benchmark-irr.csv")
+# metrics <- c(
+#   run_time = "Run time (s) - lower better",
+#   aefficiency = "A-efficiency - higher better",
+#   eefficiency = "E-efficiency - higher better",
+#   # sub_adjacency = "Subtreatment adjacency - lower better"
+#   adjacency = "Adjacency - lower better"
+# )
+# long <- do.call(
+#   rbind,
+#   lapply(names(metrics), function(m) {
+#     data.frame(
+#       tool = results$tool,
+#       metric = unname(metrics[m]),
+#       value = results[[m]]
+#     )
+#   })
+# )
+# long$tool <- factor(long$tool, levels = c("speed", "digger", "odw"))
+# long$metric <- factor(long$metric, levels = unname(metrics))
+#
+# # pull the efficiency panels' y axes down to floor(min - 0.1) at 1 decimal
+# eff_floors <- do.call(
+#   rbind,
+#   lapply(unname(metrics[c("aefficiency", "eefficiency")]), function(m) {
+#     values <- long$value[long$metric == m]
+#     data.frame(
+#       tool = long$tool[1],
+#       metric = factor(m, levels = levels(long$metric)),
+#       value = floor((min(values, na.rm = TRUE) - 0.1) * 10) / 10 + 0.05
+#     )
+#   })
+# )
+#
+# png("bench-irr-compare.png", height = 1440, width = 1920)
+# ggplot(long, aes(tool, value, fill = tool)) +
+#   geom_boxplot(outlier.shape = NA, alpha = 0.55, width = 0.6) +
+#   geom_jitter(width = 0.12, height = 0, size = 1.6, alpha = 0.8) +
+#   geom_blank(data = eff_floors) +
+#   facet_wrap(~metric, scales = "free_y", nrow = 2) +
+#   scale_fill_brewer(palette = "Set2", guide = "none") +
+#   labs(
+#     title = "Irregular design: tool comparison across metrics",
+#     subtitle = "10 seeds per tool; points are individual runs",
+#     x = NULL,
+#     y = NULL
+#   ) +
+#   theme_bw(base_size = 31) +
+#   theme(strip.text = element_text(face = "bold"))
+# dev.off()

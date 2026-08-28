@@ -70,12 +70,147 @@ as_design <- function(df) {
   return(df)
 }
 
+bench_objects_dir <- function() {
+  return(bench_out("objects"))
+}
+
+object_path <- function(design_name, tool_name, seed) {
+  return(file.path(
+    bench_objects_dir(),
+    sprintf("%s-%s-%s.RData", design_name, tool_name, seed)
+  ))
+}
+
+# NULL on failure, so the caller still writes a row of NAs
+execute_run <- function(run_tool, design_name, tool_name, seed) {
+  return(tryCatch(
+    {
+      elapsed <- system.time(design_df <- run_tool(seed))[["elapsed"]]
+      list(
+        design = design_name,
+        tool = tool_name,
+        seed = seed,
+        elapsed = elapsed,
+        design_df = design_df
+      )
+    },
+    error = function(e) {
+      warning(sprintf(
+        "%s/%s/seed=%s failed: %s",
+        design_name,
+        tool_name,
+        seed,
+        conditionMessage(e)
+      ))
+      NULL
+    }
+  ))
+}
+
+save_run <- function(run) {
+  path <- object_path(run$design, run$tool, run$seed)
+  save(run, file = path)
+
+  return(path)
+}
+
+load_run <- function(design_name, tool_name, seed) {
+  path <- object_path(design_name, tool_name, seed)
+  if (!file.exists(path)) {
+    warning(sprintf("object not found: %s", path))
+    return(NULL)
+  }
+
+  env <- new.env()
+  load(path, envir = env)
+
+  return(env$run)
+}
+
+# One row of results for a run; a NULL run scores as NAs
+score_run <- function(run, spec, design_name, tool_name, seed) {
+  metrics <- list(conv = NA, aeff = NA_real_, eeff = NA_real_)
+  if (!is.null(run)) {
+    metrics <- tryCatch(
+      {
+        eff <- efficiency(run$design_df, spec$treatment, spec$units) |>
+          bottom_stratum_eff()
+        list(
+          conv = isTRUE(spec$is_converged(run$design_df)),
+          aeff = eff$aeff,
+          eeff = eff$eeff
+        )
+      },
+      error = function(e) {
+        warning(sprintf(
+          "%s/%s/seed=%s metrics failed: %s",
+          design_name,
+          tool_name,
+          seed,
+          conditionMessage(e)
+        ))
+        list(conv = NA, aeff = NA_real_, eeff = NA_real_)
+      }
+    )
+  }
+  row <- data.frame(
+    tool = tool_name,
+    design = design_name,
+    seed = seed,
+    run_time = if (is.null(run)) NA_real_ else run$elapsed,
+    is_converged = metrics$conv,
+    aefficiency = metrics$aeff,
+    eefficiency = metrics$eeff
+  )
+
+  # Design-specific custom columns, appended to the right
+  if (!is.null(run) && is.function(spec$custom_metrics)) {
+    custom <- tryCatch(
+      as.data.frame(as.list(spec$custom_metrics(run$design_df))),
+      error = function(e) {
+        warning(sprintf(
+          "%s/%s/seed=%s custom metrics failed: %s",
+          design_name,
+          tool_name,
+          seed,
+          conditionMessage(e)
+        ))
+        NULL
+      }
+    )
+    if (!is.null(custom)) {
+      row <- cbind(row, custom)
+    }
+  }
+
+  return(row)
+}
+
 # Writes one CSV per design (`<csv_prefix>-<design>.csv`) and returns a named
 # list of per-design result data frames. A design spec may supply
 # `custom_metrics`, a function of the design data frame returning a named list
 # of scalars; these are appended as the right-most columns of each bench run.
-run_benchmarks <- function(designs, seeds, csv_prefix = "benchmark") {
+#
+# `save_objects` runs the tools and saves each run to
+# `<bench_objects_dir()>/<design>-<tool>-<seed>.RData` without scoring or
+# writing a CSV; it returns the saved paths. `from_objects` scores the runs
+# saved that way instead of running the tools, warning about missing ones.
+run_benchmarks <- function(
+  designs,
+  seeds,
+  csv_prefix = "benchmark",
+  save_objects = FALSE,
+  from_objects = FALSE
+) {
+  if (save_objects && from_objects) {
+    stop("`save_objects` and `from_objects` cannot both be TRUE.")
+  }
+  if (save_objects) {
+    dir.create(bench_objects_dir(), showWarnings = FALSE, recursive = TRUE)
+  }
+
   results <- list()
+  saved <- character()
   for (design_name in names(designs)) {
     spec <- designs[[design_name]]
     csv_path <- bench_out(sprintf("%s-%s.csv", csv_prefix, design_name))
@@ -83,84 +218,40 @@ run_benchmarks <- function(designs, seeds, csv_prefix = "benchmark") {
     for (tool_name in names(spec$tools)) {
       run_tool <- spec$tools[[tool_name]]
       for (seed in seeds) {
-        run <- tryCatch(
-          {
-            elapsed <- system.time(design_df <- run_tool(seed))[["elapsed"]]
-            list(elapsed = elapsed, design_df = design_df)
-          },
-          error = function(e) {
-            warning(sprintf(
-              "%s/%s/seed=%s failed: %s",
-              design_name,
-              tool_name,
-              seed,
-              conditionMessage(e)
-            ))
-            NULL
-          }
-        )
-        metrics <- list(conv = NA, aeff = NA_real_, eeff = NA_real_)
-        if (!is.null(run)) {
-          metrics <- tryCatch(
-            {
-              eff <- efficiency(run$design_df, spec$treatment, spec$units) |>
-                bottom_stratum_eff()
-              list(
-                conv = isTRUE(spec$is_converged(run$design_df)),
-                aeff = eff$aeff,
-                eeff = eff$eeff
-              )
-            },
-            error = function(e) {
-              warning(sprintf(
-                "%s/%s/seed=%s metrics failed: %s",
-                design_name,
-                tool_name,
-                seed,
-                conditionMessage(e)
-              ))
-              list(conv = NA, aeff = NA_real_, eeff = NA_real_)
-            }
-          )
-        }
-        row <- data.frame(
-          tool = tool_name,
-          design = design_name,
-          seed = seed,
-          run_time = if (is.null(run)) NA_real_ else run$elapsed,
-          is_converged = metrics$conv,
-          aefficiency = metrics$aeff,
-          eefficiency = metrics$eeff
-        )
-
-        # Design-specific custom columns, appended to the right
-        if (!is.null(run) && is.function(spec$custom_metrics)) {
-          custom <- tryCatch(
-            as.data.frame(as.list(spec$custom_metrics(run$design_df))),
-            error = function(e) {
-              warning(sprintf(
-                "%s/%s/seed=%s custom metrics failed: %s",
-                design_name,
-                tool_name,
-                seed,
-                conditionMessage(e)
-              ))
-              NULL
-            }
-          )
-          if (!is.null(custom)) {
-            row <- cbind(row, custom)
-          }
+        run <- if (from_objects) {
+          load_run(design_name, tool_name, seed)
+        } else {
+          execute_run(run_tool, design_name, tool_name, seed)
         }
 
-        rows[[length(rows) + 1L]] <- row
+        if (save_objects) {
+          if (!is.null(run)) {
+            saved <- c(saved, save_run(run))
+          }
+          next
+        }
+
+        rows[[length(rows) + 1L]] <- score_run(
+          run,
+          spec,
+          design_name,
+          tool_name,
+          seed
+        )
         # rewrite every row each run, cheap
         design_results <- dplyr::bind_rows(rows)
         utils::write.csv(design_results, csv_path, row.names = FALSE)
       }
     }
-    results[[design_name]] <- design_results
+    if (!save_objects) {
+      results[[design_name]] <- design_results
+    }
   }
+
+  if (save_objects) {
+    return(invisible(saved))
+  }
+
   return(results)
 }
 
