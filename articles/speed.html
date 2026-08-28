@@ -75,7 +75,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Common Agricultural Experimental Designs with speed</h1>
 
       <p class="author">Sam Rogers</p>
-      <p class="date">2026-08-21</p>
+      <p class="date">2026-08-28</p>
 
       <small class="dont-index">Source: <a href="https://github.com/biometryhub/speed/blob/main/vignettes/speed.qmd" class="external-link"><code>vignettes/speed.qmd</code></a></small>
       <div class="d-none name"><code></code></div>
@@ -195,10 +195,10 @@ Seed: 42 </code></pre>
   ..$ col_column: chr "col"
   ..$ grid_by   : NULL
   ..$ per_level :List of 1
-  .. ..$ single treatment within whole design:List of 12
+  .. ..$ single treatment within whole design:List of 13
   .. .. ..$ swap            : chr "treatment"
   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x558b4f766ec8&gt;
+  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x55625f71f7e0&gt;
   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
   .. .. ..$ adj_weight      : num 1
   .. .. ..$ bal_weight      : num 1
@@ -211,6 +211,7 @@ Seed: 42 </code></pre>
   .. .. ..$ final_components: Named num [1:2] 0 2.29
   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
   .. .. ..$ optimal_score   : num 2.29
+  .. .. ..$ stop_reason     : chr "optimal"
   ..$ call      : language speed(data = crd_design, swap = "treatment", seed = 42)
  - attr(*, "class")= chr [1:2] "design" "list"</code></pre>
 </div>
@@ -254,7 +255,7 @@ Score:        2.2857  (initial 40 -&gt; final 2.2857)
               adjacency  0
               balance    2.2857
 Optimal:      2.2857  (reached)
-Iterations:   730 / 10,000 (stopped early)
+Iterations:   730 / 10,000 (optimal reached)
 Temperature:  start 100, cooling 0.99
 
 Evaluation
@@ -310,7 +311,7 @@ Score:        2.2857  (initial 40 -&gt; final 2.2857)
               adjacency  0
               balance    2.2857
 Optimal:      2.2857  (reached)
-Iterations:   730 / 10,000 (stopped early)
+Iterations:   730 / 10,000 (optimal reached)
 Temperature:  start 100, cooling 0.99
 
 Evaluation
@@ -445,10 +446,10 @@ Seed: 42 </code></pre>
   ..$ col_column: chr "col"
   ..$ grid_by   : NULL
   ..$ per_level :List of 1
-  .. ..$ single treatment within block:List of 12
+  .. ..$ single treatment within block:List of 13
   .. .. ..$ swap            : chr "treatment"
   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x558b4aec17c8&gt;
+  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x55625eefdd90&gt;
   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
   .. .. ..$ adj_weight      : num 1
   .. .. ..$ bal_weight      : num 1
@@ -461,6 +462,7 @@ Seed: 42 </code></pre>
   .. .. ..$ final_components: Named num [1:2] 0 1.6
   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
   .. .. ..$ optimal_score   : num 1.6
+  .. .. ..$ stop_reason     : chr "optimal"
   ..$ call      : language speed(data = rcbd_design, swap = "treatment", swap_within = "block", seed = 42)
  - attr(*, "class")= chr [1:2] "design" "list"</code></pre>
 </div>
@@ -536,7 +538,7 @@ Seed: 42 </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Optimising level: single treatment within whole design
 Level: single treatment within whole design Iteration: 1000 Score: 1 Best: 1 Since Improvement: 308
-Early stopping at iteration 1040 for level single treatment within whole design </code></pre>
+Optimal score reached at iteration 1040 for level single treatment within whole design </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">latin_square_result</span></span></code></pre></div>
@@ -581,10 +583,10 @@ Seed: 42 </code></pre>
   ..$ col_column: chr "col"
   ..$ grid_by   : NULL
   ..$ per_level :List of 1
-  .. ..$ single treatment within whole design:List of 12
+  .. ..$ single treatment within whole design:List of 13
   .. .. ..$ swap            : chr "treatment"
   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x558b4e834c10&gt;
+  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x55626012c378&gt;
   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
   .. .. ..$ adj_weight      : num 1
   .. .. ..$ bal_weight      : num 1
@@ -597,6 +599,7 @@ Seed: 42 </code></pre>
   .. .. ..$ final_components: Named num [1:2] 0 0
   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
   .. .. ..$ optimal_score   : num 0
+  .. .. ..$ stop_reason     : chr "optimal"
   ..$ call      : language speed(data = latin_square_design, swap = "treatment", seed = 42)
  - attr(*, "class")= chr [1:2] "design" "list"</code></pre>
 </div>
@@ -697,7 +700,7 @@ Level: wp Iteration: 1000 Score: 100 Best: 100 Since Improvement: 1000
 Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000
 Early stopping at iteration 2000 for level wp
 Optimising level: sp
-Early stopping at iteration 570 for level sp </code></pre>
+Optimal score reached at iteration 570 for level sp </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">split_plot_result</span></span></code></pre></div>
@@ -755,10 +758,10 @@ Seed: 42 </code></pre>
   ..$ col_column: chr "col"
   ..$ grid_by   : NULL
   ..$ per_level :List of 2
-  .. ..$ wp:List of 12
+  .. ..$ wp:List of 13
   .. .. ..$ swap            : chr "wholeplot_treatment"
   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x558b4fc35508&gt;
+  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x556261435358&gt;
   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
   .. .. ..$ adj_weight      : num 1
   .. .. ..$ bal_weight      : num 1
@@ -771,10 +774,11 @@ Seed: 42 </code></pre>
   .. .. ..$ final_components: Named num [1:2] 36 64
   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
   .. .. ..$ optimal_score   : num 4
-  .. ..$ sp:List of 12
+  .. .. ..$ stop_reason     : chr "no_improvement"
+  .. ..$ sp:List of 13
   .. .. ..$ swap            : chr "subplot_treatment"
   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x558b4fc35508&gt;
+  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x556261435358&gt;
   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
   .. .. ..$ adj_weight      : num 1
   .. .. ..$ bal_weight      : num 1
@@ -787,6 +791,7 @@ Seed: 42 </code></pre>
   .. .. ..$ final_components: Named num [1:2] 0 0
   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
   .. .. ..$ optimal_score   : num 0
+  .. .. ..$ stop_reason     : chr "optimal"
   ..$ call      : language speed(data = split_plot_design, optimise = optimise, seed = 42)
  - attr(*, "class")= chr [1:2] "design" "list"</code></pre>
 </div>
@@ -812,7 +817,177 @@ Seed: 42 </code></pre>
 </div>
 </div>
 <p>This design has now been optimised at both the whole plot level and the sub-plot level.</p>
-</section></section></section><section class="section level2"><h2 id="spatial-design-considerations">Spatial Design Considerations<a class="anchor" aria-label="anchor" href="#spatial-design-considerations"></a>
+</section></section></section><section class="section level2"><h2 id="keeping-related-columns-together">Keeping Related Columns Together<a class="anchor" aria-label="anchor" href="#keeping-related-columns-together"></a>
+</h2>
+<section class="level2"><h3 id="overview-4">Overview<a class="anchor" aria-label="anchor" href="#overview-4"></a>
+</h3>
+<p>Trial data often carries a treatment code alongside one or more descriptive columns that belong with it - a variety name against a short code, a seed lot, a supplier. <code>speed</code> rearranges only the column named in <code>swap</code>, so those companion columns would stay where they are and quietly become attached to the wrong treatment. The <code>linked_cols</code> argument names the columns that should travel with <code>swap</code>.</p>
+</section><section class="level2"><h3 id="example-variety-names-alongside-treatment-codes">Example: Variety Names Alongside Treatment Codes<a class="anchor" aria-label="anchor" href="#example-variety-names-alongside-treatment-codes"></a>
+</h3>
+<p>Consider a trial of 6 wheat varieties where the design carries both a treatment code and the cultivar name.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">variety_trial</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initialise_design_df.html">initialise_design_df</a></span><span class="op">(</span>items <span class="op">=</span> <span class="fl">6</span>, nrows <span class="op">=</span> <span class="fl">6</span>, ncols <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">varieties</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>T1 <span class="op">=</span> <span class="st">"Scepter"</span>, T2 <span class="op">=</span> <span class="st">"Vixen"</span>, T3 <span class="op">=</span> <span class="st">"Calibre"</span>,</span>
+<span>               T4 <span class="op">=</span> <span class="st">"Rockstar"</span>, T5 <span class="op">=</span> <span class="st">"Ballista"</span>, T6 <span class="op">=</span> <span class="st">"Denison"</span><span class="op">)</span></span>
+<span><span class="va">variety_trial</span><span class="op">$</span><span class="va">variety_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">varieties</span><span class="op">[</span><span class="va">variety_trial</span><span class="op">$</span><span class="va">treatment</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">variety_trial</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  row col treatment variety_name
+1   1   1        T1      Scepter
+2   2   1        T2        Vixen
+3   3   1        T3      Calibre
+4   4   1        T4     Rockstar
+5   5   1        T5     Ballista
+6   6   1        T6      Denison</code></pre>
+</div>
+</div>
+<p>Optimising without <code>linked_cols</code> moves <code>treatment</code> but leaves <code>variety_name</code> sitting in its original row order, so the pairing between the two is lost:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">unlinked</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">variety_trial</span>, swap <span class="op">=</span> <span class="st">"treatment"</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>row and col are used as row and column, respectively.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimising level: single treatment within whole design
+Optimal score reached at iteration 738 for level single treatment within whole design </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">unlinked</span><span class="op">$</span><span class="va">design_df</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  row col treatment variety_name
+1   1   1        T1      Scepter
+2   1   2        T4      Scepter
+3   1   3        T5      Scepter
+4   1   4        T2      Scepter
+5   2   1        T5        Vixen
+6   2   2        T6        Vixen</code></pre>
+</div>
+</div>
+<p>Naming the column in <code>linked_cols</code> carries it along with the treatment it belongs to:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">linked</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">variety_trial</span>,</span>
+<span>                swap <span class="op">=</span> <span class="st">"treatment"</span>,</span>
+<span>                linked_cols <span class="op">=</span> <span class="st">"variety_name"</span>,</span>
+<span>                seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>row and col are used as row and column, respectively.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimising level: single treatment within whole design
+Optimal score reached at iteration 738 for level single treatment within whole design </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">linked</span><span class="op">$</span><span class="va">design_df</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  row col treatment variety_name
+1   1   1        T1      Scepter
+2   1   2        T4     Rockstar
+3   1   3        T5     Ballista
+4   1   4        T2        Vixen
+5   2   1        T5     Ballista
+6   2   2        T6      Denison</code></pre>
+</div>
+</div>
+<p>Every code is now back with its own cultivar:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">linked</span><span class="op">$</span><span class="va">design_df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"treatment"</span>, <span class="st">"variety_name"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  treatment variety_name
+1        T1      Scepter
+2        T4     Rockstar
+3        T5     Ballista
+4        T2        Vixen
+6        T6      Denison
+9        T3      Calibre</code></pre>
+</div>
+</div>
+<p>Linked columns take no part in scoring, so adding them cannot change the design that is found. The two runs above produce exactly the same layout:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">unlinked</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">treatment</span>, <span class="va">linked</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">treatment</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>They are also returned in their original position and with their original type - no extra columns appear in the output.</p>
+</section><section class="level2"><h3 id="hierarchical-designs">Hierarchical Designs<a class="anchor" aria-label="anchor" href="#hierarchical-designs"></a>
+</h3>
+<p>Each level of a hierarchical design swaps its own column, so companion columns have to be matched to the level that moves them. Here the whole plot treatment carries an irrigation method, and the sub-plot treatment carries a cultivar name:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">split_plot_linked</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initialise_split_design_df.html">initialise_split_design_df</a></span><span class="op">(</span>splits <span class="op">=</span> <span class="va">splits</span>, rep_dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">split_plot_linked</span><span class="op">$</span><span class="va">irrigation</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="st">"Drip"</span>, B <span class="op">=</span> <span class="st">"Flood"</span>, C <span class="op">=</span> <span class="st">"None"</span><span class="op">)</span><span class="op">[</span><span class="va">split_plot_linked</span><span class="op">$</span><span class="va">wholeplot_treatment</span><span class="op">]</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">split_plot_linked</span><span class="op">$</span><span class="va">variety</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="st">"Scepter"</span>, b <span class="op">=</span> <span class="st">"Vixen"</span>, c <span class="op">=</span> <span class="st">"Calibre"</span>, d <span class="op">=</span> <span class="st">"Denison"</span><span class="op">)</span><span class="op">[</span></span>
+<span>    <span class="va">split_plot_linked</span><span class="op">$</span><span class="va">subplot_treatment</span></span>
+<span>  <span class="op">]</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<p><code>linked_cols</code> takes a named list whose names match the levels, so the <code>optimise</code> list built for the split plot design above can be reused unchanged - useful when it is defined elsewhere and shared between designs:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">split_plot_linked</span>, optimise <span class="op">=</span> <span class="va">optimise</span>,</span>
+<span>      linked_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>wp <span class="op">=</span> <span class="st">"irrigation"</span>, sp <span class="op">=</span> <span class="st">"variety"</span><span class="op">)</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>Since the hierarchy is already described level by level, <code>linked_cols</code> can equally go inside <code>optimise</code> alongside the other per-level arguments, which keeps each level’s description in one place. Where a level sets <code>linked_cols</code> itself, that wins; the argument fills in the levels that do not.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">optimise_linked</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  wp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    swap <span class="op">=</span> <span class="st">"wholeplot_treatment"</span>, swap_within <span class="op">=</span> <span class="st">"block"</span>, swap_all <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    linked_cols <span class="op">=</span> <span class="st">"irrigation"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  sp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    swap <span class="op">=</span> <span class="st">"subplot_treatment"</span>, swap_within <span class="op">=</span> <span class="st">"wholeplot"</span>,</span>
+<span>    linked_cols <span class="op">=</span> <span class="st">"variety"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">linked_split</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">split_plot_linked</span>, optimise <span class="op">=</span> <span class="va">optimise_linked</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>row and col are used as row and column, respectively.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimising level: wp
+Level: wp Iteration: 1000 Score: 100 Best: 100 Since Improvement: 1000
+Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000
+Early stopping at iteration 2000 for level wp
+Optimising level: sp
+Optimal score reached at iteration 570 for level sp </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">linked_split</span><span class="op">$</span><span class="va">design_df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wholeplot_treatment"</span>, <span class="st">"irrigation"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  wholeplot_treatment irrigation
+1                   C       None
+5                   A       Drip
+9                   B      Flood</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">linked_split</span><span class="op">$</span><span class="va">design_df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subplot_treatment"</span>, <span class="st">"variety"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  subplot_treatment variety
+1                 a Scepter
+2                 b   Vixen
+3                 c Calibre
+4                 d Denison</code></pre>
+</div>
+</div>
+<div>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>A bare character vector applies to every level, which in a hierarchical design is only valid when all levels swap the same column - a multi-environment trial, for example. Where levels swap different columns, name the level, since a column can only travel with one <code>swap</code> column.</p>
+</blockquote>
+</div>
+<p>Columns used as <code>swap_within</code>, or as spatial or grid factors, cannot be linked: they describe where a plot sits rather than what is on it, so moving them would break the layout being scored.</p>
+<p>A <code>swap</code> column is the exception. Linking a <em>later</em> level’s <code>swap</code> column at an earlier level carries a child treatment along when its parent moves - linking <code>subplot_treatment</code> at the whole plot level keeps each sub-plot treatment with its whole plot treatment, and the sub-plot level then optimises it in place. The carrying level must run first, or it would undo the child level’s work.</p>
+</section></section><section class="section level2"><h2 id="spatial-design-considerations">Spatial Design Considerations<a class="anchor" aria-label="anchor" href="#spatial-design-considerations"></a>
 </h2>
 <section class="level2"><h3 id="field-shape-and-orientation">Field Shape and Orientation<a class="anchor" aria-label="anchor" href="#field-shape-and-orientation"></a>
 </h3>

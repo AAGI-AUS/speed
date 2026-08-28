@@ -69,6 +69,7 @@ across spatial factors. Works with regular or irregular spatial designs.</p>
 <span>  early_stop_iterations <span class="op">=</span> <span class="fl">2000</span>,</span>
 <span>  obj_function <span class="op">=</span> <span class="va">objective_function</span>,</span>
 <span>  swap_all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  linked_cols <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  optimise <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  optimise_params <span class="op">=</span> <span class="fu"><a href="optim_params.html">optim_params</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -146,6 +147,13 @@ be a named list with names matching <code>swap</code>.</p></dd>
 at a time (default: FALSE)</p></dd>
 
 
+<dt id="arg-linked-cols">linked_cols<a class="anchor" aria-label="anchor" href="#arg-linked-cols"></a></dt>
+<dd><p>Character vector of column names that travel with the
+<code>swap</code> column, for example a <code>variety_name</code> label belonging to a numeric
+<code>variety</code> code (default: <code>NULL</code>). For hierarchical designs, can be a named
+list with names matching <code>swap</code>. See details for more information.</p></dd>
+
+
 <dt id="arg-optimise">optimise<a class="anchor" aria-label="anchor" href="#arg-optimise"></a></dt>
 <dd><p>A list of named arguments describing optimising parameters;
 see more in example.</p></dd>
@@ -187,7 +195,8 @@ in the function, the seed is set to the third element of <code>.Random.seed</cod
 <code>call</code>, the ordered <code>levels</code>, the resolved <code>row_column</code> / <code>col_column</code>
 names, and a <code>per_level</code> list recording each level's swap variable,
 spatial factors, adjacency/balance weights, requested iterations, starting
-temperature, cooling rate, objective function and achieved score. Used by
+temperature, cooling rate, objective function, achieved score and the
+<code>stop_reason</code> that ended the level. Used by
 <a href="summary.design.html">summary()</a> to recompute per-level evaluation metrics.</p></li>
 </ul></div>
     <div class="section level2">
@@ -205,6 +214,25 @@ optimisation parameters and objective functions to be applied at different
 levels of the design structure. For simple (non-hierarchical) designs, these
 arguments can be provided as single values. For more examples and detailed
 usage, see the package vignettes.</p>
+<p><code>linked_cols</code> names columns that describe the treatment rather than the plot,
+so that a value paired with a treatment stays paired with it wherever the
+search moves it. They take no part in scoring, and are returned in their
+input class and position. Columns used as <code>swap_within</code>, spatial factors or
+grid factors cannot be linked, since they describe where a plot is rather
+than what is on it.</p>
+<p>A named list links different columns at different levels, e.g.
+<code>list(wp = "wholeplot_label", sp = "subplot_label")</code>. A bare character vector
+applies to every level, which in a hierarchical design is only valid when
+every level swaps the same column, as in a multi-environment trial - a column
+can only travel with one <code>swap</code> column.</p>
+<p>A later level's <code>swap</code> column may be linked to an earlier one, which carries a
+child treatment along when its parent moves: linking <code>sp_trt</code> at the
+whole-plot level of a split-plot moves each sub-plot treatment with its
+whole-plot treatment, before the sub-plot level then optimises it. The
+carrying level must come first, or it would undo the child level's work.</p>
+<p>On a level with <code>swap_all = TRUE</code> whole treatment groups move at once, so a
+linked column with more than one value per treatment travels with its
+treatment group rather than being paired plot for plot.</p>
     </div>
 
     <div class="section level2">
@@ -223,6 +251,21 @@ usage, see the package vignettes.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimal score reached at iteration 726 for level single treatment within whole design </span>
 <span class="r-in"><span><span class="fu"><a href="autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="speed-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Keep a label column travelling with its treatment</span></span></span>
+<span class="r-in"><span><span class="va">df</span><span class="op">$</span><span class="va">treatment_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Variety"</span>, <span class="va">df</span><span class="op">$</span><span class="va">treatment</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">speed</span><span class="op">(</span><span class="va">df</span>, swap <span class="op">=</span> <span class="st">"treatment"</span>, linked_cols <span class="op">=</span> <span class="st">"treatment_name"</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> row and col are used as row and column, respectively.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Optimising level: single treatment within whole design </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Optimal score reached at iteration 726 for level single treatment within whole design </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">design_df</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row col treatment treatment_name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1   1         B      Variety B</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1   2         A      Variety A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   1   3         B      Variety B</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   1   4         C      Variety C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   1   5         D      Variety D</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   2   1         A      Variety A</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Hierarchical split-plot design</span></span></span>
 <span class="r-in"><span><span class="va">df_split</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
@@ -246,7 +289,7 @@ usage, see the package vignettes.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Early stopping at iteration 2000 for level wp </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimising level: sp </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Early stopping at iteration 570 for level sp </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Optimal score reached at iteration 570 for level sp </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plot wholeplot allocations within blocks</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">result</span>, treatments <span class="op">=</span> <span class="st">"wholeplot_treatment"</span><span class="op">)</span></span></span>

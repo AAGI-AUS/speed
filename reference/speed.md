@@ -17,6 +17,7 @@ speed(
   early_stop_iterations = 2000,
   obj_function = objective_function,
   swap_all = FALSE,
+  linked_cols = NULL,
   optimise = NULL,
   optimise_params = optim_params(),
   quiet = FALSE,
@@ -97,6 +98,13 @@ speed(
   Logical; Whether to swap all matching items or a single item at a time
   (default: FALSE)
 
+- linked_cols:
+
+  Character vector of column names that travel with the `swap` column,
+  for example a `variety_name` label belonging to a numeric `variety`
+  code (default: `NULL`). For hierarchical designs, can be a named list
+  with names matching `swap`. See details for more information.
+
 - optimise:
 
   A list of named arguments describing optimising parameters; see more
@@ -152,8 +160,8 @@ A list containing:
   captured `call`, the ordered `levels`, the resolved `row_column` /
   `col_column` names, and a `per_level` list recording each level's swap
   variable, spatial factors, adjacency/balance weights, requested
-  iterations, starting temperature, cooling rate, objective function and
-  achieved score. Used by
+  iterations, starting temperature, cooling rate, objective function,
+  achieved score and the `stop_reason` that ended the level. Used by
   [summary()](https://biometryhub.github.io/speed/reference/summary.design.md)
   to recompute per-level evaluation metrics.
 
@@ -174,6 +182,30 @@ structure. For simple (non-hierarchical) designs, these arguments can be
 provided as single values. For more examples and detailed usage, see the
 package vignettes.
 
+`linked_cols` names columns that describe the treatment rather than the
+plot, so that a value paired with a treatment stays paired with it
+wherever the search moves it. They take no part in scoring, and are
+returned in their input class and position. Columns used as
+`swap_within`, spatial factors or grid factors cannot be linked, since
+they describe where a plot is rather than what is on it.
+
+A named list links different columns at different levels, e.g.
+`list(wp = "wholeplot_label", sp = "subplot_label")`. A bare character
+vector applies to every level, which in a hierarchical design is only
+valid when every level swaps the same column, as in a multi-environment
+trial - a column can only travel with one `swap` column.
+
+A later level's `swap` column may be linked to an earlier one, which
+carries a child treatment along when its parent moves: linking `sp_trt`
+at the whole-plot level of a split-plot moves each sub-plot treatment
+with its whole-plot treatment, before the sub-plot level then optimises
+it. The carrying level must come first, or it would undo the child
+level's work.
+
+On a level with `swap_all = TRUE` whole treatment groups move at once,
+so a linked column with more than one value per treatment travels with
+its treatment group rather than being paired plot for plot.
+
 ## Examples
 
 ``` r
@@ -191,6 +223,21 @@ result <- speed(df, swap = "treatment", seed = 42)
 #> Optimal score reached at iteration 726 for level single treatment within whole design 
 autoplot(result)
 
+
+# Keep a label column travelling with its treatment
+df$treatment_name <- paste("Variety", df$treatment)
+result <- speed(df, swap = "treatment", linked_cols = "treatment_name", seed = 42)
+#> row and col are used as row and column, respectively.
+#> Optimising level: single treatment within whole design 
+#> Optimal score reached at iteration 726 for level single treatment within whole design 
+head(result$design_df)
+#>   row col treatment treatment_name
+#> 1   1   1         B      Variety B
+#> 2   1   2         A      Variety A
+#> 3   1   3         B      Variety B
+#> 4   1   4         C      Variety C
+#> 5   1   5         D      Variety D
+#> 6   2   1         A      Variety A
 
 # Hierarchical split-plot design
 df_split <- data.frame(
@@ -214,7 +261,7 @@ result <- speed(df_split,
 #> Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000 
 #> Early stopping at iteration 2000 for level wp 
 #> Optimising level: sp 
-#> Early stopping at iteration 570 for level sp 
+#> Optimal score reached at iteration 570 for level sp 
 
 # Plot wholeplot allocations within blocks
 autoplot(result, treatments = "wholeplot_treatment")

@@ -5,7 +5,7 @@ Shuffle Items in A Group
 ## Usage
 
 ``` r
-shuffle_items(design, swap, swap_within, seed = NULL)
+shuffle_items(design, swap, swap_within, seed = NULL, linked_cols = NULL)
 ```
 
 ## Arguments
@@ -28,6 +28,12 @@ shuffle_items(design, swap, swap_within, seed = NULL)
 
   A numeric value for random seed. If provided, it ensures
   reproducibility of results (default: `NULL`).
+
+- linked_cols:
+
+  Character vector of column names moved in lockstep with the `swap`
+  column, so that a value paired with a treatment stays paired with it.
+  `NULL` (default) moves the `swap` column alone.
 
 ## Value
 

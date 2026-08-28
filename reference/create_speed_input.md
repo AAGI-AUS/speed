@@ -15,6 +15,7 @@ create_speed_input(
   obj_function,
   swap_all,
   optimise_params,
+  linked_cols = NULL,
   optimise = NULL,
   row_col_inferred = TRUE
 )
@@ -94,7 +95,18 @@ create_speed_input(
   [`optim_params()`](https://biometryhub.github.io/speed/reference/optim_params.md)
   for more details.
 
+- linked_cols:
+
+  Character vector of column names that travel with the `swap` column,
+  for example a `variety_name` label belonging to a numeric `variety`
+  code (default: `NULL`). For hierarchical designs, can be a named list
+  with names matching `swap`. See details for more information.
+
 - optimise:
 
   A list of named arguments describing optimising parameters; see more
   in example.
+
+## Value
+
+The per-level `optimise` list.

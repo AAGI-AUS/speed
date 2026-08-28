@@ -42,6 +42,8 @@
 <url><loc>https://biometryhub.github.io/speed/reference/dot-efficiency_factor.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/dot-grid_stop.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/dot-is_light_colour.html</loc></url>
+<url><loc>https://biometryhub.github.io/speed/reference/dot-level_fixed_cols.html</loc></url>
+<url><loc>https://biometryhub.github.io/speed/reference/dot-level_optimised_cols.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/dot-neighbour_balance.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/dot-objective_name.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/dot-optimal_score.html</loc></url>
@@ -51,7 +53,9 @@
 <url><loc>https://biometryhub.github.io/speed/reference/dot-print_level_structure.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/dot-reject_optim_params_in_dots.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/dot-replicate_spans.html</loc></url>
+<url><loc>https://biometryhub.github.io/speed/reference/dot-warn_unequal_replication.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/env_add_one.html</loc></url>
+<url><loc>https://biometryhub.github.io/speed/reference/exchange_linked.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/generate_multi_swap_neighbour.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/generate_neighbour.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/generate_single_swap_neighbour.html</loc></url>
@@ -83,8 +87,10 @@
 <url><loc>https://biometryhub.github.io/speed/reference/speed.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/speed_hierarchical.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/summary.design.html</loc></url>
+<url><loc>https://biometryhub.github.io/speed/reference/swappable_groups.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/to_factor.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/to_types.html</loc></url>
 <url><loc>https://biometryhub.github.io/speed/reference/verify.html</loc></url>
+<url><loc>https://biometryhub.github.io/speed/reference/verify_resolved.html</loc></url>
 </urlset>
 

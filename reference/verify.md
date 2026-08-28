@@ -1,18 +1,14 @@
 # Verify Inputs for `speed`
 
-Verify inputs for the `speed` function.
-
-`swap_all = TRUE` proposes a move by exchanging *every* plot holding one
-treatment with *every* plot holding another. That is a rearrangement of
-the design only when both treatments occupy the same number of plots
-within the swap group; when they do not, the two treatments exchange
-replication counts and the design that comes back is not the design that
-went in. Error before any optimisation happens rather than silently
-altering replication.
-
-Called on the resolved `optimise` list, so it covers simple, legacy
-hierarchical and `optimise = ` calls alike, including levels that set
-`swap_all` individually.
+Validates the arguments as the user passed them, dispatching to the
+checker for the input shape given and running the checks that apply to
+all three. Checks needing the resolved per-level list cannot run here;
+they are documented under
+[`.verify_level_columns()`](https://biometryhub.github.io/speed/reference/verify_resolved.md)
+and are called from
+[`speed()`](https://biometryhub.github.io/speed/reference/speed.md) once
+[`create_speed_input()`](https://biometryhub.github.io/speed/reference/create_speed_input.md)
+has built it.
 
 `grid_factors` is a plain list, so a mistyped `by` would be ignored and
 every grid silently pooled. Checked before any optimisation happens.
@@ -20,6 +16,20 @@ every grid silently pooled. Checked before any optimisation happens.
 ## Usage
 
 ``` r
+.verify_inputs(
+  data,
+  swap,
+  swap_within,
+  spatial_factors,
+  grid_factors,
+  iterations,
+  early_stop_iterations,
+  obj_function,
+  quiet,
+  seed,
+  optimise = NULL
+)
+
 .verify_speed_inputs(
   data,
   swap,
@@ -55,8 +65,6 @@ every grid silently pooled. Checked before any optimisation happens.
   stop_at_optimal
 )
 
-.verify_swap_all_replication(data, optimise, dummy_group = NULL)
-
 .verify_grid_by(data, grid_factors)
 ```
 
@@ -89,6 +97,20 @@ every grid silently pooled. Checked before any optimisation happens.
   A one-sided formula specifying spatial factors to consider for balance
   (default: `~row + col`).
 
+- grid_factors:
+
+  A named list specifying grid factors to construct a matrix for
+  calculating adjacency score, `dim1` for row and `dim2` for column.
+  (default: `list(dim1 = "row", dim2 = "col")`).
+
+  An optional third element, `by`, names a column that groups plots into
+  *separate* grids - a multi-environment trial, where each site reuses
+  the same `row`/`col` numbering. Each grid is then scored on its own
+  and the adjacency counts summed, so no adjacency is counted between
+  plots at different sites, e.g.
+  `list(dim1 = "row", dim2 = "col", by = "site")`. Without it, a design
+  whose sites share coordinates is refused rather than silently pooled.
+
 - iterations:
 
   Maximum number of iterations for the simulated annealing algorithm
@@ -106,6 +128,13 @@ every grid silently pooled. Checked before any optimisation happens.
   see
   [summary()](https://biometryhub.github.io/speed/reference/summary.design.md).
 
+- obj_function:
+
+  Objective function used to calculate score (lower is better) (default:
+  [`objective_function()`](https://biometryhub.github.io/speed/reference/objective_functions.md)).
+  For hierarchical designs, can be a named list with names matching
+  `swap`.
+
 - quiet:
 
   Logical; if TRUE, suppresses progress messages (default: FALSE)
@@ -115,33 +144,66 @@ every grid silently pooled. Checked before any optimisation happens.
   A numeric value for random seed. If provided, it ensures
   reproducibility of results (default: `NULL`).
 
-- obj_function:
-
-  Objective function used to calculate score (lower is better) (default:
-  [`objective_function()`](https://biometryhub.github.io/speed/reference/objective_functions.md)).
-  For hierarchical designs, can be a named list with names matching
-  `swap`.
-
 - optimise:
 
-  A list of named arguments describing optimising parameters; see more
-  in example.
+  The `optimise` argument as passed to
+  [`speed()`](https://biometryhub.github.io/speed/reference/speed.md).
 
-- dummy_group:
+- swap_count:
 
-  Name of the internal placeholder column used for a level with no
-  `swap_within` boundary, so it can be described as the whole design.
+  Number of treatment swaps per iteration (default: 1).
 
-- grid_factors:
+- swap_all_blocks:
 
-  A named list specifying grid factors to construct a matrix for
-  calculating adjacency score, `dim1` for row and `dim2` for column.
-  (default: `list(dim1 = "row", dim2 = "col")`).
+  Logical; if `TRUE`, performs swaps in all blocks at each iteration
+  (default: `FALSE`).
 
-  An optional third element, `by`, names a column that groups plots into
-  *separate* grids - a multi-environment trial, where each site reuses
-  the same `row`/`col` numbering. Each grid is then scored on its own
-  and the adjacency counts summed, so no adjacency is counted between
-  plots at different sites, e.g.
-  `list(dim1 = "row", dim2 = "col", by = "site")`. Without it, a design
-  whose sites share coordinates is refused rather than silently pooled.
+- adaptive_swaps:
+
+  Logical; if `TRUE`, adjusts swap parameters based on temperature
+  (default: `FALSE`).
+
+- start_temp:
+
+  Starting temperature for simulated annealing (default: 100). A higher
+  start temperature allows the algorithm to accept worse solutions early
+  on, encouraging exploration of the solution space and helping to avoid
+  local optima. Lower values make the algorithm greedier from the start,
+  which can speed up convergence but increases the risk of getting stuck
+  in a poor solution. A good starting temperature allows moderately
+  worse solutions to be accepted with a probability of 70-90% at the
+  beginning of the optimisation.
+
+- cooling_rate:
+
+  Rate at which temperature decreases for simulated annealing (default:
+  0.99). This controls how quickly the algorithm shifts from exploration
+  to exploitation. The temperature is updated at each iteration by
+  multiplying it by this rate: `T_i = start_temp * cooling_rate^i`. A
+  higher cooling rate (e.g. 0.995-0.999) results in slower cooling and a
+  longer exploration phase, which is generally better for complex or
+  noisy optimisation landscapes. Lower values (e.g. 0.95-0.98) cool
+  quickly, leading to faster convergence but greater risk of premature
+  convergence to a suboptimal design.
+
+- random_initialisation:
+
+  Number of times to randomly shuffle items within `swap_within`; the
+  design with the best score is used as an initial design (default: 0).
+
+- adj_weight:
+
+  Weight for adjacency score (default: 1).
+
+- bal_weight:
+
+  Weight for balance score (default: 1).
+
+- stop_at_optimal:
+
+  Logical; if `TRUE`, stops the level as soon as the best score reaches
+  the lowest score its layout allows (default: `TRUE`). The bound is
+  only derivable for the default
+  [`objective_function()`](https://biometryhub.github.io/speed/reference/objective_functions.md)
+  with non-negative weights and no `relationship` matrix; otherwise the
+  level runs to its usual stopping rules regardless of this setting.

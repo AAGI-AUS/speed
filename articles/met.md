@@ -209,7 +209,7 @@ str(met_result)
       ..$ col_column: chr "col"
       ..$ grid_by   : chr "site"
       ..$ per_level :List of 2
-      .. ..$ connectivity:List of 12
+      .. ..$ connectivity:List of 13
       .. .. ..$ swap            : chr "treatment"
       .. .. ..$ spatial_factors :Class 'formula'  language ~site
       .. .. .. .. ..- attr(*, ".Environment")=<environment: R_GlobalEnv>
@@ -225,7 +225,8 @@ str(met_result)
       .. .. ..$ final_components: Named num [1:2] 0 0.77
       .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
       .. .. ..$ optimal_score   : num 0.734
-      .. ..$ balance     :List of 12
+      .. .. ..$ stop_reason     : chr "no_improvement"
+      .. ..$ balance     :List of 13
       .. .. ..$ swap            : chr "treatment"
       .. .. ..$ spatial_factors :Class 'formula'  language ~site_col + site_block
       .. .. .. .. ..- attr(*, ".Environment")=<environment: R_GlobalEnv>
@@ -241,6 +242,7 @@ str(met_result)
       .. .. ..$ final_components: Named num [1:2] 0 7.5
       .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
       .. .. ..$ optimal_score   : num 7.5
+      .. .. ..$ stop_reason     : chr "optimal"
       ..$ call      : language speed(data = met_design, swap = "treatment", grid_factors = list(dim1 = "row",      dim2 = "col", by = "site"), e| __truncated__ ...
      - attr(*, "class")= chr [1:2] "design" "list"
 
@@ -424,7 +426,7 @@ str(met_result)
      $ design_df     :'data.frame': 428 obs. of  10 variables:
       ..$ row       : int [1:428] 1 1 1 1 1 1 1 1 1 1 ...
       ..$ col       : int [1:428] 1 1 1 1 1 2 2 2 2 2 ...
-      ..$ treatment : int [1:428] 30 17 1 38 47 36 51 15 19 39 ...
+      ..$ treatment : int [1:428] 53 17 4 10 44 28 29 38 8 26 ...
       ..$ row_block : num [1:428] 1 1 1 1 1 1 1 1 1 1 ...
       ..$ col_block : num [1:428] 1 1 1 1 1 1 1 1 1 1 ...
       ..$ block     : Factor w/ 3 levels "1","2","3": 1 1 1 1 1 1 1 1 1 1 ...
@@ -452,7 +454,7 @@ str(met_result)
       ..$ col_column: chr "col"
       ..$ grid_by   : chr "site"
       ..$ per_level :List of 2
-      .. ..$ connectivity:List of 12
+      .. ..$ connectivity:List of 13
       .. .. ..$ swap            : chr "treatment"
       .. .. ..$ spatial_factors :Class 'formula'  language ~site
       .. .. .. .. ..- attr(*, ".Environment")=<environment: R_GlobalEnv>
@@ -468,7 +470,8 @@ str(met_result)
       .. .. ..$ final_components: Named num [1:2] 0 0.632
       .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
       .. .. ..$ optimal_score   : num 0.632
-      .. ..$ balance     :List of 12
+      .. .. ..$ stop_reason     : chr "optimal"
+      .. ..$ balance     :List of 13
       .. .. ..$ swap            : chr "treatment"
       .. .. ..$ spatial_factors :Class 'formula'  language ~site_col + site_block
       .. .. .. .. ..- attr(*, ".Environment")=<environment: R_GlobalEnv>
@@ -484,6 +487,7 @@ str(met_result)
       .. .. ..$ final_components: Named num [1:2] 0 6.91
       .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
       .. .. ..$ optimal_score   : num 6.84
+      .. .. ..$ stop_reason     : chr "no_improvement"
       ..$ call      : language speed(data = met_design, swap = "treatment", grid_factors = list(dim1 = "row",      dim2 = "col", by = "site"), i| __truncated__ ...
      - attr(*, "class")= chr [1:2] "design" "list"
 
@@ -752,7 +756,7 @@ str(met_result)
       ..$ col_column: chr "col"
       ..$ grid_by   : chr "site"
       ..$ per_level :List of 2
-      .. ..$ connectivity:List of 12
+      .. ..$ connectivity:List of 13
       .. .. ..$ swap            : chr "treatment"
       .. .. ..$ spatial_factors :Class 'formula'  language ~site
       .. .. .. .. ..- attr(*, ".Environment")=<environment: R_GlobalEnv>
@@ -768,7 +772,8 @@ str(met_result)
       .. .. ..$ final_components: Named num [1:2] 0 1.89
       .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
       .. .. ..$ optimal_score   : num 0.557
-      .. ..$ balance     :List of 12
+      .. .. ..$ stop_reason     : chr "no_improvement"
+      .. ..$ balance     :List of 13
       .. .. ..$ swap            : chr "treatment"
       .. .. ..$ spatial_factors :Class 'formula'  language ~site_col + site_block
       .. .. .. .. ..- attr(*, ".Environment")=<environment: R_GlobalEnv>
@@ -784,6 +789,7 @@ str(met_result)
       .. .. ..$ final_components: Named num [1:2] 0 6.98
       .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
       .. .. ..$ optimal_score   : num 6.98
+      .. .. ..$ stop_reason     : chr "optimal"
       ..$ call      : language speed(data = met_design, swap = "treatment", grid_factors = list(dim1 = "row",      dim2 = "col", by = "site"), i| __truncated__ ...
      - attr(*, "class")= chr [1:2] "design" "list"
 

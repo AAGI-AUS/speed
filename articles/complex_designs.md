@@ -505,10 +505,10 @@ str(ribd_result)
       ..$ col_column: chr "col"
       ..$ grid_by   : NULL
       ..$ per_level :List of 1
-      .. ..$ single treatment within replicate:List of 12
+      .. ..$ single treatment within replicate:List of 13
       .. .. ..$ swap            : chr "treatment"
       .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x55ba7f30b9d0>
+      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x55de405f8908>
       .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
       .. .. ..$ adj_weight      : num 1
       .. .. ..$ bal_weight      : num 1
@@ -521,6 +521,7 @@ str(ribd_result)
       .. .. ..$ final_components: Named num [1:2] 0 1.8
       .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
       .. .. ..$ optimal_score   : num 1.8
+      .. .. ..$ stop_reason     : chr "optimal"
       ..$ call      : language speed(data = ribd_df, swap = "treatment", swap_within = "replicate", seed = 42)
      - attr(*, "class")= chr [1:2] "design" "list"
 
@@ -685,7 +686,7 @@ str(prep_result)
       ..$ col_column: chr "col"
       ..$ grid_by   : NULL
       ..$ per_level :List of 1
-      .. ..$ single entry within whole design:List of 12
+      .. ..$ single entry within whole design:List of 13
       .. .. ..$ swap            : chr "entry"
       .. .. ..$ spatial_factors :Class 'formula'  language ~block + row + col
       .. .. .. .. ..- attr(*, ".Environment")=<environment: R_GlobalEnv>
@@ -701,6 +702,7 @@ str(prep_result)
       .. .. ..$ final_components: Named num [1:2] 0 2.91
       .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
       .. .. ..$ optimal_score   : num 2.91
+      .. .. ..$ stop_reason     : chr "optimal"
       ..$ call      : language speed(data = prep_design, swap = "entry", spatial_factors = ~block + row +      col, seed = 42)
      - attr(*, "class")= chr [1:2] "design" "list"
 

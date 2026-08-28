@@ -94,7 +94,9 @@ A list of class `"summary.design"`:
     `components`.
 
   - `optim` - `objective`, `start_temp`, `cooling_rate`,
-    `iterations_requested`, `iterations_run`, `stopped_early`.
+    `iterations_requested`, `iterations_run`, `stopped_early`, and
+    `stop_reason`: one of `"optimal"`, `"no_improvement"`, `"frozen"` or
+    `"iterations"` (`NA` for designs produced before it was recorded).
 
 - **score** - the overall optimised score (summed across levels for a
   hierarchical design).
@@ -202,7 +204,7 @@ summary(design)
 #>               adjacency  0
 #>               balance    1
 #> Optimal:      1  (reached)
-#> Iterations:   1 / 100 (stopped early)
+#> Iterations:   1 / 100 (optimal reached)
 #> Temperature:  start 100, cooling 0.99
 #> 
 #> Evaluation
@@ -235,7 +237,7 @@ summary(design, efficiency = TRUE)
 #>               adjacency  0
 #>               balance    1
 #> Optimal:      1  (reached)
-#> Iterations:   1 / 100 (stopped early)
+#> Iterations:   1 / 100 (optimal reached)
 #> Temperature:  start 100, cooling 0.99
 #> 
 #> Evaluation

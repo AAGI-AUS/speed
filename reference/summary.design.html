@@ -132,7 +132,9 @@ name for a simple design).</p></li>
 computed.</p></li>
 <li><p><code>score</code> - <code>initial</code>, <code>final</code>, <code>optimal</code> (<code>NA</code> when not applicable), <code>components</code>.</p></li>
 <li><p><code>optim</code> - <code>objective</code>, <code>start_temp</code>, <code>cooling_rate</code>,
-<code>iterations_requested</code>, <code>iterations_run</code>, <code>stopped_early</code>.</p></li>
+<code>iterations_requested</code>, <code>iterations_run</code>, <code>stopped_early</code>, and
+<code>stop_reason</code>: one of <code>"optimal"</code>, <code>"no_improvement"</code>, <code>"frozen"</code> or
+<code>"iterations"</code> (<code>NA</code> for designs produced before it was recorded).</p></li>
 </ul></li>
 <li><p><strong>score</strong> - the overall optimised score (summed across levels for a
 hierarchical design).</p></li>
@@ -222,7 +224,7 @@ omitted.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               adjacency  0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               balance    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimal:      1  <span style="color: #00BB00;">(reached)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Iterations:   1 / 100 <span style="color: #00BB00;">(stopped early)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Iterations:   1 / 100 <span style="color: #00BB00;">(optimal reached)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Temperature:  start 100, cooling 0.99</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Evaluation</span></span>
@@ -255,7 +257,7 @@ omitted.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               adjacency  0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               balance    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimal:      1  <span style="color: #00BB00;">(reached)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Iterations:   1 / 100 <span style="color: #00BB00;">(stopped early)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Iterations:   1 / 100 <span style="color: #00BB00;">(optimal reached)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Temperature:  start 100, cooling 0.99</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Evaluation</span></span>

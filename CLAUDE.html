@@ -145,6 +145,8 @@
 <li>
 <strong>roxygen2 with markdown</strong> is the documentation source of truth - never edit <code>man/*.Rd</code> directly; run <code>devtools::document()</code> instead.</li>
 <li>
+<strong>Keep <code>@param</code> entries short</strong> - a sentence or two saying what the argument is, its default, and for hierarchical arguments “For hierarchical designs, can be a named list with names matching <code>swap</code>. See details for more information.” Anything longer - how the argument interacts with other arguments, worked explanations, edge cases - belongs in <code>@details</code> or the vignette, not in the parameter list.</li>
+<li>
 <strong>Vignettes are Quarto (<code>.qmd</code>)</strong>, not Rmd - <code>DESCRIPTION</code> declares <code>VignetteBuilder: quarto</code>.</li>
 <li>
 <strong><code># fmt: skip</code></strong> comments are intentional Air-formatter overrides; leave them in place when editing nearby code.</li>

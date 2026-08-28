@@ -151,10 +151,10 @@ str(crd_result)
       ..$ col_column: chr "col"
       ..$ grid_by   : NULL
       ..$ per_level :List of 1
-      .. ..$ single treatment within whole design:List of 12
+      .. ..$ single treatment within whole design:List of 13
       .. .. ..$ swap            : chr "treatment"
       .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x558b4f766ec8>
+      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x55625f71f7e0>
       .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
       .. .. ..$ adj_weight      : num 1
       .. .. ..$ bal_weight      : num 1
@@ -167,6 +167,7 @@ str(crd_result)
       .. .. ..$ final_components: Named num [1:2] 0 2.29
       .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
       .. .. ..$ optimal_score   : num 2.29
+      .. .. ..$ stop_reason     : chr "optimal"
       ..$ call      : language speed(data = crd_design, swap = "treatment", seed = 42)
      - attr(*, "class")= chr [1:2] "design" "list"
 
@@ -220,7 +221,7 @@ summary(crd_result)
                   adjacency  0
                   balance    2.2857
     Optimal:      2.2857  (reached)
-    Iterations:   730 / 10,000 (stopped early)
+    Iterations:   730 / 10,000 (optimal reached)
     Temperature:  start 100, cooling 0.99
 
     Evaluation
@@ -285,7 +286,7 @@ summary(crd_result, efficiency = TRUE)
                   adjacency  0
                   balance    2.2857
     Optimal:      2.2857  (reached)
-    Iterations:   730 / 10,000 (stopped early)
+    Iterations:   730 / 10,000 (optimal reached)
     Temperature:  start 100, cooling 0.99
 
     Evaluation
@@ -428,10 +429,10 @@ str(rcbd_result)
       ..$ col_column: chr "col"
       ..$ grid_by   : NULL
       ..$ per_level :List of 1
-      .. ..$ single treatment within block:List of 12
+      .. ..$ single treatment within block:List of 13
       .. .. ..$ swap            : chr "treatment"
       .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x558b4aec17c8>
+      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x55625eefdd90>
       .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
       .. .. ..$ adj_weight      : num 1
       .. .. ..$ bal_weight      : num 1
@@ -444,6 +445,7 @@ str(rcbd_result)
       .. .. ..$ final_components: Named num [1:2] 0 1.6
       .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
       .. .. ..$ optimal_score   : num 1.6
+      .. .. ..$ stop_reason     : chr "optimal"
       ..$ call      : language speed(data = rcbd_design, swap = "treatment", swap_within = "block", seed = 42)
      - attr(*, "class")= chr [1:2] "design" "list"
 
@@ -520,7 +522,7 @@ latin_square_result <- speed(latin_square_design,
 
     Optimising level: single treatment within whole design
     Level: single treatment within whole design Iteration: 1000 Score: 1 Best: 1 Since Improvement: 308
-    Early stopping at iteration 1040 for level single treatment within whole design 
+    Optimal score reached at iteration 1040 for level single treatment within whole design 
 
 ``` r
 
@@ -569,10 +571,10 @@ str(latin_square_result)
       ..$ col_column: chr "col"
       ..$ grid_by   : NULL
       ..$ per_level :List of 1
-      .. ..$ single treatment within whole design:List of 12
+      .. ..$ single treatment within whole design:List of 13
       .. .. ..$ swap            : chr "treatment"
       .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x558b4e834c10>
+      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x55626012c378>
       .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
       .. .. ..$ adj_weight      : num 1
       .. .. ..$ bal_weight      : num 1
@@ -585,6 +587,7 @@ str(latin_square_result)
       .. .. ..$ final_components: Named num [1:2] 0 0
       .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
       .. .. ..$ optimal_score   : num 0
+      .. .. ..$ stop_reason     : chr "optimal"
       ..$ call      : language speed(data = latin_square_design, swap = "treatment", seed = 42)
      - attr(*, "class")= chr [1:2] "design" "list"
 
@@ -691,7 +694,7 @@ split_plot_result <- speed(split_plot_design, optimise = optimise, seed = 42)
     Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000
     Early stopping at iteration 2000 for level wp
     Optimising level: sp
-    Early stopping at iteration 570 for level sp 
+    Optimal score reached at iteration 570 for level sp 
 
 ``` r
 
@@ -755,10 +758,10 @@ str(split_plot_result)
       ..$ col_column: chr "col"
       ..$ grid_by   : NULL
       ..$ per_level :List of 2
-      .. ..$ wp:List of 12
+      .. ..$ wp:List of 13
       .. .. ..$ swap            : chr "wholeplot_treatment"
       .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x558b4fc35508>
+      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x556261435358>
       .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
       .. .. ..$ adj_weight      : num 1
       .. .. ..$ bal_weight      : num 1
@@ -771,10 +774,11 @@ str(split_plot_result)
       .. .. ..$ final_components: Named num [1:2] 36 64
       .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
       .. .. ..$ optimal_score   : num 4
-      .. ..$ sp:List of 12
+      .. .. ..$ stop_reason     : chr "no_improvement"
+      .. ..$ sp:List of 13
       .. .. ..$ swap            : chr "subplot_treatment"
       .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x558b4fc35508>
+      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x556261435358>
       .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
       .. .. ..$ adj_weight      : num 1
       .. .. ..$ bal_weight      : num 1
@@ -787,6 +791,7 @@ str(split_plot_result)
       .. .. ..$ final_components: Named num [1:2] 0 0
       .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
       .. .. ..$ optimal_score   : num 0
+      .. .. ..$ stop_reason     : chr "optimal"
       ..$ call      : language speed(data = split_plot_design, optimise = optimise, seed = 42)
      - attr(*, "class")= chr [1:2] "design" "list"
 
@@ -808,6 +813,226 @@ autoplot(split_plot_result, treatments = "subplot_treatment", block = "wholeplot
 
 This design has now been optimised at both the whole plot level and the
 sub-plot level.
+
+## Keeping Related Columns Together
+
+### Overview
+
+Trial data often carries a treatment code alongside one or more
+descriptive columns that belong with it - a variety name against a short
+code, a seed lot, a supplier. `speed` rearranges only the column named
+in `swap`, so those companion columns would stay where they are and
+quietly become attached to the wrong treatment. The `linked_cols`
+argument names the columns that should travel with `swap`.
+
+### Example: Variety Names Alongside Treatment Codes
+
+Consider a trial of 6 wheat varieties where the design carries both a
+treatment code and the cultivar name.
+
+``` r
+
+variety_trial <- initialise_design_df(items = 6, nrows = 6, ncols = 4)
+varieties <- c(T1 = "Scepter", T2 = "Vixen", T3 = "Calibre",
+               T4 = "Rockstar", T5 = "Ballista", T6 = "Denison")
+variety_trial$variety_name <- unname(varieties[variety_trial$treatment])
+head(variety_trial)
+```
+
+      row col treatment variety_name
+    1   1   1        T1      Scepter
+    2   2   1        T2        Vixen
+    3   3   1        T3      Calibre
+    4   4   1        T4     Rockstar
+    5   5   1        T5     Ballista
+    6   6   1        T6      Denison
+
+Optimising without `linked_cols` moves `treatment` but leaves
+`variety_name` sitting in its original row order, so the pairing between
+the two is lost:
+
+``` r
+
+unlinked <- speed(variety_trial, swap = "treatment", seed = 42)
+```
+
+    row and col are used as row and column, respectively.
+
+    Optimising level: single treatment within whole design
+    Optimal score reached at iteration 738 for level single treatment within whole design 
+
+``` r
+
+head(unlinked$design_df)
+```
+
+      row col treatment variety_name
+    1   1   1        T1      Scepter
+    2   1   2        T4      Scepter
+    3   1   3        T5      Scepter
+    4   1   4        T2      Scepter
+    5   2   1        T5        Vixen
+    6   2   2        T6        Vixen
+
+Naming the column in `linked_cols` carries it along with the treatment
+it belongs to:
+
+``` r
+
+linked <- speed(variety_trial,
+                swap = "treatment",
+                linked_cols = "variety_name",
+                seed = 42)
+```
+
+    row and col are used as row and column, respectively.
+
+    Optimising level: single treatment within whole design
+    Optimal score reached at iteration 738 for level single treatment within whole design 
+
+``` r
+
+head(linked$design_df)
+```
+
+      row col treatment variety_name
+    1   1   1        T1      Scepter
+    2   1   2        T4     Rockstar
+    3   1   3        T5     Ballista
+    4   1   4        T2        Vixen
+    5   2   1        T5     Ballista
+    6   2   2        T6      Denison
+
+Every code is now back with its own cultivar:
+
+``` r
+
+unique(linked$design_df[, c("treatment", "variety_name")])
+```
+
+      treatment variety_name
+    1        T1      Scepter
+    2        T4     Rockstar
+    3        T5     Ballista
+    4        T2        Vixen
+    6        T6      Denison
+    9        T3      Calibre
+
+Linked columns take no part in scoring, so adding them cannot change the
+design that is found. The two runs above produce exactly the same
+layout:
+
+``` r
+
+identical(unlinked$design_df$treatment, linked$design_df$treatment)
+```
+
+    [1] TRUE
+
+They are also returned in their original position and with their
+original type - no extra columns appear in the output.
+
+### Hierarchical Designs
+
+Each level of a hierarchical design swaps its own column, so companion
+columns have to be matched to the level that moves them. Here the whole
+plot treatment carries an irrigation method, and the sub-plot treatment
+carries a cultivar name:
+
+``` r
+
+split_plot_linked <- initialise_split_design_df(splits = splits, rep_dim = c(4, 1))
+split_plot_linked$irrigation <- unname(
+  c(A = "Drip", B = "Flood", C = "None")[split_plot_linked$wholeplot_treatment]
+)
+split_plot_linked$variety <- unname(
+  c(a = "Scepter", b = "Vixen", c = "Calibre", d = "Denison")[
+    split_plot_linked$subplot_treatment
+  ]
+)
+```
+
+`linked_cols` takes a named list whose names match the levels, so the
+`optimise` list built for the split plot design above can be reused
+unchanged - useful when it is defined elsewhere and shared between
+designs:
+
+``` r
+
+speed(split_plot_linked, optimise = optimise,
+      linked_cols = list(wp = "irrigation", sp = "variety"), seed = 42)
+```
+
+Since the hierarchy is already described level by level, `linked_cols`
+can equally go inside `optimise` alongside the other per-level
+arguments, which keeps each level’s description in one place. Where a
+level sets `linked_cols` itself, that wins; the argument fills in the
+levels that do not.
+
+``` r
+
+optimise_linked <- list(
+  wp = list(
+    swap = "wholeplot_treatment", swap_within = "block", swap_all = TRUE,
+    linked_cols = "irrigation"
+  ),
+  sp = list(
+    swap = "subplot_treatment", swap_within = "wholeplot",
+    linked_cols = "variety"
+  )
+)
+
+linked_split <- speed(split_plot_linked, optimise = optimise_linked, seed = 42)
+```
+
+    row and col are used as row and column, respectively.
+
+    Optimising level: wp
+    Level: wp Iteration: 1000 Score: 100 Best: 100 Since Improvement: 1000
+    Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000
+    Early stopping at iteration 2000 for level wp
+    Optimising level: sp
+    Optimal score reached at iteration 570 for level sp 
+
+``` r
+
+unique(linked_split$design_df[, c("wholeplot_treatment", "irrigation")])
+```
+
+      wholeplot_treatment irrigation
+    1                   C       None
+    5                   A       Drip
+    9                   B      Flood
+
+``` r
+
+unique(linked_split$design_df[, c("subplot_treatment", "variety")])
+```
+
+      subplot_treatment variety
+    1                 a Scepter
+    2                 b   Vixen
+    3                 c Calibre
+    4                 d Denison
+
+> **Note**
+>
+> A bare character vector applies to every level, which in a
+> hierarchical design is only valid when all levels swap the same
+> column - a multi-environment trial, for example. Where levels swap
+> different columns, name the level, since a column can only travel with
+> one `swap` column.
+
+Columns used as `swap_within`, or as spatial or grid factors, cannot be
+linked: they describe where a plot sits rather than what is on it, so
+moving them would break the layout being scored.
+
+A `swap` column is the exception. Linking a *later* level’s `swap`
+column at an earlier level carries a child treatment along when its
+parent moves - linking `subplot_treatment` at the whole plot level keeps
+each sub-plot treatment with its whole plot treatment, and the sub-plot
+level then optimises it in place. The carrying level must run first, or
+it would undo the child level’s work.
 
 ## Spatial Design Considerations
 

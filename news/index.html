@@ -50,8 +50,25 @@
 <h2 class="pkg-version" data-toc-text="0.0.11" id="speed-0011">speed 0.0.11<a class="anchor" aria-label="anchor" href="#speed-0011"></a></h2>
 <div class="section level3">
 <h3 id="major-changes-0-0-11">Major Changes<a class="anchor" aria-label="anchor" href="#major-changes-0-0-11"></a></h3>
-<ul><li>
+<ul><li>Added the <code>linked_cols</code> argument to <code><a href="../reference/speed.html">speed()</a></code>, naming columns that should be rearranged along with the <code>swap</code> column, for example a <code>variety_name</code> label belonging to a numeric <code>variety</code> code. For hierarchical designs, pass a named list to link different columns at different levels. (<a href="https://github.com/biometryhub/speed/issues/105" class="external-link">#105</a>)</li>
+<li>
 <code><a href="../reference/speed.html">speed()</a></code> now stops as soon as a design reaches the lowest score its layout allows, applicable only to the default <code><a href="../reference/objective_functions.html">objective_function()</a></code>. This can be turned off per level with <code>optim_params(stop_at_optimal = FALSE)</code>. <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> now reports the lower bound score alongside the achieved one.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-changes-0-0-11">Minor Changes<a class="anchor" aria-label="anchor" href="#minor-changes-0-0-11"></a></h3>
+<ul><li>
+<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> now reports why each level stopped - the optimum was reached, no further improvement was found, no swap was possible, or the iteration cap was hit. The reason is also recorded as <code>stop_reason</code> in each level’s metadata.</li>
+<li>
+<code><a href="../reference/speed.html">speed()</a></code> now warns when a <code>swap_all = TRUE</code> group holds no two treatments of equal replication, and stops a level immediately when no group in it can be swapped.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-11">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-11"></a></h3>
+<ul><li>A two sided formula passed to <code>spatial_factors</code> is now rejected instead of silently accepted, and hierarchical designs now run the same <code>spatial_factors</code>, <code>iterations</code> and <code>seed</code> checks as simple ones.</li>
+<li>Named lists for hierarchical arguments such as <code>iterations</code> are now split per level under the <code>optimise</code> argument, as they already were when <code>swap</code> was a named list. A level the list leaves out now takes that argument’s own default rather than the default for <code>spatial_factors</code>.</li>
+<li>Columns that take no part in the optimisation are no longer converted to factors and back, so a class that cannot be rebuilt with <code>as.&lt;class&gt;()</code>, such as <code>Date</code>, is now returned unchanged instead of as <code>character</code>. (<a href="https://github.com/biometryhub/speed/issues/122" class="external-link">#122</a>)</li>
+<li>Each level of a hierarchical design now starts from the best design found so far, rather than whichever design the previous level’s search last accepted. A level could otherwise be optimised, and reported on, against a design that was never returned, or replace an earlier level’s better result with a worse one.</li>
+<li>A design that ties the best score found now replaces it, so a search that ends on a score plateau returns a random arrangement from that plateau rather than the systematic input it was given. Early stopping still counts only strict improvements.</li>
+<li>The swapped treatments passed to an objective function are now labels rather than factor codes, so <code><a href="../reference/objective_function_piepho.html">objective_function_piepho()</a></code> updates the plots that actually moved.</li>
 </ul></div>
 </div>
     <div class="section level2">

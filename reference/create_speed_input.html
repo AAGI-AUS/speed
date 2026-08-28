@@ -63,6 +63,7 @@
 <span>  <span class="va">obj_function</span>,</span>
 <span>  <span class="va">swap_all</span>,</span>
 <span>  <span class="va">optimise_params</span>,</span>
+<span>  linked_cols <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  optimise <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  row_col_inferred <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -137,11 +138,22 @@ at a time (default: FALSE)</p></dd>
 simulated annealing algorithm. See <code><a href="optim_params.html">optim_params()</a></code> for more details.</p></dd>
 
 
+<dt id="arg-linked-cols">linked_cols<a class="anchor" aria-label="anchor" href="#arg-linked-cols"></a></dt>
+<dd><p>Character vector of column names that travel with the
+<code>swap</code> column, for example a <code>variety_name</code> label belonging to a numeric
+<code>variety</code> code (default: <code>NULL</code>). For hierarchical designs, can be a named
+list with names matching <code>swap</code>. See details for more information.</p></dd>
+
+
 <dt id="arg-optimise">optimise<a class="anchor" aria-label="anchor" href="#arg-optimise"></a></dt>
 <dd><p>A list of named arguments describing optimising parameters;
 see more in example.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>The per-level <code>optimise</code> list.</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

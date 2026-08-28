@@ -59,7 +59,9 @@
 <span>  <span class="va">swap_within</span>,</span>
 <span>  swap_count <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"speed.swap_count"</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  swap_all_blocks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"speed.swap_all_blocks"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
-<span>  swap_all <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  swap_all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  linked_cols <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  swappable <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -92,6 +94,18 @@ treatments, or named list for hierarchical designs</p></dd>
 <dt id="arg-swap-all">swap_all<a class="anchor" aria-label="anchor" href="#arg-swap-all"></a></dt>
 <dd><p>Whether to swap all matching items or a single item at a time
 (default: FALSE)</p></dd>
+
+
+<dt id="arg-linked-cols">linked_cols<a class="anchor" aria-label="anchor" href="#arg-linked-cols"></a></dt>
+<dd><p>Character vector of column names moved in lockstep with
+the <code>swap</code> column, so that a value paired with a treatment stays paired with
+it. <code>NULL</code> (default) moves the <code>swap</code> column alone.</p></dd>
+
+
+<dt id="arg-swappable">swappable<a class="anchor" aria-label="anchor" href="#arg-swappable"></a></dt>
+<dd><p>Groups a swap can be proposed in, as returned in the
+<code>swappable</code> element of <code><a href="swappable_groups.html">swappable_groups()</a></code>. <code>NULL</code> (default) considers
+every group, which costs an iteration whenever an unswappable one is drawn.</p></dd>
 
 </dl></div>
     <div class="section level2">
