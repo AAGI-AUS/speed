@@ -22,6 +22,9 @@
 
 ### Minor Changes
 
+- The startup version check now only runs in interactive sessions. Set
+  the `SPEED_NO_VERSION_CHECK` environment variable to disable it
+  entirely.
 - [`summary()`](https://rdrr.io/r/base/summary.html) now reports why
   each level stopped - the optimum was reached, no further improvement
   was found, no swap was possible, or the iteration cap was hit. The
@@ -33,6 +36,9 @@
 
 ### Bug Fixes
 
+- [`speed()`](https://biometryhub.github.io/speed/reference/speed.md)
+  now gives a clear error when `grid_factors` is malformed, instead of
+  failing with “missing value where TRUE/FALSE needed”.
 - A two sided formula passed to `spatial_factors` is now rejected
   instead of silently accepted, and hierarchical designs now run the
   same `spatial_factors`, `iterations` and `seed` checks as simple ones.

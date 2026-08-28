@@ -10,6 +10,12 @@ and are called from
 [`create_speed_input()`](https://biometryhub.github.io/speed/reference/create_speed_input.md)
 has built it.
 
+`grid_factors` must be a single list naming the two grid axes, since
+[`infer_row_col()`](https://biometryhub.github.io/speed/reference/infer_row_col.md)
+resolves one pair of axes for the whole design. The axes cannot vary
+between levels of a hierarchical design; `by` is what splits a design
+into separate grids.
+
 `grid_factors` is a plain list, so a mistyped `by` would be ignored and
 every grid silently pooled. Checked before any optimisation happens.
 
@@ -65,6 +71,8 @@ every grid silently pooled. Checked before any optimisation happens.
   stop_at_optimal
 )
 
+.verify_grid_factors(grid_factors)
+
 .verify_grid_by(data, grid_factors)
 ```
 
@@ -101,7 +109,9 @@ every grid silently pooled. Checked before any optimisation happens.
 
   A named list specifying grid factors to construct a matrix for
   calculating adjacency score, `dim1` for row and `dim2` for column.
-  (default: `list(dim1 = "row", dim2 = "col")`).
+  (default: `list(dim1 = "row", dim2 = "col")`). The axes apply to the
+  whole design, so unlike `swap` they cannot be set per level of a
+  hierarchical design.
 
   An optional third element, `by`, names a column that groups plots into
   *separate* grids - a multi-environment trial, where each site reuses

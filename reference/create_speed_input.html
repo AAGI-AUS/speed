@@ -98,7 +98,9 @@ consider for balance (default: <code>~row + col</code>).</p></dd>
 <dt id="arg-grid-factors">grid_factors<a class="anchor" aria-label="anchor" href="#arg-grid-factors"></a></dt>
 <dd><p>A named list specifying grid factors to construct a
 matrix for calculating adjacency score, <code>dim1</code> for row and <code>dim2</code> for
-column. (default: <code>list(dim1 = "row", dim2 = "col")</code>).</p>
+column. (default: <code>list(dim1 = "row", dim2 = "col")</code>). The axes apply to
+the whole design, so unlike <code>swap</code> they cannot be set per level of a
+hierarchical design.</p>
 <p>An optional third element, <code>by</code>, names a column that groups plots into
 <em>separate</em> grids - a multi-environment trial, where each site reuses the
 same <code>row</code>/<code>col</code> numbering. Each grid is then scored on its own and the

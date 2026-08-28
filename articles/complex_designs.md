@@ -101,7 +101,7 @@ splits <- list(
 split_split_df <- initialise_split_design_df(splits = splits, rep_dim = c(4, 1))
 ```
 
-![](complex_designs_files/figure-html/fig-ssplot1-1.png)
+![](figures/fig-ssplot1-1.png)
 
 Figure 1: Initial layout of the split-split-plot design showing
 systematic treatment distribution.
@@ -139,32 +139,32 @@ optimise <- list(
 result_ss <- speed(split_split_df, optimise = optimise, seed = 42)
 ```
 
-    row and col are used as row and column, respectively.
+    ## row and col are used as row and column, respectively.
 
-    Optimising level: wp
-    Level: wp Iteration: 1000 Score: 252 Best: 252 Since Improvement: 972
-    Early stopping at iteration 1028 for level wp
-    Optimising level: sp
-    Level: sp Iteration: 1000 Score: 132 Best: 132 Since Improvement: 594
-    Level: sp Iteration: 2000 Score: 132 Best: 132 Since Improvement: 1594
-    Level: sp Iteration: 3000 Score: 132 Best: 132 Since Improvement: 2594
-    Early stopping at iteration 3406 for level sp
-    Optimising level: ssp
-    Level: ssp Iteration: 1000 Score: 16 Best: 16 Since Improvement: 120
-    Level: ssp Iteration: 2000 Score: 12 Best: 12 Since Improvement: 349
-    Level: ssp Iteration: 3000 Score: 11 Best: 11 Since Improvement: 553
-    Level: ssp Iteration: 4000 Score: 11 Best: 11 Since Improvement: 1553
-    Level: ssp Iteration: 5000 Score: 10 Best: 10 Since Improvement: 925
-    Level: ssp Iteration: 6000 Score: 10 Best: 10 Since Improvement: 1925
-    Level: ssp Iteration: 7000 Score: 9 Best: 9 Since Improvement: 19
-    Level: ssp Iteration: 8000 Score: 9 Best: 9 Since Improvement: 1019
-    Level: ssp Iteration: 9000 Score: 9 Best: 9 Since Improvement: 2019
-    Level: ssp Iteration: 10000 Score: 7 Best: 7 Since Improvement: 985
-    Level: ssp Iteration: 11000 Score: 7 Best: 7 Since Improvement: 1985
-    Level: ssp Iteration: 12000 Score: 7 Best: 7 Since Improvement: 2985
-    Level: ssp Iteration: 13000 Score: 7 Best: 7 Since Improvement: 3985
-    Level: ssp Iteration: 14000 Score: 7 Best: 7 Since Improvement: 4985
-    Early stopping at iteration 14015 for level ssp 
+    ## Optimising level: wp
+    ## Level: wp Iteration: 1000 Score: 252 Best: 252 Since Improvement: 972
+    ## Early stopping at iteration 1028 for level wp
+    ## Optimising level: sp
+    ## Level: sp Iteration: 1000 Score: 132 Best: 132 Since Improvement: 594
+    ## Level: sp Iteration: 2000 Score: 132 Best: 132 Since Improvement: 1594
+    ## Level: sp Iteration: 3000 Score: 132 Best: 132 Since Improvement: 2594
+    ## Early stopping at iteration 3406 for level sp
+    ## Optimising level: ssp
+    ## Level: ssp Iteration: 1000 Score: 16 Best: 16 Since Improvement: 120
+    ## Level: ssp Iteration: 2000 Score: 12 Best: 12 Since Improvement: 349
+    ## Level: ssp Iteration: 3000 Score: 11 Best: 11 Since Improvement: 553
+    ## Level: ssp Iteration: 4000 Score: 11 Best: 11 Since Improvement: 1553
+    ## Level: ssp Iteration: 5000 Score: 10 Best: 10 Since Improvement: 925
+    ## Level: ssp Iteration: 6000 Score: 10 Best: 10 Since Improvement: 1925
+    ## Level: ssp Iteration: 7000 Score: 9 Best: 9 Since Improvement: 19
+    ## Level: ssp Iteration: 8000 Score: 9 Best: 9 Since Improvement: 1019
+    ## Level: ssp Iteration: 9000 Score: 9 Best: 9 Since Improvement: 2019
+    ## Level: ssp Iteration: 10000 Score: 7 Best: 7 Since Improvement: 985
+    ## Level: ssp Iteration: 11000 Score: 7 Best: 7 Since Improvement: 1985
+    ## Level: ssp Iteration: 12000 Score: 7 Best: 7 Since Improvement: 2985
+    ## Level: ssp Iteration: 13000 Score: 7 Best: 7 Since Improvement: 3985
+    ## Level: ssp Iteration: 14000 Score: 7 Best: 7 Since Improvement: 4985
+    ## Early stopping at iteration 14015 for level ssp
 
 #### Output of the Optimisation
 
@@ -173,16 +173,16 @@ result_ss <- speed(split_split_df, optimise = optimise, seed = 42)
 result_ss
 ```
 
-    Optimised Experimental Design
-    ----------------------------
-    Score: 391
-    Iterations Run: 18452
-    Stopped Early: TRUE TRUE TRUE
-    Treatments:
-      wp: A, B, C
-      sp: a, b, c, d
-      ssp: x, y, z
-    Seed: 42 
+    ## Optimised Experimental Design
+    ## ----------------------------
+    ## Score: 391
+    ## Iterations Run: 18452
+    ## Stopped Early: TRUE TRUE TRUE
+    ## Treatments:
+    ##   wp: A, B, C
+    ##   sp: a, b, c, d
+    ##   ssp: x, y, z
+    ## Seed: 42
 
 #### Visualise the Output
 
@@ -196,7 +196,7 @@ res1 + res2 + res3 +
   plot_annotation(title = "Optimised Split-Split Plot Design")
 ```
 
-![](complex_designs_files/figure-html/fig-ssplot2-1.png)
+![](figures/fig-ssplot2-1.png)
 
 Figure 2: Final layout of the split-split-plot design showing optimised
 treatment distribution.
@@ -273,7 +273,7 @@ df_strip <- data.frame(
 )
 ```
 
-![](complex_designs_files/figure-html/fig-strip-plot1-1.png)
+![](figures/fig-strip-plot1-1.png)
 
 Figure 3: Initial layout of the strip plot design showing systematic
 treatment distribution.
@@ -291,16 +291,16 @@ strip_result <- speed(df_strip,
                       swap_all = TRUE)
 ```
 
-    row and col are used as row and column, respectively.
+    ## row and col are used as row and column, respectively.
 
-    Optimising level: ht
-    Level: ht Iteration: 1000 Score: 84 Best: 84 Since Improvement: 961
-    Level: ht Iteration: 2000 Score: 84 Best: 84 Since Improvement: 1961
-    Early stopping at iteration 2039 for level ht
-    Optimising level: vt
-    Level: vt Iteration: 1000 Score: 54 Best: 54 Since Improvement: 878
-    Level: vt Iteration: 2000 Score: 54 Best: 54 Since Improvement: 1878
-    Early stopping at iteration 2122 for level vt 
+    ## Optimising level: ht
+    ## Level: ht Iteration: 1000 Score: 84 Best: 84 Since Improvement: 961
+    ## Level: ht Iteration: 2000 Score: 84 Best: 84 Since Improvement: 1961
+    ## Early stopping at iteration 2039 for level ht
+    ## Optimising level: vt
+    ## Level: vt Iteration: 1000 Score: 54 Best: 54 Since Improvement: 878
+    ## Level: vt Iteration: 2000 Score: 54 Best: 54 Since Improvement: 1878
+    ## Early stopping at iteration 2122 for level vt
 
 #### Output of the Optimisation
 
@@ -309,15 +309,15 @@ strip_result <- speed(df_strip,
 strip_result
 ```
 
-    Optimised Experimental Design
-    ----------------------------
-    Score: 138
-    Iterations Run: 4163
-    Stopped Early: TRUE TRUE
-    Treatments:
-      ht: a, b, c, d
-      vt: A, B, C
-    Seed: -2124829786 
+    ## Optimised Experimental Design
+    ## ----------------------------
+    ## Score: 138
+    ## Iterations Run: 4163
+    ## Stopped Early: TRUE TRUE
+    ## Treatments:
+    ##   ht: a, b, c, d
+    ##   vt: A, B, C
+    ## Seed: -2124829786
 
 #### Visualise the Output
 
@@ -326,14 +326,14 @@ strip_result
 autoplot(strip_result, treatments = "horizontal_treatment") + ggplot2::labs(title = "Tillage Treatments")
 ```
 
-![](complex_designs_files/figure-html/strip-plot-plot2-1.png)
+![](figures/strip-plot-plot2-1.png)
 
 ``` r
 
 autoplot(strip_result, treatments = "vertical_treatment") + ggplot2::labs(title = "Planting Date Treatments")
 ```
 
-![](complex_designs_files/figure-html/strip-plot-plot2-2.png)
+![](figures/strip-plot-plot2-2.png)
 
 An optimised strip-plot design with well-arranged treatment
 combinations!
@@ -431,15 +431,15 @@ ribd_df <- data.frame(
 head(ribd_df)
 ```
 
-      row col replicate block treatment
-    1   1   1         1     1        V1
-    2   2   1         1     1        V2
-    3   3   1         1     1        V3
-    4   1   2         1     2        V4
-    5   2   2         1     2        V5
-    6   3   2         1     2        V6
+    ##   row col replicate block treatment
+    ## 1   1   1         1     1        V1
+    ## 2   2   1         1     1        V2
+    ## 3   3   1         1     1        V3
+    ## 4   1   2         1     2        V4
+    ## 5   2   2         1     2        V5
+    ## 6   3   2         1     2        V6
 
-![](complex_designs_files/figure-html/fig-ribdplot1-1.png)
+![](figures/fig-ribdplot1-1.png)
 
 Figure 4: Initial layout of the resolvable incomplete block design
 showing systematic treatment distribution.
@@ -460,10 +460,10 @@ ribd_result <- speed(ribd_df,
                      seed = 42)    
 ```
 
-    row and col are used as row and column, respectively.
+    ## row and col are used as row and column, respectively.
 
-    Optimising level: single treatment within replicate
-    Optimal score reached at iteration 474 for level single treatment within replicate 
+    ## Optimising level: single treatment within replicate
+    ## Optimal score reached at iteration 474 for level single treatment within replicate
 
 #### Output of the Optimisation
 
@@ -472,58 +472,60 @@ ribd_result <- speed(ribd_df,
 ribd_result
 ```
 
-    Optimised Experimental Design
-    ----------------------------
-    Score: 1.8
-    Iterations Run: 474
-    Stopped Early: TRUE
-    Treatments: V1, V2, V3, V4, V5, V6
-    Seed: 42 
+    ## Optimised Experimental Design
+    ## ----------------------------
+    ## Score: 1.8
+    ## Iterations Run: 474
+    ## Stopped Early: TRUE
+    ## Treatments: V1, V2, V3, V4, V5, V6
+    ## Seed: 42
 
 ``` r
 
 str(ribd_result)
 ```
 
-    List of 9
-     $ design_df     :Classes 'design' and 'data.frame':    18 obs. of  5 variables:
-      ..$ row      : int [1:18] 1 1 1 1 1 1 2 2 2 2 ...
-      ..$ col      : int [1:18] 1 2 3 4 5 6 1 2 3 4 ...
-      ..$ replicate: int [1:18] 1 1 2 2 3 3 1 1 2 2 ...
-      ..$ block    : int [1:18] 1 2 3 4 5 6 1 2 3 4 ...
-      ..$ treatment: chr [1:18] "V3" "V2" "V1" "V4" ...
-     $ score         : num 1.8
-     $ scores        : num [1:474] 9 7.4 5.8 6.8 5.4 4.6 4.2 4.2 4.2 4.2 ...
-     $ temperatures  : num [1:474] 100 99 98 97 96.1 ...
-     $ iterations_run: num 474
-     $ stopped_early : logi TRUE
-     $ treatments    : chr [1:6] "V1" "V2" "V3" "V4" ...
-     $ seed          : num 42
-     $ metadata      :List of 6
-      ..$ levels    : chr "single treatment within replicate"
-      ..$ row_column: chr "row"
-      ..$ col_column: chr "col"
-      ..$ grid_by   : NULL
-      ..$ per_level :List of 1
-      .. ..$ single treatment within replicate:List of 13
-      .. .. ..$ swap            : chr "treatment"
-      .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x55de405f8908>
-      .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
-      .. .. ..$ adj_weight      : num 1
-      .. .. ..$ bal_weight      : num 1
-      .. .. ..$ iterations      : num 10000
-      .. .. ..$ start_temp      : num 100
-      .. .. ..$ cooling_rate    : num 0.99
-      .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-        row_column = "row", col_column = "col", ...)
-      .. .. ..$ final_score     : num 1.8
-      .. .. ..$ final_components: Named num [1:2] 0 1.8
-      .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-      .. .. ..$ optimal_score   : num 1.8
-      .. .. ..$ stop_reason     : chr "optimal"
-      ..$ call      : language speed(data = ribd_df, swap = "treatment", swap_within = "replicate", seed = 42)
-     - attr(*, "class")= chr [1:2] "design" "list"
+    ## List of 9
+    ##  $ design_df     :Classes 'design' and 'data.frame': 18 obs. of  5 variables:
+    ##   ..$ row      : int [1:18] 1 1 1 1 1 1 2 2 2 2 ...
+    ##   ..$ col      : int [1:18] 1 2 3 4 5 6 1 2 3 4 ...
+    ##   ..$ replicate: int [1:18] 1 1 2 2 3 3 1 1 2 2 ...
+    ##   ..$ block    : int [1:18] 1 2 3 4 5 6 1 2 3 4 ...
+    ##   ..$ treatment: chr [1:18] "V3" "V2" "V1" "V4" ...
+    ##  $ score         : num 1.8
+    ##  $ scores        : num [1:474] 9 7.4 5.8 6.8 5.4 4.6 4.2 4.2 4.2 4.2 ...
+    ##  $ temperatures  : num [1:474] 100 99 98 97 96.1 ...
+    ##  $ iterations_run: num 474
+    ##  $ stopped_early : logi TRUE
+    ##  $ treatments    : chr [1:6] "V1" "V2" "V3" "V4" ...
+    ##  $ seed          : num 42
+    ##  $ metadata      :List of 6
+    ##   ..$ levels    : chr "single treatment within replicate"
+    ##   ..$ row_column: chr "row"
+    ##   ..$ col_column: chr "col"
+    ##   ..$ grid_by   : NULL
+    ##   ..$ per_level :List of 1
+    ##   .. ..$ single treatment within replicate:List of 13
+    ##   .. .. ..$ swap            : chr "treatment"
+    ##   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
+    ##   .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x000002b0d2831738>
+    ##   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
+    ##   .. .. ..$ adj_weight      : num 1
+    ##   .. .. ..$ bal_weight      : num 1
+    ##   .. .. ..$ iterations      : num 10000
+    ##   .. .. ..$ start_temp      : num 100
+    ##   .. .. ..$ cooling_rate    : num 0.99
+    ##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
+    ##     row_column = "row", col_column = "col", ...)
+    ##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90
+    ##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000002b0cae73a50>
+    ##   .. .. ..$ final_score     : num 1.8
+    ##   .. .. ..$ final_components: Named num [1:2] 0 1.8
+    ##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
+    ##   .. .. ..$ optimal_score   : num 1.8
+    ##   .. .. ..$ stop_reason     : chr "optimal"
+    ##   ..$ call      : language speed(data = ribd_df, swap = "treatment", swap_within = "replicate", seed = 42)
+    ##  - attr(*, "class")= chr [1:2] "design" "list"
 
 #### Visualise the Output
 
@@ -532,7 +534,7 @@ str(ribd_result)
 autoplot(ribd_result)
 ```
 
-![](complex_designs_files/figure-html/ribd-plot4-1.png)
+![](figures/ribd-plot4-1.png)
 
 We see that each block by itself only contains half the treatments, but
 when combined, the pairs have a full replicate. The algorithm has also
@@ -602,20 +604,20 @@ prep_design$duplicated <- duplicated(prep_design$entry) | duplicated(prep_design
 head(prep_design)
 ```
 
-      row col block entry duplicated
-    1   1   1     1    V1       TRUE
-    2   1   2     1    V2       TRUE
-    3   1   3     1    V3       TRUE
-    4   1   4     1    V4       TRUE
-    5   1   5     1    V5       TRUE
-    6   1   6     2    V6       TRUE
+    ##   row col block entry duplicated
+    ## 1   1   1     1    V1       TRUE
+    ## 2   1   2     1    V2       TRUE
+    ## 3   1   3     1    V3       TRUE
+    ## 4   1   4     1    V4       TRUE
+    ## 5   1   5     1    V5       TRUE
+    ## 6   1   6     2    V6       TRUE
 
-![](complex_designs_files/figure-html/fig-prepplot1-1.png)
+![](figures/fig-prepplot1-1.png)
 
 Figure 5: Initial layout of the p-rep design showing systematic
 treatment distribution.
 
-![](complex_designs_files/figure-html/fig-prepplot2-1.png)
+![](figures/fig-prepplot2-1.png)
 
 Figure 6: Initial layout of the p-rep design showing replicated
 treatments.
@@ -640,11 +642,11 @@ prep_result <- speed(prep_design,
                      seed = 42)
 ```
 
-    row and col are used as row and column, respectively.
+    ## row and col are used as row and column, respectively.
 
-    Optimising level: single entry within whole design
-    Level: single entry within whole design Iteration: 1000 Score: 2.993939 Best: 2.993939 Since Improvement: 5
-    Optimal score reached at iteration 1183 for level single entry within whole design 
+    ## Optimising level: single entry within whole design
+    ## Level: single entry within whole design Iteration: 1000 Score: 2.993939 Best: 2.993939 Since Improvement: 5
+    ## Optimal score reached at iteration 1183 for level single entry within whole design
 
 #### Output of the Optimisation
 
@@ -653,58 +655,60 @@ prep_result <- speed(prep_design,
 prep_result
 ```
 
-    Optimised Experimental Design
-    ----------------------------
-    Score: 2.913131
-    Iterations Run: 1183
-    Stopped Early: TRUE
-    Treatments: V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11, V12, V13, V14, V15, V16, V17, V18, V19, V20, V21, V22, V23, V24, V25, V26, V27, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, V46, V47, V48, V49, V50, V51, V52, V53, V54, V55, V56, V57, V58, V59, V60, V61, V62, V63, V64, V65, V66, V67, V68, V69, V70, V71, V72, V73, V74, V75, V76, V77, V78, V79, V80, V81, V82, V83, V84, V85, V86, V87, V88, V89, V90, V91, V92, V93, V94, V95, V96, V97, V98, V99, V100
-    Seed: 42 
+    ## Optimised Experimental Design
+    ## ----------------------------
+    ## Score: 2.913131
+    ## Iterations Run: 1183
+    ## Stopped Early: TRUE
+    ## Treatments: V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11, V12, V13, V14, V15, V16, V17, V18, V19, V20, V21, V22, V23, V24, V25, V26, V27, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, V46, V47, V48, V49, V50, V51, V52, V53, V54, V55, V56, V57, V58, V59, V60, V61, V62, V63, V64, V65, V66, V67, V68, V69, V70, V71, V72, V73, V74, V75, V76, V77, V78, V79, V80, V81, V82, V83, V84, V85, V86, V87, V88, V89, V90, V91, V92, V93, V94, V95, V96, V97, V98, V99, V100
+    ## Seed: 42
 
 ``` r
 
 str(prep_result)
 ```
 
-    List of 9
-     $ design_df     :Classes 'design' and 'data.frame':    140 obs. of  5 variables:
-      ..$ row       : int [1:140] 1 1 1 1 1 1 1 1 1 1 ...
-      ..$ col       : int [1:140] 1 2 3 4 5 6 7 8 9 10 ...
-      ..$ block     : int [1:140] 1 1 1 1 1 2 2 2 2 2 ...
-      ..$ entry     : chr [1:140] "V100" "V16" "V38" "V37" ...
-      ..$ duplicated: logi [1:140] TRUE TRUE TRUE TRUE TRUE TRUE ...
-     $ score         : num 2.91
-     $ scores        : num [1:1183] 4.53 4.49 4.45 4.37 4.37 ...
-     $ temperatures  : num [1:1183] 100 99 98 97 96.1 ...
-     $ iterations_run: num 1183
-     $ stopped_early : logi TRUE
-     $ treatments    : chr [1:100] "V1" "V2" "V3" "V4" ...
-     $ seed          : num 42
-     $ metadata      :List of 6
-      ..$ levels    : chr "single entry within whole design"
-      ..$ row_column: chr "row"
-      ..$ col_column: chr "col"
-      ..$ grid_by   : NULL
-      ..$ per_level :List of 1
-      .. ..$ single entry within whole design:List of 13
-      .. .. ..$ swap            : chr "entry"
-      .. .. ..$ spatial_factors :Class 'formula'  language ~block + row + col
-      .. .. .. .. ..- attr(*, ".Environment")=<environment: R_GlobalEnv>
-      .. .. ..$ spatial_cols    : chr [1:3] "block" "row" "col"
-      .. .. ..$ adj_weight      : num 1
-      .. .. ..$ bal_weight      : num 1
-      .. .. ..$ iterations      : num 10000
-      .. .. ..$ start_temp      : num 100
-      .. .. ..$ cooling_rate    : num 0.99
-      .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-        row_column = "row", col_column = "col", ...)
-      .. .. ..$ final_score     : num 2.91
-      .. .. ..$ final_components: Named num [1:2] 0 2.91
-      .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-      .. .. ..$ optimal_score   : num 2.91
-      .. .. ..$ stop_reason     : chr "optimal"
-      ..$ call      : language speed(data = prep_design, swap = "entry", spatial_factors = ~block + row +      col, seed = 42)
-     - attr(*, "class")= chr [1:2] "design" "list"
+    ## List of 9
+    ##  $ design_df     :Classes 'design' and 'data.frame': 140 obs. of  5 variables:
+    ##   ..$ row       : int [1:140] 1 1 1 1 1 1 1 1 1 1 ...
+    ##   ..$ col       : int [1:140] 1 2 3 4 5 6 7 8 9 10 ...
+    ##   ..$ block     : int [1:140] 1 1 1 1 1 2 2 2 2 2 ...
+    ##   ..$ entry     : chr [1:140] "V100" "V16" "V38" "V37" ...
+    ##   ..$ duplicated: logi [1:140] TRUE TRUE TRUE TRUE TRUE TRUE ...
+    ##  $ score         : num 2.91
+    ##  $ scores        : num [1:1183] 4.53 4.49 4.45 4.37 4.37 ...
+    ##  $ temperatures  : num [1:1183] 100 99 98 97 96.1 ...
+    ##  $ iterations_run: num 1183
+    ##  $ stopped_early : logi TRUE
+    ##  $ treatments    : chr [1:100] "V1" "V2" "V3" "V4" ...
+    ##  $ seed          : num 42
+    ##  $ metadata      :List of 6
+    ##   ..$ levels    : chr "single entry within whole design"
+    ##   ..$ row_column: chr "row"
+    ##   ..$ col_column: chr "col"
+    ##   ..$ grid_by   : NULL
+    ##   ..$ per_level :List of 1
+    ##   .. ..$ single entry within whole design:List of 13
+    ##   .. .. ..$ swap            : chr "entry"
+    ##   .. .. ..$ spatial_factors :Class 'formula'  language ~block + row + col
+    ##   .. .. .. .. ..- attr(*, ".Environment")=<environment: R_GlobalEnv>
+    ##   .. .. ..$ spatial_cols    : chr [1:3] "block" "row" "col"
+    ##   .. .. ..$ adj_weight      : num 1
+    ##   .. .. ..$ bal_weight      : num 1
+    ##   .. .. ..$ iterations      : num 10000
+    ##   .. .. ..$ start_temp      : num 100
+    ##   .. .. ..$ cooling_rate    : num 0.99
+    ##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
+    ##     row_column = "row", col_column = "col", ...)
+    ##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90
+    ##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000002b0cae73a50>
+    ##   .. .. ..$ final_score     : num 2.91
+    ##   .. .. ..$ final_components: Named num [1:2] 0 2.91
+    ##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
+    ##   .. .. ..$ optimal_score   : num 2.91
+    ##   .. .. ..$ stop_reason     : chr "optimal"
+    ##   ..$ call      : language speed(data = prep_design, swap = "entry", spatial_factors = ~block + row +      col, seed = 42)
+    ##  - attr(*, "class")= chr [1:2] "design" "list"
 
 Ideally here we would also like to see an even distribution of the
 duplicated entries between each block.
@@ -716,14 +720,14 @@ prep_result$design_df$duplicated <- duplicated(prep_result$design_df$entry) | du
 sum(prep_result$design_df$duplicated[prep_result$design_df$block==1])
 ```
 
-    [1] 40
+    ## [1] 40
 
 ``` r
 
 any(duplicated(prep_result$design_df$entry[prep_result$design_df$block==1]))
 ```
 
-    [1] FALSE
+    ## [1] FALSE
 
 With 40 duplicated varieties in this block, we know we also have 40 in
 the other block.
@@ -735,7 +739,7 @@ the other block.
 autoplot(prep_result, treatments = "entry")
 ```
 
-![](complex_designs_files/figure-html/prep-design-plot2-1.png)
+![](figures/prep-design-plot2-1.png)
 
 An optimised p-rep design with strategic replication and spatial
 distribution. Note that because the treatments column is not called
@@ -799,24 +803,24 @@ blocking_2d_design <- data.frame(row = rep(1:20, each = 20),
 head(blocking_2d_design)
 ```
 
-      row col treatment rowBlock colBlock
-    1   1   1        V1        1        1
-    2   1   2        V2        1        1
-    3   1   3        V3        1        2
-    4   1   4        V4        1        2
-    5   1   5        V5        1        3
-    6   1   6        V6        1        3
+    ##   row col treatment rowBlock colBlock
+    ## 1   1   1        V1        1        1
+    ## 2   1   2        V2        1        1
+    ## 3   1   3        V3        1        2
+    ## 4   1   4        V4        1        2
+    ## 5   1   5        V5        1        3
+    ## 6   1   6        V6        1        3
 
-![](complex_designs_files/figure-html/fig-2dblockplot1-1.png)
+![](figures/fig-2dblockplot1-1.png)
 
 Figure 7: Initial layout of the 2D blocking design showing systematic
 treatment distribution.
 
-![](complex_designs_files/figure-html/fig-2dblockplot2-1.png)
+![](figures/fig-2dblockplot2-1.png)
 
 Figure 8: 2D blocking design showing rowBlock layout.
 
-![](complex_designs_files/figure-html/fig-2dblockplot3-1.png)
+![](figures/fig-2dblockplot3-1.png)
 
 Figure 9: 2D blocking design showing colBlock layout.
 
@@ -853,17 +857,17 @@ blocking_2d_result <- speed(blocking_2d_design,
 blocking_2d_result
 ```
 
-    Optimised Experimental Design
-    ----------------------------
-    Score: 0
-    Iterations Run: 39972
-    Stopped Early: TRUE
-    Treatments: V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11, V12, V13, V14, V15, V16, V17, V18, V19, V20, V21, V22, V23, V24, V25, V26, V27, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40
-    Seed: 42 
+    ## Optimised Experimental Design
+    ## ----------------------------
+    ## Score: 0
+    ## Iterations Run: 39972
+    ## Stopped Early: TRUE
+    ## Treatments: V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11, V12, V13, V14, V15, V16, V17, V18, V19, V20, V21, V22, V23, V24, V25, V26, V27, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40
+    ## Seed: 42
 
 #### Visualise the Output
 
-![](complex_designs_files/figure-html/fig-2dblockplot4-1.png)
+![](figures/fig-2dblockplot4-1.png)
 
 Figure 10: Final layout of the 2D blocking design showing optimised
 treatment distribution.

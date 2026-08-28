@@ -90,11 +90,9 @@
 </h2>
 <p>This vignette covers advanced and complex experimental designs that are used in specialised agricultural research contexts. These designs are particularly useful for plant breeding programs, large-scale variety trials, and situations where standard complete block designs are impractical due to resource constraints or the nature of the treatments.</p>
 <p>Building on the foundational designs covered in the <a href="./speed.html">Common Agricultural Experimental Designs vignette</a>, these complex designs offer solutions for challenging experimental scenarios while maintaining statistical rigour through spatial optimisation with the <code>speed</code> package.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://biometryhub.github.io/speed/">speed</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span> <span class="co"># For combining plots</span></span></code></pre></div>
-</div>
 </section><section class="section level2"><h2 id="split-split-plot-designs">Split-Split Plot Designs<a class="anchor" aria-label="anchor" href="#split-split-plot-designs"></a>
 </h2>
 <section class="level2"><h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
@@ -173,8 +171,7 @@
 <p>Consider a complex agricultural trial examining Tillage System × Nitrogen Rate × Variety interactions with three hierarchical levels.</p>
 </section><section class="level2"><h3 id="setting-up-split-split-plot-designs-with-speed">Setting Up Split-Split Plot Designs with speed<a class="anchor" aria-label="anchor" href="#setting-up-split-split-plot-designs-with-speed"></a>
 </h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">splits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  subsubplot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>items <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span><span class="op">)</span>, nrows <span class="op">=</span> <span class="fl">1</span>, ncols <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  subplot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>items <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span>, nrows <span class="op">=</span> <span class="fl">1</span>, ncols <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
@@ -182,24 +179,18 @@
 <span>  block <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>nrows <span class="op">=</span> <span class="fl">4</span>, ncols <span class="op">=</span> <span class="fl">9</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">split_split_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initialise_split_design_df.html">initialise_split_design_df</a></span><span class="op">(</span>splits <span class="op">=</span> <span class="va">splits</span>, rep_dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-ssplot1" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-ssplot1" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-ssplot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="complex_designs_files/figure-html/fig-ssplot1-1.png" width="672">
+<img src="figures/fig-ssplot1-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ssplot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 1: Initial layout of the split-split-plot design showing systematic treatment distribution.
 </figcaption></figure>
 </div>
-</div>
-</div>
 <p>This shows the initial split-split plot design with three-level hierarchical structure.</p>
 <section class="level3"><h4 id="performing-the-optimisation">Performing the Optimisation<a class="anchor" aria-label="anchor" href="#performing-the-optimisation"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">optimise</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  wp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    swap <span class="op">=</span> <span class="st">"wholeplot_treatment"</span>,</span>
@@ -224,74 +215,61 @@ Figure 1: Initial layout of the split-split-plot design showing systematic trea
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">result_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">split_split_df</span>, optimise <span class="op">=</span> <span class="va">optimise</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>row and col are used as row and column, respectively.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimising level: wp
-Level: wp Iteration: 1000 Score: 252 Best: 252 Since Improvement: 972
-Early stopping at iteration 1028 for level wp
-Optimising level: sp
-Level: sp Iteration: 1000 Score: 132 Best: 132 Since Improvement: 594
-Level: sp Iteration: 2000 Score: 132 Best: 132 Since Improvement: 1594
-Level: sp Iteration: 3000 Score: 132 Best: 132 Since Improvement: 2594
-Early stopping at iteration 3406 for level sp
-Optimising level: ssp
-Level: ssp Iteration: 1000 Score: 16 Best: 16 Since Improvement: 120
-Level: ssp Iteration: 2000 Score: 12 Best: 12 Since Improvement: 349
-Level: ssp Iteration: 3000 Score: 11 Best: 11 Since Improvement: 553
-Level: ssp Iteration: 4000 Score: 11 Best: 11 Since Improvement: 1553
-Level: ssp Iteration: 5000 Score: 10 Best: 10 Since Improvement: 925
-Level: ssp Iteration: 6000 Score: 10 Best: 10 Since Improvement: 1925
-Level: ssp Iteration: 7000 Score: 9 Best: 9 Since Improvement: 19
-Level: ssp Iteration: 8000 Score: 9 Best: 9 Since Improvement: 1019
-Level: ssp Iteration: 9000 Score: 9 Best: 9 Since Improvement: 2019
-Level: ssp Iteration: 10000 Score: 7 Best: 7 Since Improvement: 985
-Level: ssp Iteration: 11000 Score: 7 Best: 7 Since Improvement: 1985
-Level: ssp Iteration: 12000 Score: 7 Best: 7 Since Improvement: 2985
-Level: ssp Iteration: 13000 Score: 7 Best: 7 Since Improvement: 3985
-Level: ssp Iteration: 14000 Score: 7 Best: 7 Since Improvement: 4985
-Early stopping at iteration 14015 for level ssp </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## row and col are used as row and column, respectively.</span></span></code></pre>
+<pre><code><span><span class="co">## Optimising level: wp</span></span>
+<span><span class="co">## Level: wp Iteration: 1000 Score: 252 Best: 252 Since Improvement: 972</span></span>
+<span><span class="co">## Early stopping at iteration 1028 for level wp</span></span>
+<span><span class="co">## Optimising level: sp</span></span>
+<span><span class="co">## Level: sp Iteration: 1000 Score: 132 Best: 132 Since Improvement: 594</span></span>
+<span><span class="co">## Level: sp Iteration: 2000 Score: 132 Best: 132 Since Improvement: 1594</span></span>
+<span><span class="co">## Level: sp Iteration: 3000 Score: 132 Best: 132 Since Improvement: 2594</span></span>
+<span><span class="co">## Early stopping at iteration 3406 for level sp</span></span>
+<span><span class="co">## Optimising level: ssp</span></span>
+<span><span class="co">## Level: ssp Iteration: 1000 Score: 16 Best: 16 Since Improvement: 120</span></span>
+<span><span class="co">## Level: ssp Iteration: 2000 Score: 12 Best: 12 Since Improvement: 349</span></span>
+<span><span class="co">## Level: ssp Iteration: 3000 Score: 11 Best: 11 Since Improvement: 553</span></span>
+<span><span class="co">## Level: ssp Iteration: 4000 Score: 11 Best: 11 Since Improvement: 1553</span></span>
+<span><span class="co">## Level: ssp Iteration: 5000 Score: 10 Best: 10 Since Improvement: 925</span></span>
+<span><span class="co">## Level: ssp Iteration: 6000 Score: 10 Best: 10 Since Improvement: 1925</span></span>
+<span><span class="co">## Level: ssp Iteration: 7000 Score: 9 Best: 9 Since Improvement: 19</span></span>
+<span><span class="co">## Level: ssp Iteration: 8000 Score: 9 Best: 9 Since Improvement: 1019</span></span>
+<span><span class="co">## Level: ssp Iteration: 9000 Score: 9 Best: 9 Since Improvement: 2019</span></span>
+<span><span class="co">## Level: ssp Iteration: 10000 Score: 7 Best: 7 Since Improvement: 985</span></span>
+<span><span class="co">## Level: ssp Iteration: 11000 Score: 7 Best: 7 Since Improvement: 1985</span></span>
+<span><span class="co">## Level: ssp Iteration: 12000 Score: 7 Best: 7 Since Improvement: 2985</span></span>
+<span><span class="co">## Level: ssp Iteration: 13000 Score: 7 Best: 7 Since Improvement: 3985</span></span>
+<span><span class="co">## Level: ssp Iteration: 14000 Score: 7 Best: 7 Since Improvement: 4985</span></span>
+<span><span class="co">## Early stopping at iteration 14015 for level ssp</span></span></code></pre>
 </section><section class="level3"><h4 id="output-of-the-optimisation">Output of the Optimisation<a class="anchor" aria-label="anchor" href="#output-of-the-optimisation"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result_ss</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 391
-Iterations Run: 18452
-Stopped Early: TRUE TRUE TRUE
-Treatments:
-  wp: A, B, C
-  sp: a, b, c, d
-  ssp: x, y, z
-Seed: 42 </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 391</span></span>
+<span><span class="co">## Iterations Run: 18452</span></span>
+<span><span class="co">## Stopped Early: TRUE TRUE TRUE</span></span>
+<span><span class="co">## Treatments:</span></span>
+<span><span class="co">##   wp: A, B, C</span></span>
+<span><span class="co">##   sp: a, b, c, d</span></span>
+<span><span class="co">##   ssp: x, y, z</span></span>
+<span><span class="co">## Seed: 42</span></span></code></pre>
 </section><section class="level3"><h4 id="visualise-the-output">Visualise the Output<a class="anchor" aria-label="anchor" href="#visualise-the-output"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">result_ss</span>, treatments <span class="op">=</span> <span class="st">"wholeplot_treatment"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Whole plot Treatments"</span><span class="op">)</span></span>
 <span><span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">result_ss</span>, treatments <span class="op">=</span> <span class="st">"subplot_treatment"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Sub-plot Treatments"</span><span class="op">)</span></span>
 <span><span class="va">res3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">result_ss</span>, treatments <span class="op">=</span> <span class="st">"subsubplot_treatment"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Sub-sub-plot Treatments"</span><span class="op">)</span></span>
 <span><span class="va">res1</span> <span class="op">+</span> <span class="va">res2</span> <span class="op">+</span> <span class="va">res3</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html" class="external-link">plot_annotation</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Optimised Split-Split Plot Design"</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div id="fig-ssplot2" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-ssplot2" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-ssplot2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="complex_designs_files/figure-html/fig-ssplot2-1.png" width="672">
+<img src="figures/fig-ssplot2-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ssplot2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 2: Final layout of the split-split-plot design showing optimised treatment distribution.
 </figcaption></figure>
-</div>
-</div>
 </div>
 <p>Above is the final output of this design. Note that there are some adjacent pairs of treatments in the sub-sub-plots. This is quite difficult to avoid in these situations, however adjusting some of the optimisation parameters may help with this. For further information, see the vignette about <a href="./custom_objective_functions.html">changing optimisation parameters for speed</a>.</p>
 </section></section></section><section class="section level2"><h2 id="strip-plot-designs">Strip-Plot Designs<a class="anchor" aria-label="anchor" href="#strip-plot-designs"></a>
@@ -348,8 +326,7 @@ Figure 2: Final layout of the split-split-plot design showing optimised treatme
 <p>Consider an experiment testing 3 tillage methods and 4 planting dates where both factors require large application areas.</p>
 </section><section class="level2"><h3 id="setting-up-strip-plot-designs-with-speed">Setting Up Strip-Plot Designs with speed<a class="anchor" aria-label="anchor" href="#setting-up-strip-plot-designs-with-speed"></a>
 </h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_strip</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  row <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span>, each <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>,  <span class="co"># 12 rows total (4 rows per block x 6 blocks)</span></span>
 <span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, times <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,  <span class="co"># 6 columns</span></span>
@@ -364,78 +341,57 @@ Figure 2: Final layout of the split-split-plot design showing optimised treatme
 <span>  <span class="co"># Plot identifier within each block</span></span>
 <span>  plot_in_block <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span>, times <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-strip-plot1" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-strip-plot1" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-strip-plot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="complex_designs_files/figure-html/fig-strip-plot1-1.png" width="672">
+<img src="figures/fig-strip-plot1-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-strip-plot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 3: Initial layout of the strip plot design showing systematic treatment distribution.
 </figcaption></figure>
 </div>
-</div>
-</div>
 <p>This shows the initial strip-plot layout with horizontal and vertical strips before optimisation.</p>
 <section class="level3"><h4 id="performing-the-optimisation-1">Performing the Optimisation<a class="anchor" aria-label="anchor" href="#performing-the-optimisation-1"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">strip_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">df_strip</span>,</span>
 <span>                      swap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ht <span class="op">=</span> <span class="st">"horizontal_treatment"</span>, vt <span class="op">=</span> <span class="st">"vertical_treatment"</span><span class="op">)</span>,</span>
 <span>                      swap_within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ht <span class="op">=</span> <span class="st">"block"</span>, vt <span class="op">=</span> <span class="st">"block"</span><span class="op">)</span>,</span>
 <span>                      swap_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>row and col are used as row and column, respectively.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimising level: ht
-Level: ht Iteration: 1000 Score: 84 Best: 84 Since Improvement: 961
-Level: ht Iteration: 2000 Score: 84 Best: 84 Since Improvement: 1961
-Early stopping at iteration 2039 for level ht
-Optimising level: vt
-Level: vt Iteration: 1000 Score: 54 Best: 54 Since Improvement: 878
-Level: vt Iteration: 2000 Score: 54 Best: 54 Since Improvement: 1878
-Early stopping at iteration 2122 for level vt </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## row and col are used as row and column, respectively.</span></span></code></pre>
+<pre><code><span><span class="co">## Optimising level: ht</span></span>
+<span><span class="co">## Level: ht Iteration: 1000 Score: 84 Best: 84 Since Improvement: 961</span></span>
+<span><span class="co">## Level: ht Iteration: 2000 Score: 84 Best: 84 Since Improvement: 1961</span></span>
+<span><span class="co">## Early stopping at iteration 2039 for level ht</span></span>
+<span><span class="co">## Optimising level: vt</span></span>
+<span><span class="co">## Level: vt Iteration: 1000 Score: 54 Best: 54 Since Improvement: 878</span></span>
+<span><span class="co">## Level: vt Iteration: 2000 Score: 54 Best: 54 Since Improvement: 1878</span></span>
+<span><span class="co">## Early stopping at iteration 2122 for level vt</span></span></code></pre>
 </section><section class="level3"><h4 id="output-of-the-optimisation-1">Output of the Optimisation<a class="anchor" aria-label="anchor" href="#output-of-the-optimisation-1"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">strip_result</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 138
-Iterations Run: 4163
-Stopped Early: TRUE TRUE
-Treatments:
-  ht: a, b, c, d
-  vt: A, B, C
-Seed: -2124829786 </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 138</span></span>
+<span><span class="co">## Iterations Run: 4163</span></span>
+<span><span class="co">## Stopped Early: TRUE TRUE</span></span>
+<span><span class="co">## Treatments:</span></span>
+<span><span class="co">##   ht: a, b, c, d</span></span>
+<span><span class="co">##   vt: A, B, C</span></span>
+<span><span class="co">## Seed: -2124829786</span></span></code></pre>
 </section><section class="level3"><h4 id="visualise-the-output-1">Visualise the Output<a class="anchor" aria-label="anchor" href="#visualise-the-output-1"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">strip_result</span>, treatments <span class="op">=</span> <span class="st">"horizontal_treatment"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Tillage Treatments"</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="complex_designs_files/figure-html/strip-plot-plot2-1.png" width="672"></p>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/strip-plot-plot2-1.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
 </div>
-</div>
-<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">strip_result</span>, treatments <span class="op">=</span> <span class="st">"vertical_treatment"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Planting Date Treatments"</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="complex_designs_files/figure-html/strip-plot-plot2-2.png" width="672"></p>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/strip-plot-plot2-2.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
-</div>
-</div>
 </div>
 <p>An optimised strip-plot design with well-arranged treatment combinations!</p>
 </section></section></section><section class="section level2"><h2 id="incomplete-block-designs">Incomplete Block Designs<a class="anchor" aria-label="anchor" href="#incomplete-block-designs"></a>
@@ -506,8 +462,7 @@ Seed: -2124829786 </code></pre>
 </section><section class="level2"><h3 id="setting-up-a-resolvable-incomplete-block-design-with-speed">Setting Up a Resolvable Incomplete Block Design with speed<a class="anchor" aria-label="anchor" href="#setting-up-a-resolvable-incomplete-block-design-with-speed"></a>
 </h3>
 <p>Firstly we need to create a data frame representing the incomplete block design. Here we will use a systematic approach to generate the blocks and treatment combinations.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create the data frame</span></span>
 <span><span class="va">ribd_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  row <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">6</span><span class="op">)</span>,                             <span class="co"># Row within each block</span></span>
@@ -519,114 +474,93 @@ Seed: -2124829786 </code></pre>
 <span></span>
 <span><span class="co"># View the design</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ribd_df</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  row col replicate block treatment
-1   1   1         1     1        V1
-2   2   1         1     1        V2
-3   3   1         1     1        V3
-4   1   2         1     2        V4
-5   2   2         1     2        V5
-6   3   2         1     2        V6</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-ribdplot1" class="quarto-float quarto-figure quarto-figure-center">
+<pre><code><span><span class="co">##   row col replicate block treatment</span></span>
+<span><span class="co">## 1   1   1         1     1        V1</span></span>
+<span><span class="co">## 2   2   1         1     1        V2</span></span>
+<span><span class="co">## 3   3   1         1     1        V3</span></span>
+<span><span class="co">## 4   1   2         1     2        V4</span></span>
+<span><span class="co">## 5   2   2         1     2        V5</span></span>
+<span><span class="co">## 6   3   2         1     2        V6</span></span></code></pre>
+<div id="fig-ribdplot1" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-ribdplot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="complex_designs_files/figure-html/fig-ribdplot1-1.png" width="672">
+<img src="figures/fig-ribdplot1-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ribdplot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 4: Initial layout of the resolvable incomplete block design showing systematic treatment distribution.
 </figcaption></figure>
 </div>
-</div>
-</div>
 <p><a href="#fig-ribdplot1" class="quarto-xref">Figure 4</a> shows the systematic resolvable incomplete block layout before optimisation. Note that replicates are made of two blocks, in each of which half the treatments will appear, and replicates are made up of pairs of blocks. The treatments can be swapped between blocks, but need to remain within their replicate.</p>
 <section class="level3"><h4 id="performing-the-optimisation-2">Performing the Optimisation<a class="anchor" aria-label="anchor" href="#performing-the-optimisation-2"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ribd_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">ribd_df</span>, </span>
 <span>                     swap <span class="op">=</span> <span class="st">"treatment"</span>, </span>
 <span>                     swap_within <span class="op">=</span> <span class="st">"replicate"</span>, </span>
 <span>                     seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span>    </span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>row and col are used as row and column, respectively.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimising level: single treatment within replicate
-Optimal score reached at iteration 474 for level single treatment within replicate </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## row and col are used as row and column, respectively.</span></span></code></pre>
+<pre><code><span><span class="co">## Optimising level: single treatment within replicate</span></span>
+<span><span class="co">## Optimal score reached at iteration 474 for level single treatment within replicate</span></span></code></pre>
 </section><section class="level3"><h4 id="output-of-the-optimisation-2">Output of the Optimisation<a class="anchor" aria-label="anchor" href="#output-of-the-optimisation-2"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ribd_result</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 1.8
-Iterations Run: 474
-Stopped Early: TRUE
-Treatments: V1, V2, V3, V4, V5, V6
-Seed: 42 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 1.8</span></span>
+<span><span class="co">## Iterations Run: 474</span></span>
+<span><span class="co">## Stopped Early: TRUE</span></span>
+<span><span class="co">## Treatments: V1, V2, V3, V4, V5, V6</span></span>
+<span><span class="co">## Seed: 42</span></span></code></pre>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">ribd_result</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>List of 9
- $ design_df     :Classes 'design' and 'data.frame':    18 obs. of  5 variables:
-  ..$ row      : int [1:18] 1 1 1 1 1 1 2 2 2 2 ...
-  ..$ col      : int [1:18] 1 2 3 4 5 6 1 2 3 4 ...
-  ..$ replicate: int [1:18] 1 1 2 2 3 3 1 1 2 2 ...
-  ..$ block    : int [1:18] 1 2 3 4 5 6 1 2 3 4 ...
-  ..$ treatment: chr [1:18] "V3" "V2" "V1" "V4" ...
- $ score         : num 1.8
- $ scores        : num [1:474] 9 7.4 5.8 6.8 5.4 4.6 4.2 4.2 4.2 4.2 ...
- $ temperatures  : num [1:474] 100 99 98 97 96.1 ...
- $ iterations_run: num 474
- $ stopped_early : logi TRUE
- $ treatments    : chr [1:6] "V1" "V2" "V3" "V4" ...
- $ seed          : num 42
- $ metadata      :List of 6
-  ..$ levels    : chr "single treatment within replicate"
-  ..$ row_column: chr "row"
-  ..$ col_column: chr "col"
-  ..$ grid_by   : NULL
-  ..$ per_level :List of 1
-  .. ..$ single treatment within replicate:List of 13
-  .. .. ..$ swap            : chr "treatment"
-  .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x55de405f8908&gt;
-  .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
-  .. .. ..$ adj_weight      : num 1
-  .. .. ..$ bal_weight      : num 1
-  .. .. ..$ iterations      : num 10000
-  .. .. ..$ start_temp      : num 100
-  .. .. ..$ cooling_rate    : num 0.99
-  .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-    row_column = "row", col_column = "col", ...)
-  .. .. ..$ final_score     : num 1.8
-  .. .. ..$ final_components: Named num [1:2] 0 1.8
-  .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-  .. .. ..$ optimal_score   : num 1.8
-  .. .. ..$ stop_reason     : chr "optimal"
-  ..$ call      : language speed(data = ribd_df, swap = "treatment", swap_within = "replicate", seed = 42)
- - attr(*, "class")= chr [1:2] "design" "list"</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## List of 9</span></span>
+<span><span class="co">##  $ design_df     :Classes 'design' and 'data.frame': 18 obs. of  5 variables:</span></span>
+<span><span class="co">##   ..$ row      : int [1:18] 1 1 1 1 1 1 2 2 2 2 ...</span></span>
+<span><span class="co">##   ..$ col      : int [1:18] 1 2 3 4 5 6 1 2 3 4 ...</span></span>
+<span><span class="co">##   ..$ replicate: int [1:18] 1 1 2 2 3 3 1 1 2 2 ...</span></span>
+<span><span class="co">##   ..$ block    : int [1:18] 1 2 3 4 5 6 1 2 3 4 ...</span></span>
+<span><span class="co">##   ..$ treatment: chr [1:18] "V3" "V2" "V1" "V4" ...</span></span>
+<span><span class="co">##  $ score         : num 1.8</span></span>
+<span><span class="co">##  $ scores        : num [1:474] 9 7.4 5.8 6.8 5.4 4.6 4.2 4.2 4.2 4.2 ...</span></span>
+<span><span class="co">##  $ temperatures  : num [1:474] 100 99 98 97 96.1 ...</span></span>
+<span><span class="co">##  $ iterations_run: num 474</span></span>
+<span><span class="co">##  $ stopped_early : logi TRUE</span></span>
+<span><span class="co">##  $ treatments    : chr [1:6] "V1" "V2" "V3" "V4" ...</span></span>
+<span><span class="co">##  $ seed          : num 42</span></span>
+<span><span class="co">##  $ metadata      :List of 6</span></span>
+<span><span class="co">##   ..$ levels    : chr "single treatment within replicate"</span></span>
+<span><span class="co">##   ..$ row_column: chr "row"</span></span>
+<span><span class="co">##   ..$ col_column: chr "col"</span></span>
+<span><span class="co">##   ..$ grid_by   : NULL</span></span>
+<span><span class="co">##   ..$ per_level :List of 1</span></span>
+<span><span class="co">##   .. ..$ single treatment within replicate:List of 13</span></span>
+<span><span class="co">##   .. .. ..$ swap            : chr "treatment"</span></span>
+<span><span class="co">##   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x000002b0d2831738&gt;</span></span>
+<span><span class="co">##   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"</span></span>
+<span><span class="co">##   .. .. ..$ adj_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ bal_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ iterations      : num 10000</span></span>
+<span><span class="co">##   .. .. ..$ start_temp      : num 100</span></span>
+<span><span class="co">##   .. .. ..$ cooling_rate    : num 0.99</span></span>
+<span><span class="co">##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,</span></span>
+<span><span class="co">##     row_column = "row", col_column = "col", ...)</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x000002b0cae73a50&gt;</span></span>
+<span><span class="co">##   .. .. ..$ final_score     : num 1.8</span></span>
+<span><span class="co">##   .. .. ..$ final_components: Named num [1:2] 0 1.8</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"</span></span>
+<span><span class="co">##   .. .. ..$ optimal_score   : num 1.8</span></span>
+<span><span class="co">##   .. .. ..$ stop_reason     : chr "optimal"</span></span>
+<span><span class="co">##   ..$ call      : language speed(data = ribd_df, swap = "treatment", swap_within = "replicate", seed = 42)</span></span>
+<span><span class="co">##  - attr(*, "class")= chr [1:2] "design" "list"</span></span></code></pre>
 </section><section class="level3"><h4 id="visualise-the-output-2">Visualise the Output<a class="anchor" aria-label="anchor" href="#visualise-the-output-2"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ribd_result</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="complex_designs_files/figure-html/ribd-plot4-1.png" width="672"></p>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/ribd-plot4-1.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
-</div>
-</div>
 </div>
 <p>We see that each block by itself only contains half the treatments, but when combined, the pairs have a full replicate. The algorithm has also spatially optimised the treatments across rows and columns, giving a nicely optimised resolvable incomplete block design.</p>
 </section></section></section><section class="section level2"><h2 id="p-rep-partially-replicated-designs">P-Rep (Partially Replicated) Designs<a class="anchor" aria-label="anchor" href="#p-rep-partially-replicated-designs"></a>
@@ -684,8 +618,7 @@ Seed: 42 </code></pre>
 <p>Consider a breeding trial with 140 entries where 40 key entries (checks and promising lines) are replicated twice while others appear once. This is a single site design with two blocks.</p>
 </section><section class="level2"><h3 id="setting-up-p-rep-designs-with-speed">Setting Up P-Rep Designs with speed<a class="anchor" aria-label="anchor" href="#setting-up-p-rep-designs-with-speed"></a>
 </h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">prep_design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  row <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">14</span>, each <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, </span>
 <span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, times <span class="op">=</span> <span class="fl">14</span><span class="op">)</span>, </span>
@@ -697,143 +630,112 @@ Seed: 42 </code></pre>
 <span><span class="va">prep_design</span><span class="op">$</span><span class="va">duplicated</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">prep_design</span><span class="op">$</span><span class="va">entry</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">prep_design</span><span class="op">$</span><span class="va">entry</span>, fromLast <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">prep_design</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  row col block entry duplicated
-1   1   1     1    V1       TRUE
-2   1   2     1    V2       TRUE
-3   1   3     1    V3       TRUE
-4   1   4     1    V4       TRUE
-5   1   5     1    V5       TRUE
-6   1   6     2    V6       TRUE</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-prepplot1" class="quarto-float quarto-figure quarto-figure-center">
+<pre><code><span><span class="co">##   row col block entry duplicated</span></span>
+<span><span class="co">## 1   1   1     1    V1       TRUE</span></span>
+<span><span class="co">## 2   1   2     1    V2       TRUE</span></span>
+<span><span class="co">## 3   1   3     1    V3       TRUE</span></span>
+<span><span class="co">## 4   1   4     1    V4       TRUE</span></span>
+<span><span class="co">## 5   1   5     1    V5       TRUE</span></span>
+<span><span class="co">## 6   1   6     2    V6       TRUE</span></span></code></pre>
+<div id="fig-prepplot1" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-prepplot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="complex_designs_files/figure-html/fig-prepplot1-1.png" width="672">
+<img src="figures/fig-prepplot1-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prepplot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 5: Initial layout of the p-rep design showing systematic treatment distribution.
 </figcaption></figure>
 </div>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-prepplot2" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-prepplot2" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-prepplot2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="complex_designs_files/figure-html/fig-prepplot2-1.png" width="672">
+<img src="figures/fig-prepplot2-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prepplot2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 6: Initial layout of the p-rep design showing replicated treatments.
 </figcaption></figure>
 </div>
-</div>
-</div>
 <p>This shows the initial p-rep design with duplicated entries distributed systematically. Once we have set up the data frame, the <code><a href="../reference/speed.html">speed()</a></code> optimisation call is quite straight-forward. Note that we have added <code>block</code> into the <code>spatial_factors</code> argument, to attempt to balance the replicated treatments between blocks as well. Typically with larger designs, we may also want to increase the number of <code>iterations</code> and <code>early_stop_iterations</code> to allow more swapping to take place, however in this case it is not necessary due to the low replication.</p>
 <section class="level3"><h4 id="performing-the-optimisation-3">Performing the Optimisation<a class="anchor" aria-label="anchor" href="#performing-the-optimisation-3"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">prep_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">prep_design</span>,</span>
 <span>                     swap <span class="op">=</span> <span class="st">"entry"</span>,</span>
 <span>                     spatial_factors <span class="op">=</span> <span class="op">~</span> <span class="va">block</span> <span class="op">+</span> <span class="va">row</span> <span class="op">+</span> <span class="va">col</span>, </span>
 <span>                     seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>row and col are used as row and column, respectively.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimising level: single entry within whole design
-Level: single entry within whole design Iteration: 1000 Score: 2.993939 Best: 2.993939 Since Improvement: 5
-Optimal score reached at iteration 1183 for level single entry within whole design </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## row and col are used as row and column, respectively.</span></span></code></pre>
+<pre><code><span><span class="co">## Optimising level: single entry within whole design</span></span>
+<span><span class="co">## Level: single entry within whole design Iteration: 1000 Score: 2.993939 Best: 2.993939 Since Improvement: 5</span></span>
+<span><span class="co">## Optimal score reached at iteration 1183 for level single entry within whole design</span></span></code></pre>
 </section><section class="level3"><h4 id="output-of-the-optimisation-3">Output of the Optimisation<a class="anchor" aria-label="anchor" href="#output-of-the-optimisation-3"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">prep_result</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 2.913131
-Iterations Run: 1183
-Stopped Early: TRUE
-Treatments: V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11, V12, V13, V14, V15, V16, V17, V18, V19, V20, V21, V22, V23, V24, V25, V26, V27, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, V46, V47, V48, V49, V50, V51, V52, V53, V54, V55, V56, V57, V58, V59, V60, V61, V62, V63, V64, V65, V66, V67, V68, V69, V70, V71, V72, V73, V74, V75, V76, V77, V78, V79, V80, V81, V82, V83, V84, V85, V86, V87, V88, V89, V90, V91, V92, V93, V94, V95, V96, V97, V98, V99, V100
-Seed: 42 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb34"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 2.913131</span></span>
+<span><span class="co">## Iterations Run: 1183</span></span>
+<span><span class="co">## Stopped Early: TRUE</span></span>
+<span><span class="co">## Treatments: V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11, V12, V13, V14, V15, V16, V17, V18, V19, V20, V21, V22, V23, V24, V25, V26, V27, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, V46, V47, V48, V49, V50, V51, V52, V53, V54, V55, V56, V57, V58, V59, V60, V61, V62, V63, V64, V65, V66, V67, V68, V69, V70, V71, V72, V73, V74, V75, V76, V77, V78, V79, V80, V81, V82, V83, V84, V85, V86, V87, V88, V89, V90, V91, V92, V93, V94, V95, V96, V97, V98, V99, V100</span></span>
+<span><span class="co">## Seed: 42</span></span></code></pre>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">prep_result</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>List of 9
- $ design_df     :Classes 'design' and 'data.frame':    140 obs. of  5 variables:
-  ..$ row       : int [1:140] 1 1 1 1 1 1 1 1 1 1 ...
-  ..$ col       : int [1:140] 1 2 3 4 5 6 7 8 9 10 ...
-  ..$ block     : int [1:140] 1 1 1 1 1 2 2 2 2 2 ...
-  ..$ entry     : chr [1:140] "V100" "V16" "V38" "V37" ...
-  ..$ duplicated: logi [1:140] TRUE TRUE TRUE TRUE TRUE TRUE ...
- $ score         : num 2.91
- $ scores        : num [1:1183] 4.53 4.49 4.45 4.37 4.37 ...
- $ temperatures  : num [1:1183] 100 99 98 97 96.1 ...
- $ iterations_run: num 1183
- $ stopped_early : logi TRUE
- $ treatments    : chr [1:100] "V1" "V2" "V3" "V4" ...
- $ seed          : num 42
- $ metadata      :List of 6
-  ..$ levels    : chr "single entry within whole design"
-  ..$ row_column: chr "row"
-  ..$ col_column: chr "col"
-  ..$ grid_by   : NULL
-  ..$ per_level :List of 1
-  .. ..$ single entry within whole design:List of 13
-  .. .. ..$ swap            : chr "entry"
-  .. .. ..$ spatial_factors :Class 'formula'  language ~block + row + col
-  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: R_GlobalEnv&gt;
-  .. .. ..$ spatial_cols    : chr [1:3] "block" "row" "col"
-  .. .. ..$ adj_weight      : num 1
-  .. .. ..$ bal_weight      : num 1
-  .. .. ..$ iterations      : num 10000
-  .. .. ..$ start_temp      : num 100
-  .. .. ..$ cooling_rate    : num 0.99
-  .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-    row_column = "row", col_column = "col", ...)
-  .. .. ..$ final_score     : num 2.91
-  .. .. ..$ final_components: Named num [1:2] 0 2.91
-  .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-  .. .. ..$ optimal_score   : num 2.91
-  .. .. ..$ stop_reason     : chr "optimal"
-  ..$ call      : language speed(data = prep_design, swap = "entry", spatial_factors = ~block + row +      col, seed = 42)
- - attr(*, "class")= chr [1:2] "design" "list"</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## List of 9</span></span>
+<span><span class="co">##  $ design_df     :Classes 'design' and 'data.frame': 140 obs. of  5 variables:</span></span>
+<span><span class="co">##   ..$ row       : int [1:140] 1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span><span class="co">##   ..$ col       : int [1:140] 1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span><span class="co">##   ..$ block     : int [1:140] 1 1 1 1 1 2 2 2 2 2 ...</span></span>
+<span><span class="co">##   ..$ entry     : chr [1:140] "V100" "V16" "V38" "V37" ...</span></span>
+<span><span class="co">##   ..$ duplicated: logi [1:140] TRUE TRUE TRUE TRUE TRUE TRUE ...</span></span>
+<span><span class="co">##  $ score         : num 2.91</span></span>
+<span><span class="co">##  $ scores        : num [1:1183] 4.53 4.49 4.45 4.37 4.37 ...</span></span>
+<span><span class="co">##  $ temperatures  : num [1:1183] 100 99 98 97 96.1 ...</span></span>
+<span><span class="co">##  $ iterations_run: num 1183</span></span>
+<span><span class="co">##  $ stopped_early : logi TRUE</span></span>
+<span><span class="co">##  $ treatments    : chr [1:100] "V1" "V2" "V3" "V4" ...</span></span>
+<span><span class="co">##  $ seed          : num 42</span></span>
+<span><span class="co">##  $ metadata      :List of 6</span></span>
+<span><span class="co">##   ..$ levels    : chr "single entry within whole design"</span></span>
+<span><span class="co">##   ..$ row_column: chr "row"</span></span>
+<span><span class="co">##   ..$ col_column: chr "col"</span></span>
+<span><span class="co">##   ..$ grid_by   : NULL</span></span>
+<span><span class="co">##   ..$ per_level :List of 1</span></span>
+<span><span class="co">##   .. ..$ single entry within whole design:List of 13</span></span>
+<span><span class="co">##   .. .. ..$ swap            : chr "entry"</span></span>
+<span><span class="co">##   .. .. ..$ spatial_factors :Class 'formula'  language ~block + row + col</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: R_GlobalEnv&gt;</span></span>
+<span><span class="co">##   .. .. ..$ spatial_cols    : chr [1:3] "block" "row" "col"</span></span>
+<span><span class="co">##   .. .. ..$ adj_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ bal_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ iterations      : num 10000</span></span>
+<span><span class="co">##   .. .. ..$ start_temp      : num 100</span></span>
+<span><span class="co">##   .. .. ..$ cooling_rate    : num 0.99</span></span>
+<span><span class="co">##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,</span></span>
+<span><span class="co">##     row_column = "row", col_column = "col", ...)</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x000002b0cae73a50&gt;</span></span>
+<span><span class="co">##   .. .. ..$ final_score     : num 2.91</span></span>
+<span><span class="co">##   .. .. ..$ final_components: Named num [1:2] 0 2.91</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"</span></span>
+<span><span class="co">##   .. .. ..$ optimal_score   : num 2.91</span></span>
+<span><span class="co">##   .. .. ..$ stop_reason     : chr "optimal"</span></span>
+<span><span class="co">##   ..$ call      : language speed(data = prep_design, swap = "entry", spatial_factors = ~block + row +      col, seed = 42)</span></span>
+<span><span class="co">##  - attr(*, "class")= chr [1:2] "design" "list"</span></span></code></pre>
 <p>Ideally here we would also like to see an even distribution of the duplicated entries between each block.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">prep_result</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">duplicated</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">prep_result</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">entry</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">prep_result</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">entry</span>, fromLast <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">prep_result</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">duplicated</span><span class="op">[</span><span class="va">prep_result</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">block</span><span class="op">==</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 40</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb38"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## [1] 40</span></span></code></pre>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">prep_result</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">entry</span><span class="op">[</span><span class="va">prep_result</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">block</span><span class="op">==</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## [1] FALSE</span></span></code></pre>
 <p>With 40 duplicated varieties in this block, we know we also have 40 in the other block.</p>
 </section><section class="level3"><h4 id="visualise-the-output-3">Visualise the Output<a class="anchor" aria-label="anchor" href="#visualise-the-output-3"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">prep_result</span>, treatments <span class="op">=</span> <span class="st">"entry"</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="complex_designs_files/figure-html/prep-design-plot2-1.png" width="672"></p>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/prep-design-plot2-1.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
-</div>
-</div>
 </div>
 <p>An optimised p-rep design with strategic replication and spatial distribution. Note that because the treatments column is not called “treatment”, we need to specify the <code>treatments</code> argument in the <code><a href="../reference/autoplot.html">autoplot()</a></code> function.</p>
 </section></section></section><section class="section level2"><h2 id="row-column-designs-with-blocking">Row-Column Designs with Blocking<a class="anchor" aria-label="anchor" href="#row-column-designs-with-blocking"></a>
@@ -882,66 +784,49 @@ Seed: 42 </code></pre>
 <p>Consider a large field trial with 40 varieties each replicated 10 times, requiring both row blocks and column blocks.</p>
 </section><section class="level2"><h3 id="setting-up-row-column-designs-with-blocking">Setting Up Row-Column Designs with Blocking<a class="anchor" aria-label="anchor" href="#setting-up-row-column-designs-with-blocking"></a>
 </h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">blocking_2d_design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>row <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, each <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>, </span>
 <span>                                 col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, <span class="fl">20</span><span class="op">)</span>, </span>
 <span>                                 treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"V"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">40</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span>, </span>
 <span>                                 rowBlock <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, each <span class="op">=</span> <span class="fl">40</span><span class="op">)</span>,</span>
 <span>                                 colBlock <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, each <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">blocking_2d_design</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  row col treatment rowBlock colBlock
-1   1   1        V1        1        1
-2   1   2        V2        1        1
-3   1   3        V3        1        2
-4   1   4        V4        1        2
-5   1   5        V5        1        3
-6   1   6        V6        1        3</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-2dblockplot1" class="quarto-float quarto-figure quarto-figure-center">
+<pre><code><span><span class="co">##   row col treatment rowBlock colBlock</span></span>
+<span><span class="co">## 1   1   1        V1        1        1</span></span>
+<span><span class="co">## 2   1   2        V2        1        1</span></span>
+<span><span class="co">## 3   1   3        V3        1        2</span></span>
+<span><span class="co">## 4   1   4        V4        1        2</span></span>
+<span><span class="co">## 5   1   5        V5        1        3</span></span>
+<span><span class="co">## 6   1   6        V6        1        3</span></span></code></pre>
+<div id="fig-2dblockplot1" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-2dblockplot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="complex_designs_files/figure-html/fig-2dblockplot1-1.png" width="672">
+<img src="figures/fig-2dblockplot1-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-2dblockplot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 7: Initial layout of the 2D blocking design showing systematic treatment distribution.
 </figcaption></figure>
 </div>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-2dblockplot2" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-2dblockplot2" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-2dblockplot2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="complex_designs_files/figure-html/fig-2dblockplot2-1.png" width="672">
+<img src="figures/fig-2dblockplot2-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-2dblockplot2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 8: 2D blocking design showing rowBlock layout.
 </figcaption></figure>
 </div>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-2dblockplot3" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-2dblockplot3" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-2dblockplot3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="complex_designs_files/figure-html/fig-2dblockplot3-1.png" width="672">
+<img src="figures/fig-2dblockplot3-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-2dblockplot3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 9: 2D blocking design showing colBlock layout.
 </figcaption></figure>
 </div>
-</div>
-</div>
 <p>This shows the initial row-column design with hierarchical blocking structure.</p>
 <section class="level3"><h4 id="performing-the-optimisation-4">Performing the Optimisation<a class="anchor" aria-label="anchor" href="#performing-the-optimisation-4"></a>
 </h4>
 <p>Now we will use the <code><a href="../reference/speed.html">speed()</a></code> function to optimise this design. We will swap treatments within row blocks, while also considering column blocks as a spatial factor. Note that we also set some optimisation parameters to allow for more swaps, as this is a larger design with more treatments.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">optimise_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optim_params.html">optim_params</a></span><span class="op">(</span>swap_count <span class="op">=</span> <span class="fl">5</span>, swap_all_blocks <span class="op">=</span> <span class="cn">TRUE</span>, adaptive_swaps <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">blocking_2d_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">blocking_2d_design</span>, </span>
@@ -952,35 +837,26 @@ Figure 9: 2D blocking design showing colBlock layout.
 <span>                            early_stop_iterations <span class="op">=</span> <span class="fl">50000</span>, </span>
 <span>                            optimise_params <span class="op">=</span> <span class="va">optimise_params</span>,</span>
 <span>                            seed <span class="op">=</span> <span class="fl">42</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-</div>
 </section><section class="level3"><h4 id="output-of-the-optimisation-4">Output of the Optimisation<a class="anchor" aria-label="anchor" href="#output-of-the-optimisation-4"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">blocking_2d_result</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 0
-Iterations Run: 39972
-Stopped Early: TRUE
-Treatments: V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11, V12, V13, V14, V15, V16, V17, V18, V19, V20, V21, V22, V23, V24, V25, V26, V27, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40
-Seed: 42 </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 0</span></span>
+<span><span class="co">## Iterations Run: 39972</span></span>
+<span><span class="co">## Stopped Early: TRUE</span></span>
+<span><span class="co">## Treatments: V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11, V12, V13, V14, V15, V16, V17, V18, V19, V20, V21, V22, V23, V24, V25, V26, V27, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40</span></span>
+<span><span class="co">## Seed: 42</span></span></code></pre>
 </section><section class="level3"><h4 id="visualise-the-output-4">Visualise the Output<a class="anchor" aria-label="anchor" href="#visualise-the-output-4"></a>
 </h4>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-2dblockplot4" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-2dblockplot4" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-2dblockplot4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="complex_designs_files/figure-html/fig-2dblockplot4-1.png" width="672">
+<img src="figures/fig-2dblockplot4-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-2dblockplot4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 10: Final layout of the 2D blocking design showing optimised treatment distribution.
 </figcaption></figure>
-</div>
-</div>
 </div>
 <p>An optimised row-column design with blocking in two directions.</p>
 <!---
@@ -1043,9 +919,7 @@ Consider a field trial that must work around existing trees, buildings, and drai
 ## Setting Up Designs for Irregular Areas
 
 
-::: {.cell}
-
-```{.r .cell-code}
+``` r
 # Placeholder: Initialise irregular field design
 # # Define field boundaries and obstacles
 # field_constraints <- list(
@@ -1056,13 +930,7 @@ Consider a field trial that must work around existing trees, buildings, and drai
 #                                        constraints = field_constraints)
 # head(irregular_design)
 ```
-:::
 
-
-
-::: {.cell}
-
-:::
 
 
 This shows the initial design layout accommodating field constraints and obstacles.
@@ -1070,9 +938,7 @@ This shows the initial design layout accommodating field constraints and obstacl
 ### Performing the Optimisation
 
 
-::: {.cell}
-
-```{.r .cell-code}
+``` r
 # Placeholder: Optimise design with spatial constraints
 # irregular_result <- speed(irregular_design,
 #                          swap = "entry",
@@ -1080,35 +946,25 @@ This shows the initial design layout accommodating field constraints and obstacl
 #                          seed = 42)
 # irregular_result
 ```
-:::
-
 
 ### Output of the Optimisation
 
 
-::: {.cell}
-
-```{.r .cell-code}
+``` r
 # Placeholder: Show structure of results
 # str(irregular_result)
 ```
-:::
-
 
 ### Visualise the Output
 
 
-::: {.cell}
-
-```{.r .cell-code}
+``` r
 # Placeholder: Final visualisation with constraints
 # autoplot(irregular_result) +
 #   # Add constraint visualisation
 #   geom_polygon(data = field_constraints$obstacles,
 #                aes(x = x, y = y), alpha = 0.3, fill = "red")
 ```
-:::
-
 
 An optimised design that efficiently uses available space while respecting field constraints!
 --->
@@ -1142,9 +998,7 @@ When factorial experiments involve many treatment combinations, complete replica
 ## Setting Up Factorial Designs in Incomplete Blocks with speed
 
 
-::: {.cell}
-
-```{.r .cell-code}
+``` r
 # Placeholder for Factorial in Incomplete Blocks example
 # This will show:
 # - Designing confounded factorial experiments
@@ -1154,8 +1008,6 @@ When factorial experiments involve many treatment combinations, complete replica
 # - Analysis implications of confounding
 # - Efficiency comparisons with complete designs
 ```
-:::
-
 
 # Nested and Hierarchical Designs
 
@@ -1187,9 +1039,7 @@ Nested designs involve factors that are nested within levels of other factors, c
 ## Setting Up Nested Designs with speed
 
 
-::: {.cell}
-
-```{.r .cell-code}
+``` r
 # Placeholder for Nested Design example
 # This will show:
 # - Creating hierarchical factor structures
@@ -1199,8 +1049,6 @@ Nested designs involve factors that are nested within levels of other factors, c
 # - Analysis considerations for nested factors
 # - Visualisation of hierarchical structure
 ```
-:::
-
 
 # Design Selection Guidelines for Complex Designs
 

@@ -91,11 +91,9 @@
 <section class="level2"><h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h3>
 <p>Factorial designs are experimental designs used to study the effects of two or more factors simultaneously. They allow estimation of main effects and interactions between factors, making them efficient and informative.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://biometryhub.github.io/speed/">speed</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span></code></pre></div>
-</div>
 </section><section class="level2"><h3 id="when-to-use">When to Use<a class="anchor" aria-label="anchor" href="#when-to-use"></a>
 </h3>
 <ul>
@@ -105,39 +103,30 @@
 </ul></section><section class="level2"><h3 id="setting-up-factorial-design-with-speed">Setting Up Factorial Design with speed<a class="anchor" aria-label="anchor" href="#setting-up-factorial-design-with-speed"></a>
 </h3>
 <p>Now we can create a data frame representing a factorial design. Note that the treatment column we are creating is the interaction (or combination) of the individual treatments.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">treatment_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span></span>
 <span><span class="va">treatment_b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">treatments</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span><span class="va">treatment_a</span>, <span class="va">treatment_b</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">Var1</span>, <span class="va">Var2</span>, sep <span class="op">=</span> <span class="st">"-"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">factorial_design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initialise_design_df.html">initialise_design_df</a></span><span class="op">(</span><span class="va">treatments</span>, <span class="fl">24</span>, <span class="fl">3</span>, <span class="fl">8</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">factorial_design</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  row col treatment row_block col_block block
-1   1   1     A1-B1         1         1     1
-2   2   1     A2-B1         1         1     1
-3   3   1     A3-B1         1         1     1
-4   4   1     A4-B1         1         1     1
-5   5   1     A5-B1         1         1     1
-6   6   1     A6-B1         1         1     1</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">##   row col treatment row_block col_block block</span></span>
+<span><span class="co">## 1   1   1     A1-B1         1         1     1</span></span>
+<span><span class="co">## 2   2   1     A2-B1         1         1     1</span></span>
+<span><span class="co">## 3   3   1     A3-B1         1         1     1</span></span>
+<span><span class="co">## 4   4   1     A4-B1         1         1     1</span></span>
+<span><span class="co">## 5   5   1     A5-B1         1         1     1</span></span>
+<span><span class="co">## 6   6   1     A6-B1         1         1     1</span></span></code></pre>
 <p>Plotting these factors shows the initial layout of the interaction and main effects.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure><p><img src="factorial_files/figure-html/factorial-plot1-1.png" width="672"></p>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/factorial-plot1-1.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
-</div>
-</div>
 </div>
 <section class="level3"><h4 id="performing-the-optimisation">Performing the Optimisation<a class="anchor" aria-label="anchor" href="#performing-the-optimisation"></a>
 </h4>
 <p>For factorial designs, speed provides a customised objective function <code>objective_function_factorial</code> which allows us to pass <code>interaction_weight</code> and <code>main_weight</code> arguments to control the spatial balance of those effects. The <code>optimise_params</code> argument is also used in this case to adjust the optimisation strategy due to the difficulty of optimising such designs.</p>
 <p>Make sure <code>factorial_separator</code> matches how you constructed the interaction treatment (here we used <code>"-"</code>). If your treatments use a different separator (e.g. <code>"A1:B2"</code>), pass <code>factorial_separator = ":"</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">optimise_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optim_params.html">optim_params</a></span><span class="op">(</span></span>
 <span>  swap_count <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  random_initialisation <span class="op">=</span> <span class="fl">10</span>,</span>
@@ -158,106 +147,96 @@
 <span>  interaction_weight <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">112</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>row and col are used as row and column, respectively.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimising level: single treatment within block
-Level: single treatment within block Iteration: 1000 Score: 158.118 Best: 105.3975 Since Improvement: 174
-Level: single treatment within block Iteration: 2000 Score: 123.3043 Best: 105.3975 Since Improvement: 1174
-Level: single treatment within block Iteration: 3000 Score: 121.795 Best: 100.6957 Since Improvement: 261
-Level: single treatment within block Iteration: 4000 Score: 104.8199 Best: 93.92547 Since Improvement: 202
-Level: single treatment within block Iteration: 5000 Score: 65.14907 Best: 58.38509 Since Improvement: 140
-Level: single treatment within block Iteration: 6000 Score: 51.15528 Best: 51.15528 Since Improvement: 89
-Level: single treatment within block Iteration: 7000 Score: 42.10559 Best: 42.10559 Since Improvement: 381
-Level: single treatment within block Iteration: 8000 Score: 40.81988 Best: 40.81988 Since Improvement: 501
-Level: single treatment within block Iteration: 9000 Score: 39.81988 Best: 39.81988 Since Improvement: 742
-Level: single treatment within block Iteration: 10000 Score: 36.81988 Best: 36.81988 Since Improvement: 537
-Level: single treatment within block Iteration: 11000 Score: 36.81988 Best: 36.81988 Since Improvement: 1537
-Level: single treatment within block Iteration: 12000 Score: 36.81988 Best: 36.81988 Since Improvement: 2537
-Level: single treatment within block Iteration: 13000 Score: 36.81988 Best: 36.81988 Since Improvement: 3537
-Level: single treatment within block Iteration: 14000 Score: 36.81988 Best: 36.81988 Since Improvement: 4537
-Level: single treatment within block Iteration: 15000 Score: 36.81988 Best: 36.81988 Since Improvement: 5537
-Level: single treatment within block Iteration: 16000 Score: 36.81988 Best: 36.81988 Since Improvement: 6537
-Level: single treatment within block Iteration: 17000 Score: 36.81988 Best: 36.81988 Since Improvement: 7537
-Level: single treatment within block Iteration: 18000 Score: 36.81988 Best: 36.81988 Since Improvement: 8537
-Level: single treatment within block Iteration: 19000 Score: 36.81988 Best: 36.81988 Since Improvement: 9537
-Early stopping at iteration 19463 for level single treatment within block </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## row and col are used as row and column, respectively.</span></span></code></pre>
+<pre><code><span><span class="co">## Optimising level: single treatment within block</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 1000 Score: 158.118 Best: 105.3975 Since Improvement: 174</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 2000 Score: 123.3043 Best: 105.3975 Since Improvement: 1174</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 3000 Score: 121.795 Best: 100.6957 Since Improvement: 261</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 4000 Score: 104.8199 Best: 93.92547 Since Improvement: 202</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 5000 Score: 65.14907 Best: 58.38509 Since Improvement: 140</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 6000 Score: 51.15528 Best: 51.15528 Since Improvement: 89</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 7000 Score: 42.10559 Best: 42.10559 Since Improvement: 381</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 8000 Score: 40.81988 Best: 40.81988 Since Improvement: 501</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 9000 Score: 39.81988 Best: 39.81988 Since Improvement: 742</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 10000 Score: 36.81988 Best: 36.81988 Since Improvement: 537</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 11000 Score: 36.81988 Best: 36.81988 Since Improvement: 1537</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 12000 Score: 36.81988 Best: 36.81988 Since Improvement: 2537</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 13000 Score: 36.81988 Best: 36.81988 Since Improvement: 3537</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 14000 Score: 36.81988 Best: 36.81988 Since Improvement: 4537</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 15000 Score: 36.81988 Best: 36.81988 Since Improvement: 5537</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 16000 Score: 36.81988 Best: 36.81988 Since Improvement: 6537</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 17000 Score: 36.81988 Best: 36.81988 Since Improvement: 7537</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 18000 Score: 36.81988 Best: 36.81988 Since Improvement: 8537</span></span>
+<span><span class="co">## Level: single treatment within block Iteration: 19000 Score: 36.81988 Best: 36.81988 Since Improvement: 9537</span></span>
+<span><span class="co">## Early stopping at iteration 19463 for level single treatment within block</span></span></code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">factorial_result</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 36.81988
-Iterations Run: 19464
-Stopped Early: TRUE
-Treatments: A1-B1, A1-B2, A1-B3, A2-B1, A2-B2, A2-B3, A3-B1, A3-B2, A3-B3, A4-B1, A4-B2, A4-B3, A5-B1, A5-B2, A5-B3, A6-B1, A6-B2, A6-B3, A7-B1, A7-B2, A7-B3, A8-B1, A8-B2, A8-B3
-Seed: 112 </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 36.81988</span></span>
+<span><span class="co">## Iterations Run: 19464</span></span>
+<span><span class="co">## Stopped Early: TRUE</span></span>
+<span><span class="co">## Treatments: A1-B1, A1-B2, A1-B3, A2-B1, A2-B2, A2-B3, A3-B1, A3-B2, A3-B3, A4-B1, A4-B2, A4-B3, A5-B1, A5-B2, A5-B3, A6-B1, A6-B2, A6-B3, A7-B1, A7-B2, A7-B3, A8-B1, A8-B2, A8-B3</span></span>
+<span><span class="co">## Seed: 112</span></span></code></pre>
 </section><section class="level3"><h4 id="output-of-the-optimisation">Output of the Optimisation<a class="anchor" aria-label="anchor" href="#output-of-the-optimisation"></a>
 </h4>
 <p>The output summarises the optimisation of the factorial <strong>interaction</strong> treatment (e.g. <code>"A1-B2"</code>) across the spatial layout. The reported score is for the whole design after optimisation, and the returned <code>design_df</code> contains the updated treatment allocation.</p>
 <p>Because the treatment column encodes multiple factors, it can be helpful to split it back into its component factors (e.g. <code>treatment_a</code> and <code>treatment_b</code>) when inspecting the result. This lets you check whether the optimisation improved not only the interaction layout, but also the balance/adjacency patterns of the main effects.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">factorial_result</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>List of 9
- $ design_df     :Classes 'design' and 'data.frame':    72 obs. of  8 variables:
-  ..$ row        : int [1:72] 1 1 1 2 2 2 3 3 3 4 ...
-  ..$ col        : int [1:72] 1 2 3 1 2 3 1 2 3 1 ...
-  ..$ treatment  : chr [1:72] "A7-B1" "A8-B2" "A6-B3" "A6-B2" ...
-  ..$ row_block  : num [1:72] 1 1 1 1 1 1 1 1 1 1 ...
-  ..$ col_block  : num [1:72] 1 1 1 1 1 1 1 1 1 1 ...
-  ..$ block      : num [1:72] 1 1 1 1 1 1 1 1 1 1 ...
-  ..$ treatment_a: chr [1:72] "A1" "A1" "A1" "A2" ...
-  ..$ treatment_b: chr [1:72] "B1" "B2" "B3" "B1" ...
-  ..- attr(*, "out.attrs")=List of 2
-  .. ..$ dim     : Named int [1:2] 24 3
-  .. .. ..- attr(*, "names")= chr [1:2] "row" "col"
-  .. ..$ dimnames:List of 2
-  .. .. ..$ row: chr [1:24] "row= 1" "row= 2" "row= 3" "row= 4" ...
-  .. .. ..$ col: chr [1:3] "col=1" "col=2" "col=3"
- $ score         : num 36.8
- $ scores        : num [1:19464] 131 141 139 141 153 ...
- $ temperatures  : num [1:19464] 100 99.9 99.8 99.7 99.6 ...
- $ iterations_run: num 19464
- $ stopped_early : logi TRUE
- $ treatments    : chr [1:24] "A1-B1" "A1-B2" "A1-B3" "A2-B1" ...
- $ seed          : num 112
- $ metadata      :List of 6
-  ..$ levels    : chr "single treatment within block"
-  ..$ row_column: chr "row"
-  ..$ col_column: chr "col"
-  ..$ grid_by   : NULL
-  ..$ per_level :List of 1
-  .. ..$ single treatment within block:List of 13
-  .. .. ..$ swap            : chr "treatment"
-  .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: R_GlobalEnv&gt;
-  .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
-  .. .. ..$ adj_weight      : num 1
-  .. .. ..$ bal_weight      : num 1
-  .. .. ..$ iterations      : num 2e+05
-  .. .. ..$ start_temp      : num 100
-  .. .. ..$ cooling_rate    : num 0.999
-  .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, interaction_weight = 1, main_weight = 1,
-    factorial_separator = "-", ...)
-  .. .. ..$ final_score     : num 36.8
-  .. .. ..$ final_components: Named num [1:2] 9.43 27.39
-  .. .. .. ..- attr(*, "names")= chr [1:2] "main" "interaction"
-  .. .. ..$ optimal_score   : num NA
-  .. .. ..$ stop_reason     : chr "no_improvement"
-  ..$ call      : language speed(data = factorial_design, swap = "treatment", swap_within = "block",      spatial_factors = ~row + col, iter| __truncated__ ...
- - attr(*, "class")= chr [1:2] "design" "list"</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## List of 9</span></span>
+<span><span class="co">##  $ design_df     :Classes 'design' and 'data.frame': 72 obs. of  8 variables:</span></span>
+<span><span class="co">##   ..$ row        : int [1:72] 1 1 1 2 2 2 3 3 3 4 ...</span></span>
+<span><span class="co">##   ..$ col        : int [1:72] 1 2 3 1 2 3 1 2 3 1 ...</span></span>
+<span><span class="co">##   ..$ treatment  : chr [1:72] "A7-B1" "A8-B2" "A6-B3" "A6-B2" ...</span></span>
+<span><span class="co">##   ..$ row_block  : num [1:72] 1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span><span class="co">##   ..$ col_block  : num [1:72] 1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span><span class="co">##   ..$ block      : num [1:72] 1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span><span class="co">##   ..$ treatment_a: chr [1:72] "A1" "A1" "A1" "A2" ...</span></span>
+<span><span class="co">##   ..$ treatment_b: chr [1:72] "B1" "B2" "B3" "B1" ...</span></span>
+<span><span class="co">##   ..- attr(*, "out.attrs")=List of 2</span></span>
+<span><span class="co">##   .. ..$ dim     : Named int [1:2] 24 3</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "row" "col"</span></span>
+<span><span class="co">##   .. ..$ dimnames:List of 2</span></span>
+<span><span class="co">##   .. .. ..$ row: chr [1:24] "row= 1" "row= 2" "row= 3" "row= 4" ...</span></span>
+<span><span class="co">##   .. .. ..$ col: chr [1:3] "col=1" "col=2" "col=3"</span></span>
+<span><span class="co">##  $ score         : num 36.8</span></span>
+<span><span class="co">##  $ scores        : num [1:19464] 131 141 139 141 153 ...</span></span>
+<span><span class="co">##  $ temperatures  : num [1:19464] 100 99.9 99.8 99.7 99.6 ...</span></span>
+<span><span class="co">##  $ iterations_run: num 19464</span></span>
+<span><span class="co">##  $ stopped_early : logi TRUE</span></span>
+<span><span class="co">##  $ treatments    : chr [1:24] "A1-B1" "A1-B2" "A1-B3" "A2-B1" ...</span></span>
+<span><span class="co">##  $ seed          : num 112</span></span>
+<span><span class="co">##  $ metadata      :List of 6</span></span>
+<span><span class="co">##   ..$ levels    : chr "single treatment within block"</span></span>
+<span><span class="co">##   ..$ row_column: chr "row"</span></span>
+<span><span class="co">##   ..$ col_column: chr "col"</span></span>
+<span><span class="co">##   ..$ grid_by   : NULL</span></span>
+<span><span class="co">##   ..$ per_level :List of 1</span></span>
+<span><span class="co">##   .. ..$ single treatment within block:List of 13</span></span>
+<span><span class="co">##   .. .. ..$ swap            : chr "treatment"</span></span>
+<span><span class="co">##   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: R_GlobalEnv&gt;</span></span>
+<span><span class="co">##   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"</span></span>
+<span><span class="co">##   .. .. ..$ adj_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ bal_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ iterations      : num 2e+05</span></span>
+<span><span class="co">##   .. .. ..$ start_temp      : num 100</span></span>
+<span><span class="co">##   .. .. ..$ cooling_rate    : num 0.999</span></span>
+<span><span class="co">##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, interaction_weight = 1, main_weight = 1,</span></span>
+<span><span class="co">##     factorial_separator = "-", ...)</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 109 33 159 1 33 1 109 159</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x000002b0cae73a50&gt;</span></span>
+<span><span class="co">##   .. .. ..$ final_score     : num 36.8</span></span>
+<span><span class="co">##   .. .. ..$ final_components: Named num [1:2] 9.43 27.39</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "names")= chr [1:2] "main" "interaction"</span></span>
+<span><span class="co">##   .. .. ..$ optimal_score   : num NA</span></span>
+<span><span class="co">##   .. .. ..$ stop_reason     : chr "no_improvement"</span></span>
+<span><span class="co">##   ..$ call      : language speed(data = factorial_design, swap = "treatment", swap_within = "block",      spatial_factors = ~row + col, iter| __truncated__ ...</span></span>
+<span><span class="co">##  - attr(*, "class")= chr [1:2] "design" "list"</span></span></code></pre>
 </section><section class="level3"><h4 id="visualise-the-output">Visualise the Output<a class="anchor" aria-label="anchor" href="#visualise-the-output"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">treatments</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">factorial_result</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">treatment</span><span class="op">)</span>, <span class="st">"-"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -267,12 +246,9 @@ Seed: 112 </code></pre>
 <span><span class="va">pb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">factorial_result</span>, treatments <span class="op">=</span> <span class="st">"treatment_b"</span><span class="op">)</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">factorial_result</span><span class="op">)</span></span>
 <span><span class="va">p</span> <span class="op">+</span> <span class="va">pa</span> <span class="op">+</span> <span class="va">pb</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="factorial_files/figure-html/factorial-plot2-1.png" width="672"></p>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/factorial-plot2-1.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
-</div>
-</div>
 </div>
 <p>This design has now been optimised for both main and interaction effects.</p>
 </section></section></section><section class="section level2"><h2 id="spatial-design-considerations">Spatial Design Considerations<a class="anchor" aria-label="anchor" href="#spatial-design-considerations"></a>

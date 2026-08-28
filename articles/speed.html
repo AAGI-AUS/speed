@@ -91,10 +91,8 @@
 <p>Agricultural experiments require careful spatial design to minimise the effects of field heterogeneity and neighbour interactions while maximising statistical power. The <code>speed</code> package provides tools for creating spatially efficient experimental designs through simulated annealing optimisation.</p>
 <p>This vignette demonstrates how to use <code>speed</code> for common agricultural experimental designs, showing how spatial optimisation can improve the efficiency and validity of field trials. We’ll work through four key design types, each building in complexity and showing different features of the package.</p>
 <p>For advanced and specialised experimental designs (e.g., split-split plot, strip-plot, incomplete block, p-rep, and more), see the companion vignette: <a href="complex_designs.html">Complex Agricultural Experimental Designs with speed</a>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://biometryhub.github.io/speed/">speed</a></span><span class="op">)</span></span></code></pre></div>
-</div>
 </section><section class="section level2"><h2 id="completely-randomised-design-crd">Completely Randomised Design (CRD)<a class="anchor" aria-label="anchor" href="#completely-randomised-design-crd"></a>
 </h2>
 <section class="level2"><h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
@@ -113,162 +111,136 @@
 </section><section class="level2"><h3 id="setting-up-crd-with-speed">Setting Up CRD with speed<a class="anchor" aria-label="anchor" href="#setting-up-crd-with-speed"></a>
 </h3>
 <p>In agricultural contexts, even completely randomised designs benefit from spatial optimisation to minimise treatment clustering and neighbour effects. Firstly we will initialise a data frame representing the design and visualise it. This design has 4 replicates of 8 treatments or <code>items</code>, with 8 rows and 4 columns.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Initialise data frame</span></span>
 <span><span class="va">crd_design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initialise_design_df.html">initialise_design_df</a></span><span class="op">(</span>items <span class="op">=</span> <span class="fl">8</span>, nrows <span class="op">=</span> <span class="fl">8</span>, ncols <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">crd_design</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  row col treatment
-1   1   1        T1
-2   2   1        T2
-3   3   1        T3
-4   4   1        T4
-5   5   1        T5
-6   6   1        T6</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure><p><img src="speed_files/figure-html/crd-plot1-1.png" width="672"></p>
+<pre><code><span><span class="co">##   row col treatment</span></span>
+<span><span class="co">## 1   1   1        T1</span></span>
+<span><span class="co">## 2   2   1        T2</span></span>
+<span><span class="co">## 3   3   1        T3</span></span>
+<span><span class="co">## 4   4   1        T4</span></span>
+<span><span class="co">## 5   5   1        T5</span></span>
+<span><span class="co">## 6   6   1        T6</span></span></code></pre>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/crd-plot1-1.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
-</div>
-</div>
 </div>
 <p>This is a systematic layout; note how the initial layout arranges treatments in a repeating, non-random pattern. This will now be randomised before visualisation.</p>
 <section class="level3"><h4 id="performing-the-optimisation">Performing the Optimisation<a class="anchor" aria-label="anchor" href="#performing-the-optimisation"></a>
 </h4>
 <p>The main <code><a href="../reference/speed.html">speed()</a></code> function performs the optimisation. It has been set up with sensible defaults to allow application to a wide variety of situations. In this case, we only need to provide the design data frame for it to operate on, the column name of the data frame to use for the treatments, and a seed for reproducibility.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">crd_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">crd_design</span>, </span>
 <span>                    swap <span class="op">=</span> <span class="st">"treatment"</span>,</span>
 <span>                    seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>row and col are used as row and column, respectively.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimising level: single treatment within whole design
-Optimal score reached at iteration 730 for level single treatment within whole design </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## row and col are used as row and column, respectively.</span></span></code></pre>
+<pre><code><span><span class="co">## Optimising level: single treatment within whole design</span></span>
+<span><span class="co">## Optimal score reached at iteration 730 for level single treatment within whole design</span></span></code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">crd_result</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 2.285714
-Iterations Run: 730
-Stopped Early: TRUE
-Treatments: T1, T2, T3, T4, T5, T6, T7, T8
-Seed: 42 </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 2.285714</span></span>
+<span><span class="co">## Iterations Run: 730</span></span>
+<span><span class="co">## Stopped Early: TRUE</span></span>
+<span><span class="co">## Treatments: T1, T2, T3, T4, T5, T6, T7, T8</span></span>
+<span><span class="co">## Seed: 42</span></span></code></pre>
 </section><section class="level3"><h4 id="output-of-the-optimisation">Output of the Optimisation<a class="anchor" aria-label="anchor" href="#output-of-the-optimisation"></a>
 </h4>
 <p>The printed output from the returned design object gives a quick identity check: the final optimisation score (lower is better), how many iterations were run and whether it stopped early, the treatments, and the seed. For a fuller, statistically meaningful evaluation of the design - layout, replication, score decomposition, connectedness and more - use <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> (see <a href="#evaluating-a-design">Evaluating a Design</a>). The output object contains some additional components, which can be seen below:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">crd_result</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>List of 9
- $ design_df     :Classes 'design' and 'data.frame':    32 obs. of  3 variables:
-  ..$ row      : int [1:32] 1 1 1 1 2 2 2 2 3 3 ...
-  ..$ col      : int [1:32] 1 2 3 4 1 2 3 4 1 2 ...
-  ..$ treatment: chr [1:32] "T8" "T1" "T7" "T3" ...
-  ..- attr(*, "out.attrs")=List of 2
-  .. ..$ dim     : Named int [1:2] 8 4
-  .. .. ..- attr(*, "names")= chr [1:2] "row" "col"
-  .. ..$ dimnames:List of 2
-  .. .. ..$ row: chr [1:8] "row=1" "row=2" "row=3" "row=4" ...
-  .. .. ..$ col: chr [1:4] "col=1" "col=2" "col=3" "col=4"
- $ score         : num 2.29
- $ scores        : num [1:730] 40 36.3 32.4 28.3 24.1 ...
- $ temperatures  : num [1:730] 100 99 98 97 96.1 ...
- $ iterations_run: num 730
- $ stopped_early : logi TRUE
- $ treatments    : chr [1:8] "T1" "T2" "T3" "T4" ...
- $ seed          : num 42
- $ metadata      :List of 6
-  ..$ levels    : chr "single treatment within whole design"
-  ..$ row_column: chr "row"
-  ..$ col_column: chr "col"
-  ..$ grid_by   : NULL
-  ..$ per_level :List of 1
-  .. ..$ single treatment within whole design:List of 13
-  .. .. ..$ swap            : chr "treatment"
-  .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x55625f71f7e0&gt;
-  .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
-  .. .. ..$ adj_weight      : num 1
-  .. .. ..$ bal_weight      : num 1
-  .. .. ..$ iterations      : num 10000
-  .. .. ..$ start_temp      : num 100
-  .. .. ..$ cooling_rate    : num 0.99
-  .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-    row_column = "row", col_column = "col", ...)
-  .. .. ..$ final_score     : num 2.29
-  .. .. ..$ final_components: Named num [1:2] 0 2.29
-  .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-  .. .. ..$ optimal_score   : num 2.29
-  .. .. ..$ stop_reason     : chr "optimal"
-  ..$ call      : language speed(data = crd_design, swap = "treatment", seed = 42)
- - attr(*, "class")= chr [1:2] "design" "list"</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## List of 9</span></span>
+<span><span class="co">##  $ design_df     :Classes 'design' and 'data.frame': 32 obs. of  3 variables:</span></span>
+<span><span class="co">##   ..$ row      : int [1:32] 1 1 1 1 2 2 2 2 3 3 ...</span></span>
+<span><span class="co">##   ..$ col      : int [1:32] 1 2 3 4 1 2 3 4 1 2 ...</span></span>
+<span><span class="co">##   ..$ treatment: chr [1:32] "T8" "T1" "T7" "T3" ...</span></span>
+<span><span class="co">##   ..- attr(*, "out.attrs")=List of 2</span></span>
+<span><span class="co">##   .. ..$ dim     : Named int [1:2] 8 4</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "row" "col"</span></span>
+<span><span class="co">##   .. ..$ dimnames:List of 2</span></span>
+<span><span class="co">##   .. .. ..$ row: chr [1:8] "row=1" "row=2" "row=3" "row=4" ...</span></span>
+<span><span class="co">##   .. .. ..$ col: chr [1:4] "col=1" "col=2" "col=3" "col=4"</span></span>
+<span><span class="co">##  $ score         : num 2.29</span></span>
+<span><span class="co">##  $ scores        : num [1:730] 40 36.3 32.4 28.3 24.1 ...</span></span>
+<span><span class="co">##  $ temperatures  : num [1:730] 100 99 98 97 96.1 ...</span></span>
+<span><span class="co">##  $ iterations_run: num 730</span></span>
+<span><span class="co">##  $ stopped_early : logi TRUE</span></span>
+<span><span class="co">##  $ treatments    : chr [1:8] "T1" "T2" "T3" "T4" ...</span></span>
+<span><span class="co">##  $ seed          : num 42</span></span>
+<span><span class="co">##  $ metadata      :List of 6</span></span>
+<span><span class="co">##   ..$ levels    : chr "single treatment within whole design"</span></span>
+<span><span class="co">##   ..$ row_column: chr "row"</span></span>
+<span><span class="co">##   ..$ col_column: chr "col"</span></span>
+<span><span class="co">##   ..$ grid_by   : NULL</span></span>
+<span><span class="co">##   ..$ per_level :List of 1</span></span>
+<span><span class="co">##   .. ..$ single treatment within whole design:List of 13</span></span>
+<span><span class="co">##   .. .. ..$ swap            : chr "treatment"</span></span>
+<span><span class="co">##   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x000002b0d2e34660&gt;</span></span>
+<span><span class="co">##   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"</span></span>
+<span><span class="co">##   .. .. ..$ adj_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ bal_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ iterations      : num 10000</span></span>
+<span><span class="co">##   .. .. ..$ start_temp      : num 100</span></span>
+<span><span class="co">##   .. .. ..$ cooling_rate    : num 0.99</span></span>
+<span><span class="co">##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,</span></span>
+<span><span class="co">##     row_column = "row", col_column = "col", ...)</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x000002b0cae73a50&gt;</span></span>
+<span><span class="co">##   .. .. ..$ final_score     : num 2.29</span></span>
+<span><span class="co">##   .. .. ..$ final_components: Named num [1:2] 0 2.29</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"</span></span>
+<span><span class="co">##   .. .. ..$ optimal_score   : num 2.29</span></span>
+<span><span class="co">##   .. .. ..$ stop_reason     : chr "optimal"</span></span>
+<span><span class="co">##   ..$ call      : language speed(data = crd_design, swap = "treatment", seed = 42)</span></span>
+<span><span class="co">##  - attr(*, "class")= chr [1:2] "design" "list"</span></span></code></pre>
 </section><section class="level3"><h4 id="visualise-the-output">Visualise the Output<a class="anchor" aria-label="anchor" href="#visualise-the-output"></a>
 </h4>
 <p>The final step is to visualise the optimised design. The plot below displays the spatial arrangement of treatments after optimisation, allowing you to easily check for clustering, spatial trends, or other patterns that may affect your experiment. A well-randomised and spatially efficient design will show treatments distributed evenly across the field, helping to minimise neighbour effects and maximise the reliability of your results.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">crd_result</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="speed_files/figure-html/crd-plot2-1.png" width="672"></p>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/crd-plot2-1.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
-</div>
-</div>
 </div>
 <p>A nicely randomised<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Note that this design is not a true randomised design, as &lt;code&gt;speed&lt;/code&gt; performs restricted randomisation and this design has been optimised to reduce neighbour effects. However, it can still be considered a Completely Randomised Design as it does not account for any blocking or other sources of variation.&lt;/p&gt;"><sup>1</sup></a> and spatially optimal design!</p>
 </section></section></section><section class="section level2"><h2 id="evaluating-a-design">Evaluating a Design<a class="anchor" aria-label="anchor" href="#evaluating-a-design"></a>
 </h2>
 <p><code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> tells you <em>what</em> a design is; <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> helps you <em>evaluate and defend</em> it. Calling <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> on any design object reports a set of structural and evaluation metrics:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">crd_result</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Design Summary
-==============
-
-Structure
----------
-Layout:       8 rows x 4 cols (32 plots)
-Treatments:   8
-Replication:  4 each
-Spatial:      row (8), col (4)
-
-Optimisation
-------------
-Seed:         42
-Objective:    objective_function
-Score:        2.2857  (initial 40 -&gt; final 2.2857)
-              adjacency  0
-              balance    2.2857
-Optimal:      2.2857  (reached)
-Iterations:   730 / 10,000 (optimal reached)
-Temperature:  start 100, cooling 0.99
-
-Evaluation
-----------
-Connected:    connected - treatment estimable given row + col [model (row + col)]
-Concurrence:  no block factor
-Blk. spread:  no block factor
-Repl. span:   worst-case 2 (row), 2 (col) across 8 replicated treatment(s)
-Efficiency:   not requested (set efficiency = TRUE)
-Self-adj.:    none
-Neighbour:    min 0, max 5 over 28 pairs (variance 1.9048), 4 never adjacent</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## Design Summary</span></span>
+<span><span class="co">## ==============</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## Structure</span></span>
+<span><span class="co">## ---------</span></span>
+<span><span class="co">## Layout:       8 rows x 4 cols (32 plots)</span></span>
+<span><span class="co">## Treatments:   8</span></span>
+<span><span class="co">## Replication:  4 each</span></span>
+<span><span class="co">## Spatial:      row (8), col (4)</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## Optimisation</span></span>
+<span><span class="co">## ------------</span></span>
+<span><span class="co">## Seed:         42</span></span>
+<span><span class="co">## Objective:    objective_function</span></span>
+<span><span class="co">## Score:        2.2857  (initial 40 -&gt; final 2.2857)</span></span>
+<span><span class="co">##               adjacency  0</span></span>
+<span><span class="co">##               balance    2.2857</span></span>
+<span><span class="co">## Optimal:      2.2857  (reached)</span></span>
+<span><span class="co">## Iterations:   730 / 10,000 (optimal reached)</span></span>
+<span><span class="co">## Temperature:  start 100, cooling 0.99</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## Evaluation</span></span>
+<span><span class="co">## ----------</span></span>
+<span><span class="co">## Connected:    connected - treatment estimable given row + col [model (row + col)]</span></span>
+<span><span class="co">## Concurrence:  no block factor</span></span>
+<span><span class="co">## Blk. spread:  no block factor</span></span>
+<span><span class="co">## Repl. span:   worst-case 2 (row), 2 (col) across 8 replicated treatment(s)</span></span>
+<span><span class="co">## Efficiency:   not requested (set efficiency = TRUE)</span></span>
+<span><span class="co">## Self-adj.:    none</span></span>
+<span><span class="co">## Neighbour:    min 0, max 5 over 28 pairs (variance 1.9048), 4 never adjacent</span></span></code></pre>
 <p>The output is organised into sections:</p>
 <ul>
 <li>
@@ -289,62 +261,54 @@ Neighbour:    min 0, max 5 over 28 pairs (variance 1.9048), 4 never adjacent</co
 </ul>
 <p>Any issues – a design that ran to its iteration cap, unequal replication, or a disconnected design – are surfaced as <strong>Flags</strong> at the top.</p>
 <p>Some metrics are opt-in or context-dependent. The A-efficiency factor (a row–column model metric) is computed only when you ask for it:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">crd_result</span>, efficiency <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Design Summary
-==============
-
-Structure
----------
-Layout:       8 rows x 4 cols (32 plots)
-Treatments:   8
-Replication:  4 each
-Spatial:      row (8), col (4)
-
-Optimisation
-------------
-Seed:         42
-Objective:    objective_function
-Score:        2.2857  (initial 40 -&gt; final 2.2857)
-              adjacency  0
-              balance    2.2857
-Optimal:      2.2857  (reached)
-Iterations:   730 / 10,000 (optimal reached)
-Temperature:  start 100, cooling 0.99
-
-Evaluation
-----------
-Connected:    connected - treatment estimable given row + col [model (row + col)]
-Concurrence:  no block factor
-Blk. spread:  no block factor
-Repl. span:   worst-case 2 (row), 2 (col) across 8 replicated treatment(s)
-Efficiency:   0.8232 (A-efficiency, row-column model)
-Self-adj.:    none
-Neighbour:    min 0, max 5 over 28 pairs (variance 1.9048), 4 never adjacent</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## Design Summary</span></span>
+<span><span class="co">## ==============</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## Structure</span></span>
+<span><span class="co">## ---------</span></span>
+<span><span class="co">## Layout:       8 rows x 4 cols (32 plots)</span></span>
+<span><span class="co">## Treatments:   8</span></span>
+<span><span class="co">## Replication:  4 each</span></span>
+<span><span class="co">## Spatial:      row (8), col (4)</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## Optimisation</span></span>
+<span><span class="co">## ------------</span></span>
+<span><span class="co">## Seed:         42</span></span>
+<span><span class="co">## Objective:    objective_function</span></span>
+<span><span class="co">## Score:        2.2857  (initial 40 -&gt; final 2.2857)</span></span>
+<span><span class="co">##               adjacency  0</span></span>
+<span><span class="co">##               balance    2.2857</span></span>
+<span><span class="co">## Optimal:      2.2857  (reached)</span></span>
+<span><span class="co">## Iterations:   730 / 10,000 (optimal reached)</span></span>
+<span><span class="co">## Temperature:  start 100, cooling 0.99</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## Evaluation</span></span>
+<span><span class="co">## ----------</span></span>
+<span><span class="co">## Connected:    connected - treatment estimable given row + col [model (row + col)]</span></span>
+<span><span class="co">## Concurrence:  no block factor</span></span>
+<span><span class="co">## Blk. spread:  no block factor</span></span>
+<span><span class="co">## Repl. span:   worst-case 2 (row), 2 (col) across 8 replicated treatment(s)</span></span>
+<span><span class="co">## Efficiency:   0.8232 (A-efficiency, row-column model)</span></span>
+<span><span class="co">## Self-adj.:    none</span></span>
+<span><span class="co">## Neighbour:    min 0, max 5 over 28 pairs (variance 1.9048), 4 never adjacent</span></span></code></pre>
 <p>The returned summary is also a list, so individual metrics can be pulled out programmatically:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">crd_result</span><span class="op">)</span></span>
 <span><span class="va">s</span><span class="op">$</span><span class="va">per_level</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">score</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$initial
-[1] 40
-
-$final
-[1] 2.285714
-
-$optimal
-[1] 2.285714
-
-$components
-adjacency   balance
- 0.000000  2.285714 </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## $initial</span></span>
+<span><span class="co">## [1] 40</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## $final</span></span>
+<span><span class="co">## [1] 2.285714</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## $optimal</span></span>
+<span><span class="co">## [1] 2.285714</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## $components</span></span>
+<span><span class="co">## adjacency   balance</span></span>
+<span><span class="co">##  0.000000  2.285714</span></span></code></pre>
 </section><section class="section level2"><h2 id="randomised-complete-block-design-rcbd">Randomised Complete Block Design (RCBD)<a class="anchor" aria-label="anchor" href="#randomised-complete-block-design-rcbd"></a>
 </h2>
 <section class="level2"><h3 id="overview-1">Overview<a class="anchor" aria-label="anchor" href="#overview-1"></a>
@@ -363,121 +327,99 @@ adjacency   balance
 </section><section class="level2"><h3 id="setting-up-rcbd-with-speed">Setting Up RCBD with speed<a class="anchor" aria-label="anchor" href="#setting-up-rcbd-with-speed"></a>
 </h3>
 <p>Here we initialise a data frame for a design with 4 blocks and 6 treatments, arranged in 4 rows and 6 columns. Note that we can specify treatments in the <code>items</code> argument.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rcbd_design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initialise_design_df.html">initialise_design_df</a></span><span class="op">(</span>items <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"V"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, nrows <span class="op">=</span> <span class="fl">4</span>, ncols <span class="op">=</span> <span class="fl">6</span>, block_nrows <span class="op">=</span> <span class="fl">1</span>, block_ncols <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">rcbd_design</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  row col treatment row_block col_block block
-1   1   1        V1         1         1     1
-2   2   1        V1         2         1     2
-3   3   1        V1         3         1     3
-4   4   1        V1         4         1     4
-5   1   2        V2         1         1     1
-6   2   2        V2         2         1     2</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure><p><img src="speed_files/figure-html/rcbd-plot1-1.png" width="672"></p>
+<pre><code><span><span class="co">##   row col treatment row_block col_block block</span></span>
+<span><span class="co">## 1   1   1        V1         1         1     1</span></span>
+<span><span class="co">## 2   2   1        V1         2         1     2</span></span>
+<span><span class="co">## 3   3   1        V1         3         1     3</span></span>
+<span><span class="co">## 4   4   1        V1         4         1     4</span></span>
+<span><span class="co">## 5   1   2        V2         1         1     1</span></span>
+<span><span class="co">## 6   2   2        V2         2         1     2</span></span></code></pre>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/rcbd-plot1-1.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
-</div>
-</div>
 </div>
 <p>This is a systematic block layout; each block contains all treatments in a repeating pattern. This will now be randomised within blocks.</p>
 <section class="level3"><h4 id="performing-the-optimisation-1">Performing the Optimisation<a class="anchor" aria-label="anchor" href="#performing-the-optimisation-1"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rcbd_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">rcbd_design</span>, </span>
 <span>                     swap <span class="op">=</span> <span class="st">"treatment"</span>,</span>
 <span>                     swap_within <span class="op">=</span> <span class="st">"block"</span>,</span>
 <span>                     seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>row and col are used as row and column, respectively.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimising level: single treatment within block
-Optimal score reached at iteration 329 for level single treatment within block </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb23"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## row and col are used as row and column, respectively.</span></span></code></pre>
+<pre><code><span><span class="co">## Optimising level: single treatment within block</span></span>
+<span><span class="co">## Optimal score reached at iteration 329 for level single treatment within block</span></span></code></pre>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rcbd_result</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 1.6
-Iterations Run: 329
-Stopped Early: TRUE
-Treatments: V1, V2, V3, V4, V5, V6
-Seed: 42 </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 1.6</span></span>
+<span><span class="co">## Iterations Run: 329</span></span>
+<span><span class="co">## Stopped Early: TRUE</span></span>
+<span><span class="co">## Treatments: V1, V2, V3, V4, V5, V6</span></span>
+<span><span class="co">## Seed: 42</span></span></code></pre>
 </section><section class="level3"><h4 id="output-of-the-optimisation-1">Output of the Optimisation<a class="anchor" aria-label="anchor" href="#output-of-the-optimisation-1"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">rcbd_result</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>List of 9
- $ design_df     :Classes 'design' and 'data.frame':    24 obs. of  6 variables:
-  ..$ row      : int [1:24] 1 1 1 1 1 1 2 2 2 2 ...
-  ..$ col      : int [1:24] 1 2 3 4 5 6 1 2 3 4 ...
-  ..$ treatment: chr [1:24] "V4" "V1" "V5" "V6" ...
-  ..$ row_block: num [1:24] 1 1 1 1 1 1 2 2 2 2 ...
-  ..$ col_block: num [1:24] 1 1 1 1 1 1 1 1 1 1 ...
-  ..$ block    : num [1:24] 1 1 1 1 1 1 2 2 2 2 ...
-  ..- attr(*, "out.attrs")=List of 2
-  .. ..$ dim     : Named int [1:2] 4 6
-  .. .. ..- attr(*, "names")= chr [1:2] "row" "col"
-  .. ..$ dimnames:List of 2
-  .. .. ..$ row: chr [1:4] "row=1" "row=2" "row=3" "row=4"
-  .. .. ..$ col: chr [1:6] "col=1" "col=2" "col=3" "col=4" ...
- $ score         : num 1.6
- $ scores        : num [1:329] 34 29.6 25.2 21.6 18.4 16.2 13 12.2 8.6 10.4 ...
- $ temperatures  : num [1:329] 100 99 98 97 96.1 ...
- $ iterations_run: num 329
- $ stopped_early : logi TRUE
- $ treatments    : chr [1:6] "V1" "V2" "V3" "V4" ...
- $ seed          : num 42
- $ metadata      :List of 6
-  ..$ levels    : chr "single treatment within block"
-  ..$ row_column: chr "row"
-  ..$ col_column: chr "col"
-  ..$ grid_by   : NULL
-  ..$ per_level :List of 1
-  .. ..$ single treatment within block:List of 13
-  .. .. ..$ swap            : chr "treatment"
-  .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x55625eefdd90&gt;
-  .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
-  .. .. ..$ adj_weight      : num 1
-  .. .. ..$ bal_weight      : num 1
-  .. .. ..$ iterations      : num 10000
-  .. .. ..$ start_temp      : num 100
-  .. .. ..$ cooling_rate    : num 0.99
-  .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-    row_column = "row", col_column = "col", ...)
-  .. .. ..$ final_score     : num 1.6
-  .. .. ..$ final_components: Named num [1:2] 0 1.6
-  .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-  .. .. ..$ optimal_score   : num 1.6
-  .. .. ..$ stop_reason     : chr "optimal"
-  ..$ call      : language speed(data = rcbd_design, swap = "treatment", swap_within = "block", seed = 42)
- - attr(*, "class")= chr [1:2] "design" "list"</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## List of 9</span></span>
+<span><span class="co">##  $ design_df     :Classes 'design' and 'data.frame': 24 obs. of  6 variables:</span></span>
+<span><span class="co">##   ..$ row      : int [1:24] 1 1 1 1 1 1 2 2 2 2 ...</span></span>
+<span><span class="co">##   ..$ col      : int [1:24] 1 2 3 4 5 6 1 2 3 4 ...</span></span>
+<span><span class="co">##   ..$ treatment: chr [1:24] "V4" "V1" "V5" "V6" ...</span></span>
+<span><span class="co">##   ..$ row_block: num [1:24] 1 1 1 1 1 1 2 2 2 2 ...</span></span>
+<span><span class="co">##   ..$ col_block: num [1:24] 1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span><span class="co">##   ..$ block    : num [1:24] 1 1 1 1 1 1 2 2 2 2 ...</span></span>
+<span><span class="co">##   ..- attr(*, "out.attrs")=List of 2</span></span>
+<span><span class="co">##   .. ..$ dim     : Named int [1:2] 4 6</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "row" "col"</span></span>
+<span><span class="co">##   .. ..$ dimnames:List of 2</span></span>
+<span><span class="co">##   .. .. ..$ row: chr [1:4] "row=1" "row=2" "row=3" "row=4"</span></span>
+<span><span class="co">##   .. .. ..$ col: chr [1:6] "col=1" "col=2" "col=3" "col=4" ...</span></span>
+<span><span class="co">##  $ score         : num 1.6</span></span>
+<span><span class="co">##  $ scores        : num [1:329] 34 29.6 25.2 21.6 18.4 16.2 13 12.2 8.6 10.4 ...</span></span>
+<span><span class="co">##  $ temperatures  : num [1:329] 100 99 98 97 96.1 ...</span></span>
+<span><span class="co">##  $ iterations_run: num 329</span></span>
+<span><span class="co">##  $ stopped_early : logi TRUE</span></span>
+<span><span class="co">##  $ treatments    : chr [1:6] "V1" "V2" "V3" "V4" ...</span></span>
+<span><span class="co">##  $ seed          : num 42</span></span>
+<span><span class="co">##  $ metadata      :List of 6</span></span>
+<span><span class="co">##   ..$ levels    : chr "single treatment within block"</span></span>
+<span><span class="co">##   ..$ row_column: chr "row"</span></span>
+<span><span class="co">##   ..$ col_column: chr "col"</span></span>
+<span><span class="co">##   ..$ grid_by   : NULL</span></span>
+<span><span class="co">##   ..$ per_level :List of 1</span></span>
+<span><span class="co">##   .. ..$ single treatment within block:List of 13</span></span>
+<span><span class="co">##   .. .. ..$ swap            : chr "treatment"</span></span>
+<span><span class="co">##   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x000002b0d8c40d98&gt;</span></span>
+<span><span class="co">##   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"</span></span>
+<span><span class="co">##   .. .. ..$ adj_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ bal_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ iterations      : num 10000</span></span>
+<span><span class="co">##   .. .. ..$ start_temp      : num 100</span></span>
+<span><span class="co">##   .. .. ..$ cooling_rate    : num 0.99</span></span>
+<span><span class="co">##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,</span></span>
+<span><span class="co">##     row_column = "row", col_column = "col", ...)</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x000002b0cae73a50&gt;</span></span>
+<span><span class="co">##   .. .. ..$ final_score     : num 1.6</span></span>
+<span><span class="co">##   .. .. ..$ final_components: Named num [1:2] 0 1.6</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"</span></span>
+<span><span class="co">##   .. .. ..$ optimal_score   : num 1.6</span></span>
+<span><span class="co">##   .. .. ..$ stop_reason     : chr "optimal"</span></span>
+<span><span class="co">##   ..$ call      : language speed(data = rcbd_design, swap = "treatment", swap_within = "block", seed = 42)</span></span>
+<span><span class="co">##  - attr(*, "class")= chr [1:2] "design" "list"</span></span></code></pre>
 </section><section class="level3"><h4 id="visualise-the-output-1">Visualise the Output<a class="anchor" aria-label="anchor" href="#visualise-the-output-1"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">rcbd_result</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="speed_files/figure-html/rcbd-plot2-1.png" width="672"></p>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/rcbd-plot2-1.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
-</div>
-</div>
 </div>
 <p>A well-randomised and spatially efficient RCBD layout.</p>
 </section></section></section><section class="section level2"><h2 id="latin-square-design">Latin Square Design<a class="anchor" aria-label="anchor" href="#latin-square-design"></a>
@@ -501,120 +443,98 @@ Seed: 42 </code></pre>
 </ul></section><section class="level2"><h3 id="setting-up-latin-square-with-speed">Setting Up Latin Square with speed<a class="anchor" aria-label="anchor" href="#setting-up-latin-square-with-speed"></a>
 </h3>
 <p>Here we initialise a 5 × 5 Latin square with 5 treatments.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">latin_square_design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initialise_design_df.html">initialise_design_df</a></span><span class="op">(</span>items <span class="op">=</span> <span class="fl">5</span>, nrows <span class="op">=</span> <span class="fl">5</span>, ncols <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">latin_square_design</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  row col treatment
-1   1   1        T1
-2   2   1        T2
-3   3   1        T3
-4   4   1        T4
-5   5   1        T5
-6   1   2        T1</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure><p><img src="speed_files/figure-html/latin-square-plot1-1.png" width="672"></p>
+<pre><code><span><span class="co">##   row col treatment</span></span>
+<span><span class="co">## 1   1   1        T1</span></span>
+<span><span class="co">## 2   2   1        T2</span></span>
+<span><span class="co">## 3   3   1        T3</span></span>
+<span><span class="co">## 4   4   1        T4</span></span>
+<span><span class="co">## 5   5   1        T5</span></span>
+<span><span class="co">## 6   1   2        T1</span></span></code></pre>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/latin-square-plot1-1.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
-</div>
-</div>
 </div>
 <p>This is a systematic Latin square layout; each treatment appears once per row and column. The design will now be randomised.</p>
 <section class="level3"><h4 id="performing-the-optimisation-2">Performing the Optimisation<a class="anchor" aria-label="anchor" href="#performing-the-optimisation-2"></a>
 </h4>
 <p>Because of the spatial optimisation algorithm built into <code>speed</code>, with default optimization parameters and enough iterations, it should arrive at a Latin square design in cases where the number of rows, columns, treatments and replicates are all equal such as this.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">latin_square_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">latin_square_design</span>, </span>
 <span>                             swap <span class="op">=</span> <span class="st">"treatment"</span>,</span>
 <span>                             seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>row and col are used as row and column, respectively.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimising level: single treatment within whole design
-Level: single treatment within whole design Iteration: 1000 Score: 1 Best: 1 Since Improvement: 308
-Optimal score reached at iteration 1040 for level single treatment within whole design </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb33"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## row and col are used as row and column, respectively.</span></span></code></pre>
+<pre><code><span><span class="co">## Optimising level: single treatment within whole design</span></span>
+<span><span class="co">## Level: single treatment within whole design Iteration: 1000 Score: 1 Best: 1 Since Improvement: 308</span></span>
+<span><span class="co">## Optimal score reached at iteration 1040 for level single treatment within whole design</span></span></code></pre>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">latin_square_result</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 0
-Iterations Run: 1041
-Stopped Early: TRUE
-Treatments: T1, T2, T3, T4, T5
-Seed: 42 </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 0</span></span>
+<span><span class="co">## Iterations Run: 1041</span></span>
+<span><span class="co">## Stopped Early: TRUE</span></span>
+<span><span class="co">## Treatments: T1, T2, T3, T4, T5</span></span>
+<span><span class="co">## Seed: 42</span></span></code></pre>
 </section><section class="level3"><h4 id="output-of-the-optimisation-2">Output of the Optimisation<a class="anchor" aria-label="anchor" href="#output-of-the-optimisation-2"></a>
 </h4>
 <p>Note that the final score of zero shows that the algorithm has found a perfect Latin Square solution.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">latin_square_result</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>List of 9
- $ design_df     :Classes 'design' and 'data.frame':    25 obs. of  3 variables:
-  ..$ row      : int [1:25] 1 1 1 1 1 2 2 2 2 2 ...
-  ..$ col      : int [1:25] 1 2 3 4 5 1 2 3 4 5 ...
-  ..$ treatment: chr [1:25] "T3" "T2" "T5" "T1" ...
-  ..- attr(*, "out.attrs")=List of 2
-  .. ..$ dim     : Named int [1:2] 5 5
-  .. .. ..- attr(*, "names")= chr [1:2] "row" "col"
-  .. ..$ dimnames:List of 2
-  .. .. ..$ row: chr [1:5] "row=1" "row=2" "row=3" "row=4" ...
-  .. .. ..$ col: chr [1:5] "col=1" "col=2" "col=3" "col=4" ...
- $ score         : num 0
- $ scores        : num [1:1041] 45 39 37 33.5 30.5 32.5 32 30.5 26.5 29 ...
- $ temperatures  : num [1:1041] 100 99 98 97 96.1 ...
- $ iterations_run: num 1041
- $ stopped_early : logi TRUE
- $ treatments    : chr [1:5] "T1" "T2" "T3" "T4" ...
- $ seed          : num 42
- $ metadata      :List of 6
-  ..$ levels    : chr "single treatment within whole design"
-  ..$ row_column: chr "row"
-  ..$ col_column: chr "col"
-  ..$ grid_by   : NULL
-  ..$ per_level :List of 1
-  .. ..$ single treatment within whole design:List of 13
-  .. .. ..$ swap            : chr "treatment"
-  .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x55626012c378&gt;
-  .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
-  .. .. ..$ adj_weight      : num 1
-  .. .. ..$ bal_weight      : num 1
-  .. .. ..$ iterations      : num 10000
-  .. .. ..$ start_temp      : num 100
-  .. .. ..$ cooling_rate    : num 0.99
-  .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-    row_column = "row", col_column = "col", ...)
-  .. .. ..$ final_score     : num 0
-  .. .. ..$ final_components: Named num [1:2] 0 0
-  .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-  .. .. ..$ optimal_score   : num 0
-  .. .. ..$ stop_reason     : chr "optimal"
-  ..$ call      : language speed(data = latin_square_design, swap = "treatment", seed = 42)
- - attr(*, "class")= chr [1:2] "design" "list"</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## List of 9</span></span>
+<span><span class="co">##  $ design_df     :Classes 'design' and 'data.frame': 25 obs. of  3 variables:</span></span>
+<span><span class="co">##   ..$ row      : int [1:25] 1 1 1 1 1 2 2 2 2 2 ...</span></span>
+<span><span class="co">##   ..$ col      : int [1:25] 1 2 3 4 5 1 2 3 4 5 ...</span></span>
+<span><span class="co">##   ..$ treatment: chr [1:25] "T3" "T2" "T5" "T1" ...</span></span>
+<span><span class="co">##   ..- attr(*, "out.attrs")=List of 2</span></span>
+<span><span class="co">##   .. ..$ dim     : Named int [1:2] 5 5</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "row" "col"</span></span>
+<span><span class="co">##   .. ..$ dimnames:List of 2</span></span>
+<span><span class="co">##   .. .. ..$ row: chr [1:5] "row=1" "row=2" "row=3" "row=4" ...</span></span>
+<span><span class="co">##   .. .. ..$ col: chr [1:5] "col=1" "col=2" "col=3" "col=4" ...</span></span>
+<span><span class="co">##  $ score         : num 0</span></span>
+<span><span class="co">##  $ scores        : num [1:1041] 45 39 37 33.5 30.5 32.5 32 30.5 26.5 29 ...</span></span>
+<span><span class="co">##  $ temperatures  : num [1:1041] 100 99 98 97 96.1 ...</span></span>
+<span><span class="co">##  $ iterations_run: num 1041</span></span>
+<span><span class="co">##  $ stopped_early : logi TRUE</span></span>
+<span><span class="co">##  $ treatments    : chr [1:5] "T1" "T2" "T3" "T4" ...</span></span>
+<span><span class="co">##  $ seed          : num 42</span></span>
+<span><span class="co">##  $ metadata      :List of 6</span></span>
+<span><span class="co">##   ..$ levels    : chr "single treatment within whole design"</span></span>
+<span><span class="co">##   ..$ row_column: chr "row"</span></span>
+<span><span class="co">##   ..$ col_column: chr "col"</span></span>
+<span><span class="co">##   ..$ grid_by   : NULL</span></span>
+<span><span class="co">##   ..$ per_level :List of 1</span></span>
+<span><span class="co">##   .. ..$ single treatment within whole design:List of 13</span></span>
+<span><span class="co">##   .. .. ..$ swap            : chr "treatment"</span></span>
+<span><span class="co">##   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x000002b0ca4538c0&gt;</span></span>
+<span><span class="co">##   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"</span></span>
+<span><span class="co">##   .. .. ..$ adj_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ bal_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ iterations      : num 10000</span></span>
+<span><span class="co">##   .. .. ..$ start_temp      : num 100</span></span>
+<span><span class="co">##   .. .. ..$ cooling_rate    : num 0.99</span></span>
+<span><span class="co">##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,</span></span>
+<span><span class="co">##     row_column = "row", col_column = "col", ...)</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x000002b0cae73a50&gt;</span></span>
+<span><span class="co">##   .. .. ..$ final_score     : num 0</span></span>
+<span><span class="co">##   .. .. ..$ final_components: Named num [1:2] 0 0</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"</span></span>
+<span><span class="co">##   .. .. ..$ optimal_score   : num 0</span></span>
+<span><span class="co">##   .. .. ..$ stop_reason     : chr "optimal"</span></span>
+<span><span class="co">##   ..$ call      : language speed(data = latin_square_design, swap = "treatment", seed = 42)</span></span>
+<span><span class="co">##  - attr(*, "class")= chr [1:2] "design" "list"</span></span></code></pre>
 </section><section class="level3"><h4 id="visualise-the-output-2">Visualise the Output<a class="anchor" aria-label="anchor" href="#visualise-the-output-2"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">latin_square_result</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="speed_files/figure-html/latin-square-plot2-1.png" width="672"></p>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/latin-square-plot2-1.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
-</div>
-</div>
 </div>
 <p>A well-randomised and spatially efficient Latin square layout.</p>
 </section></section></section><section class="section level2"><h2 id="split-plot-design">Split-Plot Design<a class="anchor" aria-label="anchor" href="#split-plot-design"></a>
@@ -640,8 +560,7 @@ Seed: 42 </code></pre>
 </ul></section><section class="level2"><h3 id="setting-up-split-plot-design-with-speed">Setting Up Split Plot Design with speed<a class="anchor" aria-label="anchor" href="#setting-up-split-plot-design-with-speed"></a>
 </h3>
 <p>Now we can create a data frame representing a split plot design. We can build it with <code><a href="../reference/initialise_split_design_df.html">initialise_split_design_df()</a></code> by passing a <code>splits</code> list - one entry per nested level, each describing the size of one unit and the treatments to allocate to it.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">splits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  subplot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>items <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, nrows <span class="op">=</span> <span class="fl">1</span>, ncols <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  wholeplot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>items <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, nrows <span class="op">=</span> <span class="fl">1</span>, ncols <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,</span>
@@ -649,29 +568,20 @@ Seed: 42 </code></pre>
 <span><span class="op">)</span></span>
 <span><span class="va">split_plot_design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initialise_split_design_df.html">initialise_split_design_df</a></span><span class="op">(</span>splits <span class="op">=</span> <span class="va">splits</span>, rep_dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">split_plot_design</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  row col block wholeplot wholeplot_treatment subplot subplot_treatment
-1   1   1     1         1                   A       1                 a
-2   2   1     1         2                   B       5                 a
-3   3   1     1         3                   C       9                 a
-4   4   1     2         4                   A      13                 a
-5   5   1     2         5                   B      17                 a
-6   6   1     2         6                   C      21                 a</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure><p><img src="speed_files/figure-html/split-plot-plot1-1.png" width="672"></p>
+<pre><code><span><span class="co">##   row col block wholeplot wholeplot_treatment subplot subplot_treatment</span></span>
+<span><span class="co">## 1   1   1     1         1                   A       1                 a</span></span>
+<span><span class="co">## 2   2   1     1         2                   B       5                 a</span></span>
+<span><span class="co">## 3   3   1     1         3                   C       9                 a</span></span>
+<span><span class="co">## 4   4   1     2         4                   A      13                 a</span></span>
+<span><span class="co">## 5   5   1     2         5                   B      17                 a</span></span>
+<span><span class="co">## 6   6   1     2         6                   C      21                 a</span></span></code></pre>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/split-plot-plot1-1.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
 </div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="speed_files/figure-html/split-plot-plot1-2.png" width="672"></p>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/split-plot-plot1-2.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
-</div>
-</div>
 </div>
 <p>This is a systematic split plot layout; each treatment appears once per block for whole plot treatments, and once per whole plot for sub-plot treatments. The design will now be randomised.</p>
 <section class="level3"><h4 id="performing-the-optimisation-3">Performing the Optimisation<a class="anchor" aria-label="anchor" href="#performing-the-optimisation-3"></a>
@@ -683,138 +593,124 @@ Seed: 42 </code></pre>
 <p><code>swap_all = TRUE</code> is set on the whole-plot level so that all subplots sharing a whole plot move together; the subplot level keeps the default single-cell swap.</p>
 </blockquote>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">optimise</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  wp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>swap <span class="op">=</span> <span class="st">"wholeplot_treatment"</span>, swap_within <span class="op">=</span> <span class="st">"block"</span>, swap_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  sp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>swap <span class="op">=</span> <span class="st">"subplot_treatment"</span>, swap_within <span class="op">=</span> <span class="st">"wholeplot"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">split_plot_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">split_plot_design</span>, optimise <span class="op">=</span> <span class="va">optimise</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>row and col are used as row and column, respectively.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimising level: wp
-Level: wp Iteration: 1000 Score: 100 Best: 100 Since Improvement: 1000
-Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000
-Early stopping at iteration 2000 for level wp
-Optimising level: sp
-Optimal score reached at iteration 570 for level sp </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb43"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## row and col are used as row and column, respectively.</span></span></code></pre>
+<pre><code><span><span class="co">## Optimising level: wp</span></span>
+<span><span class="co">## Level: wp Iteration: 1000 Score: 100 Best: 100 Since Improvement: 1000</span></span>
+<span><span class="co">## Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000</span></span>
+<span><span class="co">## Early stopping at iteration 2000 for level wp</span></span>
+<span><span class="co">## Optimising level: sp</span></span>
+<span><span class="co">## Optimal score reached at iteration 570 for level sp</span></span></code></pre>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">split_plot_result</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 100
-Iterations Run: 2572
-Stopped Early: TRUE TRUE
-Treatments:
-  wp: A, B, C
-  sp: a, b, c, d
-Seed: 42 </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 100</span></span>
+<span><span class="co">## Iterations Run: 2572</span></span>
+<span><span class="co">## Stopped Early: TRUE TRUE</span></span>
+<span><span class="co">## Treatments:</span></span>
+<span><span class="co">##   wp: A, B, C</span></span>
+<span><span class="co">##   sp: a, b, c, d</span></span>
+<span><span class="co">## Seed: 42</span></span></code></pre>
 </section><section class="level3"><h4 id="output-of-the-optimisation-3">Output of the Optimisation<a class="anchor" aria-label="anchor" href="#output-of-the-optimisation-3"></a>
 </h4>
 <p>The output shows optimisation results for the design. The score and iterations are combined for the entire design, while the treatments, and stopping criteria are reported separately for each level, allowing you to assess the quality of optimisation at each hierarchy level.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">split_plot_result</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>List of 9
- $ design_df     :Classes 'design' and 'data.frame':    48 obs. of  7 variables:
-  ..$ row                : int [1:48] 1 1 1 1 2 2 2 2 3 3 ...
-  ..$ col                : int [1:48] 1 2 3 4 1 2 3 4 1 2 ...
-  ..$ block              : num [1:48] 1 1 1 1 1 1 1 1 1 1 ...
-  ..$ wholeplot          : num [1:48] 1 1 1 1 2 2 2 2 3 3 ...
-  ..$ wholeplot_treatment: chr [1:48] "C" "C" "C" "C" ...
-  ..$ subplot            : num [1:48] 1 2 3 4 5 6 7 8 9 10 ...
-  ..$ subplot_treatment  : chr [1:48] "a" "b" "c" "d" ...
-  ..- attr(*, "out.attrs")=List of 2
-  .. ..$ dim     : Named int [1:2] 12 4
-  .. .. ..- attr(*, "names")= chr [1:2] "row" "col"
-  .. ..$ dimnames:List of 2
-  .. .. ..$ row: chr [1:12] "row= 1" "row= 2" "row= 3" "row= 4" ...
-  .. .. ..$ col: chr [1:4] "col=1" "col=2" "col=3" "col=4"
- $ score         : num 100
- $ scores        :List of 2
-  ..$ wp: num [1:2001] 100 104 104 104 104 104 104 104 100 100 ...
-  ..$ sp: num [1:571] 188 169 151 133 125 ...
- $ temperatures  :List of 2
-  ..$ wp: num [1:2001] 100 99 98 97 96.1 ...
-  ..$ sp: num [1:571] 100 99 98 97 96.1 ...
- $ iterations_run: num 2572
- $ stopped_early : Named logi [1:2] TRUE TRUE
-  ..- attr(*, "names")= chr [1:2] "wp" "sp"
- $ treatments    :List of 2
-  ..$ wp: chr [1:3] "A" "B" "C"
-  ..$ sp: chr [1:4] "a" "b" "c" "d"
- $ seed          : num 42
- $ metadata      :List of 6
-  ..$ levels    : chr [1:2] "wp" "sp"
-  ..$ row_column: chr "row"
-  ..$ col_column: chr "col"
-  ..$ grid_by   : NULL
-  ..$ per_level :List of 2
-  .. ..$ wp:List of 13
-  .. .. ..$ swap            : chr "wholeplot_treatment"
-  .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x556261435358&gt;
-  .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
-  .. .. ..$ adj_weight      : num 1
-  .. .. ..$ bal_weight      : num 1
-  .. .. ..$ iterations      : num 10000
-  .. .. ..$ start_temp      : num 100
-  .. .. ..$ cooling_rate    : num 0.99
-  .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-    row_column = "row", col_column = "col", ...)
-  .. .. ..$ final_score     : num 100
-  .. .. ..$ final_components: Named num [1:2] 36 64
-  .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-  .. .. ..$ optimal_score   : num 4
-  .. .. ..$ stop_reason     : chr "no_improvement"
-  .. ..$ sp:List of 13
-  .. .. ..$ swap            : chr "subplot_treatment"
-  .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-  .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x556261435358&gt;
-  .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
-  .. .. ..$ adj_weight      : num 1
-  .. .. ..$ bal_weight      : num 1
-  .. .. ..$ iterations      : num 10000
-  .. .. ..$ start_temp      : num 100
-  .. .. ..$ cooling_rate    : num 0.99
-  .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-    row_column = "row", col_column = "col", ...)
-  .. .. ..$ final_score     : num 0
-  .. .. ..$ final_components: Named num [1:2] 0 0
-  .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-  .. .. ..$ optimal_score   : num 0
-  .. .. ..$ stop_reason     : chr "optimal"
-  ..$ call      : language speed(data = split_plot_design, optimise = optimise, seed = 42)
- - attr(*, "class")= chr [1:2] "design" "list"</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## List of 9</span></span>
+<span><span class="co">##  $ design_df     :Classes 'design' and 'data.frame': 48 obs. of  7 variables:</span></span>
+<span><span class="co">##   ..$ row                : int [1:48] 1 1 1 1 2 2 2 2 3 3 ...</span></span>
+<span><span class="co">##   ..$ col                : int [1:48] 1 2 3 4 1 2 3 4 1 2 ...</span></span>
+<span><span class="co">##   ..$ block              : num [1:48] 1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span><span class="co">##   ..$ wholeplot          : num [1:48] 1 1 1 1 2 2 2 2 3 3 ...</span></span>
+<span><span class="co">##   ..$ wholeplot_treatment: chr [1:48] "C" "C" "C" "C" ...</span></span>
+<span><span class="co">##   ..$ subplot            : num [1:48] 1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span><span class="co">##   ..$ subplot_treatment  : chr [1:48] "a" "b" "c" "d" ...</span></span>
+<span><span class="co">##   ..- attr(*, "out.attrs")=List of 2</span></span>
+<span><span class="co">##   .. ..$ dim     : Named int [1:2] 12 4</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "row" "col"</span></span>
+<span><span class="co">##   .. ..$ dimnames:List of 2</span></span>
+<span><span class="co">##   .. .. ..$ row: chr [1:12] "row= 1" "row= 2" "row= 3" "row= 4" ...</span></span>
+<span><span class="co">##   .. .. ..$ col: chr [1:4] "col=1" "col=2" "col=3" "col=4"</span></span>
+<span><span class="co">##  $ score         : num 100</span></span>
+<span><span class="co">##  $ scores        :List of 2</span></span>
+<span><span class="co">##   ..$ wp: num [1:2001] 100 104 104 104 104 104 104 104 100 100 ...</span></span>
+<span><span class="co">##   ..$ sp: num [1:571] 188 169 151 133 125 ...</span></span>
+<span><span class="co">##  $ temperatures  :List of 2</span></span>
+<span><span class="co">##   ..$ wp: num [1:2001] 100 99 98 97 96.1 ...</span></span>
+<span><span class="co">##   ..$ sp: num [1:571] 100 99 98 97 96.1 ...</span></span>
+<span><span class="co">##  $ iterations_run: num 2572</span></span>
+<span><span class="co">##  $ stopped_early : Named logi [1:2] TRUE TRUE</span></span>
+<span><span class="co">##   ..- attr(*, "names")= chr [1:2] "wp" "sp"</span></span>
+<span><span class="co">##  $ treatments    :List of 2</span></span>
+<span><span class="co">##   ..$ wp: chr [1:3] "A" "B" "C"</span></span>
+<span><span class="co">##   ..$ sp: chr [1:4] "a" "b" "c" "d"</span></span>
+<span><span class="co">##  $ seed          : num 42</span></span>
+<span><span class="co">##  $ metadata      :List of 6</span></span>
+<span><span class="co">##   ..$ levels    : chr [1:2] "wp" "sp"</span></span>
+<span><span class="co">##   ..$ row_column: chr "row"</span></span>
+<span><span class="co">##   ..$ col_column: chr "col"</span></span>
+<span><span class="co">##   ..$ grid_by   : NULL</span></span>
+<span><span class="co">##   ..$ per_level :List of 2</span></span>
+<span><span class="co">##   .. ..$ wp:List of 13</span></span>
+<span><span class="co">##   .. .. ..$ swap            : chr "wholeplot_treatment"</span></span>
+<span><span class="co">##   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x000002b0d0b8f0e0&gt;</span></span>
+<span><span class="co">##   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"</span></span>
+<span><span class="co">##   .. .. ..$ adj_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ bal_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ iterations      : num 10000</span></span>
+<span><span class="co">##   .. .. ..$ start_temp      : num 100</span></span>
+<span><span class="co">##   .. .. ..$ cooling_rate    : num 0.99</span></span>
+<span><span class="co">##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,</span></span>
+<span><span class="co">##     row_column = "row", col_column = "col", ...)</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x000002b0cae73a50&gt;</span></span>
+<span><span class="co">##   .. .. ..$ final_score     : num 100</span></span>
+<span><span class="co">##   .. .. ..$ final_components: Named num [1:2] 36 64</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"</span></span>
+<span><span class="co">##   .. .. ..$ optimal_score   : num 4</span></span>
+<span><span class="co">##   .. .. ..$ stop_reason     : chr "no_improvement"</span></span>
+<span><span class="co">##   .. ..$ sp:List of 13</span></span>
+<span><span class="co">##   .. .. ..$ swap            : chr "subplot_treatment"</span></span>
+<span><span class="co">##   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, ".Environment")=&lt;environment: 0x000002b0d0b8f0e0&gt;</span></span>
+<span><span class="co">##   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"</span></span>
+<span><span class="co">##   .. .. ..$ adj_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ bal_weight      : num 1</span></span>
+<span><span class="co">##   .. .. ..$ iterations      : num 10000</span></span>
+<span><span class="co">##   .. .. ..$ start_temp      : num 100</span></span>
+<span><span class="co">##   .. .. ..$ cooling_rate    : num 0.99</span></span>
+<span><span class="co">##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,</span></span>
+<span><span class="co">##     row_column = "row", col_column = "col", ...)</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90</span></span>
+<span><span class="co">##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x000002b0cae73a50&gt;</span></span>
+<span><span class="co">##   .. .. ..$ final_score     : num 0</span></span>
+<span><span class="co">##   .. .. ..$ final_components: Named num [1:2] 0 0</span></span>
+<span><span class="co">##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"</span></span>
+<span><span class="co">##   .. .. ..$ optimal_score   : num 0</span></span>
+<span><span class="co">##   .. .. ..$ stop_reason     : chr "optimal"</span></span>
+<span><span class="co">##   ..$ call      : language speed(data = split_plot_design, optimise = optimise, seed = 42)</span></span>
+<span><span class="co">##  - attr(*, "class")= chr [1:2] "design" "list"</span></span></code></pre>
 </section><section class="level3"><h4 id="visualise-the-output-3">Visualise the Output<a class="anchor" aria-label="anchor" href="#visualise-the-output-3"></a>
 </h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">split_plot_result</span>, treatments <span class="op">=</span> <span class="st">"wholeplot_treatment"</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="speed_files/figure-html/split-plot-plot2-1.png" width="672"></p>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/split-plot-plot2-1.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
 </div>
-</div>
-<div class="sourceCode cell-code" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">split_plot_result</span>, treatments <span class="op">=</span> <span class="st">"subplot_treatment"</span>, block <span class="op">=</span> <span class="st">"wholeplot"</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="speed_files/figure-html/split-plot-plot2-2.png" width="672"></p>
+<div class="quarto-figure quarto-figure-default">
+<figure><p><img src="figures/split-plot-plot2-2.png" class="quarto-figure quarto-figure-default"></p>
 </figure>
-</div>
-</div>
 </div>
 <p>This design has now been optimised at both the whole plot level and the sub-plot level.</p>
 </section></section></section><section class="section level2"><h2 id="keeping-related-columns-together">Keeping Related Columns Together<a class="anchor" aria-label="anchor" href="#keeping-related-columns-together"></a>
@@ -825,100 +721,71 @@ Seed: 42 </code></pre>
 </section><section class="level2"><h3 id="example-variety-names-alongside-treatment-codes">Example: Variety Names Alongside Treatment Codes<a class="anchor" aria-label="anchor" href="#example-variety-names-alongside-treatment-codes"></a>
 </h3>
 <p>Consider a trial of 6 wheat varieties where the design carries both a treatment code and the cultivar name.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variety_trial</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initialise_design_df.html">initialise_design_df</a></span><span class="op">(</span>items <span class="op">=</span> <span class="fl">6</span>, nrows <span class="op">=</span> <span class="fl">6</span>, ncols <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="va">varieties</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>T1 <span class="op">=</span> <span class="st">"Scepter"</span>, T2 <span class="op">=</span> <span class="st">"Vixen"</span>, T3 <span class="op">=</span> <span class="st">"Calibre"</span>,</span>
 <span>               T4 <span class="op">=</span> <span class="st">"Rockstar"</span>, T5 <span class="op">=</span> <span class="st">"Ballista"</span>, T6 <span class="op">=</span> <span class="st">"Denison"</span><span class="op">)</span></span>
 <span><span class="va">variety_trial</span><span class="op">$</span><span class="va">variety_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">varieties</span><span class="op">[</span><span class="va">variety_trial</span><span class="op">$</span><span class="va">treatment</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">variety_trial</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  row col treatment variety_name
-1   1   1        T1      Scepter
-2   2   1        T2        Vixen
-3   3   1        T3      Calibre
-4   4   1        T4     Rockstar
-5   5   1        T5     Ballista
-6   6   1        T6      Denison</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">##   row col treatment variety_name</span></span>
+<span><span class="co">## 1   1   1        T1      Scepter</span></span>
+<span><span class="co">## 2   2   1        T2        Vixen</span></span>
+<span><span class="co">## 3   3   1        T3      Calibre</span></span>
+<span><span class="co">## 4   4   1        T4     Rockstar</span></span>
+<span><span class="co">## 5   5   1        T5     Ballista</span></span>
+<span><span class="co">## 6   6   1        T6      Denison</span></span></code></pre>
 <p>Optimising without <code>linked_cols</code> moves <code>treatment</code> but leaves <code>variety_name</code> sitting in its original row order, so the pairing between the two is lost:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unlinked</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">variety_trial</span>, swap <span class="op">=</span> <span class="st">"treatment"</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>row and col are used as row and column, respectively.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimising level: single treatment within whole design
-Optimal score reached at iteration 738 for level single treatment within whole design </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb54"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## row and col are used as row and column, respectively.</span></span></code></pre>
+<pre><code><span><span class="co">## Optimising level: single treatment within whole design</span></span>
+<span><span class="co">## Optimal score reached at iteration 738 for level single treatment within whole design</span></span></code></pre>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">unlinked</span><span class="op">$</span><span class="va">design_df</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  row col treatment variety_name
-1   1   1        T1      Scepter
-2   1   2        T4      Scepter
-3   1   3        T5      Scepter
-4   1   4        T2      Scepter
-5   2   1        T5        Vixen
-6   2   2        T6        Vixen</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">##   row col treatment variety_name</span></span>
+<span><span class="co">## 1   1   1        T1      Scepter</span></span>
+<span><span class="co">## 2   1   2        T4      Scepter</span></span>
+<span><span class="co">## 3   1   3        T5      Scepter</span></span>
+<span><span class="co">## 4   1   4        T2      Scepter</span></span>
+<span><span class="co">## 5   2   1        T5        Vixen</span></span>
+<span><span class="co">## 6   2   2        T6        Vixen</span></span></code></pre>
 <p>Naming the column in <code>linked_cols</code> carries it along with the treatment it belongs to:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">linked</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">variety_trial</span>,</span>
 <span>                swap <span class="op">=</span> <span class="st">"treatment"</span>,</span>
 <span>                linked_cols <span class="op">=</span> <span class="st">"variety_name"</span>,</span>
 <span>                seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>row and col are used as row and column, respectively.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimising level: single treatment within whole design
-Optimal score reached at iteration 738 for level single treatment within whole design </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb59"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## row and col are used as row and column, respectively.</span></span></code></pre>
+<pre><code><span><span class="co">## Optimising level: single treatment within whole design</span></span>
+<span><span class="co">## Optimal score reached at iteration 738 for level single treatment within whole design</span></span></code></pre>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">linked</span><span class="op">$</span><span class="va">design_df</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  row col treatment variety_name
-1   1   1        T1      Scepter
-2   1   2        T4     Rockstar
-3   1   3        T5     Ballista
-4   1   4        T2        Vixen
-5   2   1        T5     Ballista
-6   2   2        T6      Denison</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">##   row col treatment variety_name</span></span>
+<span><span class="co">## 1   1   1        T1      Scepter</span></span>
+<span><span class="co">## 2   1   2        T4     Rockstar</span></span>
+<span><span class="co">## 3   1   3        T5     Ballista</span></span>
+<span><span class="co">## 4   1   4        T2        Vixen</span></span>
+<span><span class="co">## 5   2   1        T5     Ballista</span></span>
+<span><span class="co">## 6   2   2        T6      Denison</span></span></code></pre>
 <p>Every code is now back with its own cultivar:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">linked</span><span class="op">$</span><span class="va">design_df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"treatment"</span>, <span class="st">"variety_name"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  treatment variety_name
-1        T1      Scepter
-2        T4     Rockstar
-3        T5     Ballista
-4        T2        Vixen
-6        T6      Denison
-9        T3      Calibre</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">##   treatment variety_name</span></span>
+<span><span class="co">## 1        T1      Scepter</span></span>
+<span><span class="co">## 2        T4     Rockstar</span></span>
+<span><span class="co">## 3        T5     Ballista</span></span>
+<span><span class="co">## 4        T2        Vixen</span></span>
+<span><span class="co">## 6        T6      Denison</span></span>
+<span><span class="co">## 9        T3      Calibre</span></span></code></pre>
 <p>Linked columns take no part in scoring, so adding them cannot change the design that is found. The two runs above produce exactly the same layout:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">unlinked</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">treatment</span>, <span class="va">linked</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">treatment</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 <p>They are also returned in their original position and with their original type - no extra columns appear in the output.</p>
 </section><section class="level2"><h3 id="hierarchical-designs">Hierarchical Designs<a class="anchor" aria-label="anchor" href="#hierarchical-designs"></a>
 </h3>
 <p>Each level of a hierarchical design swaps its own column, so companion columns have to be matched to the level that moves them. Here the whole plot treatment carries an irrigation method, and the sub-plot treatment carries a cultivar name:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">split_plot_linked</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initialise_split_design_df.html">initialise_split_design_df</a></span><span class="op">(</span>splits <span class="op">=</span> <span class="va">splits</span>, rep_dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">split_plot_linked</span><span class="op">$</span><span class="va">irrigation</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="st">"Drip"</span>, B <span class="op">=</span> <span class="st">"Flood"</span>, C <span class="op">=</span> <span class="st">"None"</span><span class="op">)</span><span class="op">[</span><span class="va">split_plot_linked</span><span class="op">$</span><span class="va">wholeplot_treatment</span><span class="op">]</span></span>
@@ -928,16 +795,12 @@ Optimal score reached at iteration 738 for level single treatment within whole d
 <span>    <span class="va">split_plot_linked</span><span class="op">$</span><span class="va">subplot_treatment</span></span>
 <span>  <span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-</div>
 <p><code>linked_cols</code> takes a named list whose names match the levels, so the <code>optimise</code> list built for the split plot design above can be reused unchanged - useful when it is defined elsewhere and shared between designs:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">split_plot_linked</span>, optimise <span class="op">=</span> <span class="va">optimise</span>,</span>
 <span>      linked_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>wp <span class="op">=</span> <span class="st">"irrigation"</span>, sp <span class="op">=</span> <span class="st">"variety"</span><span class="op">)</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
-</div>
 <p>Since the hierarchy is already described level by level, <code>linked_cols</code> can equally go inside <code>optimise</code> alongside the other per-level arguments, which keeps each level’s description in one place. Where a level sets <code>linked_cols</code> itself, that wins; the argument fills in the levels that do not.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">optimise_linked</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  wp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    swap <span class="op">=</span> <span class="st">"wholeplot_treatment"</span>, swap_within <span class="op">=</span> <span class="st">"block"</span>, swap_all <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -950,35 +813,26 @@ Optimal score reached at iteration 738 for level single treatment within whole d
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">linked_split</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span><span class="va">split_plot_linked</span>, optimise <span class="op">=</span> <span class="va">optimise_linked</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>row and col are used as row and column, respectively.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimising level: wp
-Level: wp Iteration: 1000 Score: 100 Best: 100 Since Improvement: 1000
-Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000
-Early stopping at iteration 2000 for level wp
-Optimising level: sp
-Optimal score reached at iteration 570 for level sp </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb70"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## row and col are used as row and column, respectively.</span></span></code></pre>
+<pre><code><span><span class="co">## Optimising level: wp</span></span>
+<span><span class="co">## Level: wp Iteration: 1000 Score: 100 Best: 100 Since Improvement: 1000</span></span>
+<span><span class="co">## Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000</span></span>
+<span><span class="co">## Early stopping at iteration 2000 for level wp</span></span>
+<span><span class="co">## Optimising level: sp</span></span>
+<span><span class="co">## Optimal score reached at iteration 570 for level sp</span></span></code></pre>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">linked_split</span><span class="op">$</span><span class="va">design_df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wholeplot_treatment"</span>, <span class="st">"irrigation"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  wholeplot_treatment irrigation
-1                   C       None
-5                   A       Drip
-9                   B      Flood</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb72"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">##   wholeplot_treatment irrigation</span></span>
+<span><span class="co">## 1                   C       None</span></span>
+<span><span class="co">## 5                   A       Drip</span></span>
+<span><span class="co">## 9                   B      Flood</span></span></code></pre>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">linked_split</span><span class="op">$</span><span class="va">design_df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subplot_treatment"</span>, <span class="st">"variety"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  subplot_treatment variety
-1                 a Scepter
-2                 b   Vixen
-3                 c Calibre
-4                 d Denison</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">##   subplot_treatment variety</span></span>
+<span><span class="co">## 1                 a Scepter</span></span>
+<span><span class="co">## 2                 b   Vixen</span></span>
+<span><span class="co">## 3                 c Calibre</span></span>
+<span><span class="co">## 4                 d Denison</span></span></code></pre>
 <div>
 <blockquote>
 <p><strong>Note</strong></p>

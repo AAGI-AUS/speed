@@ -4,12 +4,20 @@ for the input shape given and running the checks that apply to all three.
 Checks needing the resolved per-level list cannot run here; they are
 documented under .verify_level_columns() and are called from speed() once
 create_speed_input() has built it.
+grid_factors must be a single list naming the two grid axes, since
+infer_row_col() resolves one pair of axes for the whole design. The axes
+cannot vary between levels of a hierarchical design; by is what splits a
+design into separate grids.
 grid_factors is a plain list, so a mistyped by would be ignored and every
 grid silently pooled. Checked before any optimisation happens."><meta property="og:description" content="Validates the arguments as the user passed them, dispatching to the checker
 for the input shape given and running the checks that apply to all three.
 Checks needing the resolved per-level list cannot run here; they are
 documented under .verify_level_columns() and are called from speed() once
 create_speed_input() has built it.
+grid_factors must be a single list naming the two grid axes, since
+infer_row_col() resolves one pair of axes for the whole design. The axes
+cannot vary between levels of a hierarchical design; by is what splits a
+design into separate grids.
 grid_factors is a plain list, so a mistyped by would be ignored and every
 grid silently pooled. Checked before any optimisation happens."><meta property="og:image" content="https://biometryhub.github.io/speed/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -65,6 +73,10 @@ for the input shape given and running the checks that apply to all three.
 Checks needing the resolved per-level list cannot run here; they are
 documented under <code><a href="verify_resolved.html">.verify_level_columns()</a></code> and are called from <code><a href="speed.html">speed()</a></code> once
 <code><a href="create_speed_input.html">create_speed_input()</a></code> has built it.</p>
+<p><code>grid_factors</code> must be a single list naming the two grid axes, since
+<code><a href="infer_row_col.html">infer_row_col()</a></code> resolves one pair of axes for the whole design. The axes
+cannot vary between levels of a hierarchical design; <code>by</code> is what splits a
+design into separate grids.</p>
 <p><code>grid_factors</code> is a plain list, so a mistyped <code>by</code> would be ignored and every
 grid silently pooled. Checked before any optimisation happens.</p>
     </div>
@@ -120,6 +132,8 @@ grid silently pooled. Checked before any optimisation happens.</p>
 <span>  <span class="va">stop_at_optimal</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">.verify_grid_factors</span><span class="op">(</span><span class="va">grid_factors</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">.verify_grid_by</span><span class="op">(</span><span class="va">data</span>, <span class="va">grid_factors</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -157,7 +171,9 @@ consider for balance (default: <code>~row + col</code>).</p></dd>
 <dt id="arg-grid-factors">grid_factors<a class="anchor" aria-label="anchor" href="#arg-grid-factors"></a></dt>
 <dd><p>A named list specifying grid factors to construct a
 matrix for calculating adjacency score, <code>dim1</code> for row and <code>dim2</code> for
-column. (default: <code>list(dim1 = "row", dim2 = "col")</code>).</p>
+column. (default: <code>list(dim1 = "row", dim2 = "col")</code>). The axes apply to
+the whole design, so unlike <code>swap</code> they cannot be set per level of a
+hierarchical design.</p>
 <p>An optional third element, <code>by</code>, names a column that groups plots into
 <em>separate</em> grids - a multi-environment trial, where each site reuses the
 same <code>row</code>/<code>col</code> numbering. Each grid is then scored on its own and the

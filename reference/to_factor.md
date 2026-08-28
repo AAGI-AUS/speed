@@ -1,14 +1,9 @@
 # Convert Data Frame Data to Factors
 
-Converts the named columns to factors, which is what the SA loop
-requires. Names not present in `df` are ignored, so a caller may pass
-the `"1"` / `"none"` placeholder used for a level with no `swap_within`
-boundary. Columns outside `cols` are left untouched and are not recorded
-in `input_types`, so
-[`to_types()`](https://biometryhub.github.io/speed/reference/to_types.md)
-returns them exactly as they came in - the only way to preserve a class
-[`base_type()`](https://biometryhub.github.io/speed/reference/base_type.md)
-cannot rebuild, such as `Date`.
+Converts the named columns to factors. Names not present in `df` are
+ignored, so a caller may pass the `"1"` / `"none"` placeholder used for
+a level with no `swap_within` boundary. Columns outside `cols` are left
+untouched.
 
 ## Usage
 

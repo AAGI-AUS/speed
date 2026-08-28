@@ -258,7 +258,7 @@ treatments, arranged in 10 blocks, with each block containing 3 plots.
 The `block_nrows` and `block_ncols` parameters define the layout of the
 blocks.
 
-![](custom_objective_functions_files/figure-html/fig-bibd-layout-1.png)
+![](figures/fig-bibd-layout-1.png)
 
 Figure 1: Initial BIBD Layout
 
@@ -311,7 +311,7 @@ result
 autoplot(result)
 ```
 
-![](custom_objective_functions_files/figure-html/bibd_result-plot-1.png)
+![](figures/bibd_result-plot-1.png)
 
 ``` r
 

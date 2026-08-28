@@ -63,18 +63,16 @@ design_df$group <- groups[design_df$treatment]
 head(design_df)
 ```
 
-      row col treatment row_block col_block block group
-    1   1   1        T1         1         1     1     A
-    2   2   1        T2         1         1     1     A
-    3   3   1        T3         1         1     1     A
-    4   4   1        T4         1         1     1     A
-    5   5   1        T1         2         1     2     A
-    6   6   1        T2         2         1     2     A
+    ##   row col treatment row_block col_block block group
+    ## 1   1   1        T1         1         1     1     A
+    ## 2   2   1        T2         1         1     1     A
+    ## 3   3   1        T3         1         1     1     A
+    ## 4   4   1        T4         1         1     1     A
+    ## 5   5   1        T1         2         1     2     A
+    ## 6   6   1        T2         2         1     2     A
 
 Plotting these factors shows the initial layout of the treatments and
 their group.
-
-Code
 
 ``` r
 
@@ -86,7 +84,7 @@ p_group <- autoplot(design_df, treatments = "group") +
 p_treat + p_group + plot_layout(ncol = 2)
 ```
 
-![](genetic_relationship_files/figure-html/fig-init-1.png)
+![](figures/fig-init-1.png)
 
 Figure 1: Initial systematic layout: treatments and groups, with block
 boundaries.
@@ -111,8 +109,6 @@ for (g in names(within)) {
 diag(rel) <- 1
 ```
 
-Code
-
 ``` r
 
 rel_long <- as.data.frame.table(rel, responseName = "value")
@@ -136,7 +132,7 @@ ggplot2::ggplot(rel_long, ggplot2::aes(x = col, y = row, fill = value)) +
   ggplot2::theme(panel.grid = ggplot2::element_blank())
 ```
 
-![](genetic_relationship_files/figure-html/fig-relationship-1.png)
+![](figures/fig-relationship-1.png)
 
 Figure 2: Relationship matrix as a heatmap. Diagonal cells are
 self-pairs (`1`); each `4 × 4` block on the diagonal corresponds to a
@@ -171,30 +167,28 @@ related_result <- speed(
 default_result
 ```
 
-    Optimised Experimental Design
-    ----------------------------
-    Score: 4.266667
-    Iterations Run: 872
-    Stopped Early: TRUE
-    Treatments: T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16
-    Seed: 42 
+    ## Optimised Experimental Design
+    ## ----------------------------
+    ## Score: 4.266667
+    ## Iterations Run: 872
+    ## Stopped Early: TRUE
+    ## Treatments: T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16
+    ## Seed: 42
 
 ``` r
 
 related_result
 ```
 
-    Optimised Experimental Design
-    ----------------------------
-    Score: 4.266667
-    Iterations Run: 3511
-    Stopped Early: TRUE
-    Treatments: T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16
-    Seed: 42 
+    ## Optimised Experimental Design
+    ## ----------------------------
+    ## Score: 4.266667
+    ## Iterations Run: 3511
+    ## Stopped Early: TRUE
+    ## Treatments: T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16
+    ## Seed: 42
 
 ### Visualising the Output
-
-Code
 
 ``` r
 
@@ -208,12 +202,10 @@ p_rel_g <- autoplot(related_result, treatments = "group") +
 p_def_g + p_rel_g + plot_layout(ncol = 2)
 ```
 
-![](genetic_relationship_files/figure-html/fig-final-group-1.png)
+![](figures/fig-final-group-1.png)
 
 Figure 3: Group view: default identity-only adjacency
 vs. relationship-aware adjacency.
-
-Code
 
 ``` r
 
@@ -224,7 +216,7 @@ p_rel_t <- autoplot(related_result, treatments = "treatment") +
 p_def_t + p_rel_t + plot_layout(ncol = 2)
 ```
 
-![](genetic_relationship_files/figure-html/fig-final-treat-1.png)
+![](figures/fig-final-treat-1.png)
 
 Figure 4: Treatment view: default identity-only adjacency
 vs. relationship-aware adjacency.
@@ -258,13 +250,13 @@ design_df2 <- initialise_design_df(
 head(design_df2)
 ```
 
-      row col treatment row_block col_block block
-    1   1   1        V1         1         1     1
-    2   2   1        V2         1         1     1
-    3   3   1        V3         1         1     1
-    4   4   1        V4         1         1     1
-    5   1   2        V5         1         1     1
-    6   2   2        V6         1         1     1
+    ##   row col treatment row_block col_block block
+    ## 1   1   1        V1         1         1     1
+    ## 2   2   1        V2         1         1     1
+    ## 3   3   1        V3         1         1     1
+    ## 4   4   1        V4         1         1     1
+    ## 5   1   2        V5         1         1     1
+    ## 6   2   2        V6         1         1     1
 
 ### Building the Relationship Matrix
 
@@ -284,8 +276,6 @@ rel2[upper.tri(rel2)] <- runif(n_v * (n_v - 1) / 2, min = 0, max = 0.9)
 rel2 <- rel2 + t(rel2)
 diag(rel2) <- 1
 ```
-
-Code
 
 ``` r
 
@@ -310,7 +300,7 @@ ggplot2::ggplot(rel2_long, ggplot2::aes(x = col, y = row, fill = value)) +
   ggplot2::theme(panel.grid = ggplot2::element_blank())
 ```
 
-![](genetic_relationship_files/figure-html/fig-relationship-cor-1.png)
+![](figures/fig-relationship-cor-1.png)
 
 Figure 5: Per-pair relationship matrix as a heatmap. Every off-diagonal
 cell is unique; the diagonal is fixed at `1`.
@@ -347,30 +337,28 @@ related_result2 <- speed(
 default_result2
 ```
 
-    Optimised Experimental Design
-    ----------------------------
-    Score: 2.285714
-    Iterations Run: 758
-    Stopped Early: TRUE
-    Treatments: V1, V2, V3, V4, V5, V6, V7, V8
-    Seed: 112 
+    ## Optimised Experimental Design
+    ## ----------------------------
+    ## Score: 2.285714
+    ## Iterations Run: 758
+    ## Stopped Early: TRUE
+    ## Treatments: V1, V2, V3, V4, V5, V6, V7, V8
+    ## Seed: 112
 
 ``` r
 
 related_result2
 ```
 
-    Optimised Experimental Design
-    ----------------------------
-    Score: 16.30073
-    Iterations Run: 3435
-    Stopped Early: TRUE
-    Treatments: V1, V2, V3, V4, V5, V6, V7, V8
-    Seed: 112 
+    ## Optimised Experimental Design
+    ## ----------------------------
+    ## Score: 16.30073
+    ## Iterations Run: 3435
+    ## Stopped Early: TRUE
+    ## Treatments: V1, V2, V3, V4, V5, V6, V7, V8
+    ## Seed: 112
 
 ### Visualising the Output
-
-Code
 
 ``` r
 
@@ -381,7 +369,7 @@ p_rel_t2 <- autoplot(related_result2, treatments = "treatment") +
 p_def_t2 + p_rel_t2 + plot_layout(ncol = 2)
 ```
 
-![](genetic_relationship_files/figure-html/fig-final-treat-cor-1.png)
+![](figures/fig-final-treat-cor-1.png)
 
 Figure 6: Treatment view: default identity-only adjacency
 vs. relationship-aware adjacency under per-pair similarities.
@@ -392,8 +380,6 @@ similar varieties - neighbours of any given variety tend to be the
 varieties with the smallest entries in its row of `rel2`.
 
 The placements of the closely related pairs of treatments:
-
-Code
 
 ``` r
 
@@ -449,7 +435,7 @@ for (i in 1:3) {
 plots + plot_layout(ncol = 2)
 ```
 
-![](genetic_relationship_files/figure-html/fig-close-treatments-cor-1.png)
+![](figures/fig-close-treatments-cor-1.png)
 
 Figure 7: Optimised layout. Only varieties involved in the
 high-similarity pairs are shown.

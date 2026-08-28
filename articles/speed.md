@@ -62,15 +62,15 @@ crd_design <- initialise_design_df(items = 8, nrows = 8, ncols = 4)
 head(crd_design)
 ```
 
-      row col treatment
-    1   1   1        T1
-    2   2   1        T2
-    3   3   1        T3
-    4   4   1        T4
-    5   5   1        T5
-    6   6   1        T6
+    ##   row col treatment
+    ## 1   1   1        T1
+    ## 2   2   1        T2
+    ## 3   3   1        T3
+    ## 4   4   1        T4
+    ## 5   5   1        T5
+    ## 6   6   1        T6
 
-![](speed_files/figure-html/crd-plot1-1.png)
+![](figures/crd-plot1-1.png)
 
 This is a systematic layout; note how the initial layout arranges
 treatments in a repeating, non-random pattern. This will now be
@@ -93,23 +93,23 @@ crd_result <- speed(crd_design,
                     seed = 42)
 ```
 
-    row and col are used as row and column, respectively.
+    ## row and col are used as row and column, respectively.
 
-    Optimising level: single treatment within whole design
-    Optimal score reached at iteration 730 for level single treatment within whole design 
+    ## Optimising level: single treatment within whole design
+    ## Optimal score reached at iteration 730 for level single treatment within whole design
 
 ``` r
 
 crd_result
 ```
 
-    Optimised Experimental Design
-    ----------------------------
-    Score: 2.285714
-    Iterations Run: 730
-    Stopped Early: TRUE
-    Treatments: T1, T2, T3, T4, T5, T6, T7, T8
-    Seed: 42 
+    ## Optimised Experimental Design
+    ## ----------------------------
+    ## Score: 2.285714
+    ## Iterations Run: 730
+    ## Stopped Early: TRUE
+    ## Treatments: T1, T2, T3, T4, T5, T6, T7, T8
+    ## Seed: 42
 
 #### Output of the Optimisation
 
@@ -127,49 +127,51 @@ some additional components, which can be seen below:
 str(crd_result)
 ```
 
-    List of 9
-     $ design_df     :Classes 'design' and 'data.frame':    32 obs. of  3 variables:
-      ..$ row      : int [1:32] 1 1 1 1 2 2 2 2 3 3 ...
-      ..$ col      : int [1:32] 1 2 3 4 1 2 3 4 1 2 ...
-      ..$ treatment: chr [1:32] "T8" "T1" "T7" "T3" ...
-      ..- attr(*, "out.attrs")=List of 2
-      .. ..$ dim     : Named int [1:2] 8 4
-      .. .. ..- attr(*, "names")= chr [1:2] "row" "col"
-      .. ..$ dimnames:List of 2
-      .. .. ..$ row: chr [1:8] "row=1" "row=2" "row=3" "row=4" ...
-      .. .. ..$ col: chr [1:4] "col=1" "col=2" "col=3" "col=4"
-     $ score         : num 2.29
-     $ scores        : num [1:730] 40 36.3 32.4 28.3 24.1 ...
-     $ temperatures  : num [1:730] 100 99 98 97 96.1 ...
-     $ iterations_run: num 730
-     $ stopped_early : logi TRUE
-     $ treatments    : chr [1:8] "T1" "T2" "T3" "T4" ...
-     $ seed          : num 42
-     $ metadata      :List of 6
-      ..$ levels    : chr "single treatment within whole design"
-      ..$ row_column: chr "row"
-      ..$ col_column: chr "col"
-      ..$ grid_by   : NULL
-      ..$ per_level :List of 1
-      .. ..$ single treatment within whole design:List of 13
-      .. .. ..$ swap            : chr "treatment"
-      .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x55625f71f7e0>
-      .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
-      .. .. ..$ adj_weight      : num 1
-      .. .. ..$ bal_weight      : num 1
-      .. .. ..$ iterations      : num 10000
-      .. .. ..$ start_temp      : num 100
-      .. .. ..$ cooling_rate    : num 0.99
-      .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-        row_column = "row", col_column = "col", ...)
-      .. .. ..$ final_score     : num 2.29
-      .. .. ..$ final_components: Named num [1:2] 0 2.29
-      .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-      .. .. ..$ optimal_score   : num 2.29
-      .. .. ..$ stop_reason     : chr "optimal"
-      ..$ call      : language speed(data = crd_design, swap = "treatment", seed = 42)
-     - attr(*, "class")= chr [1:2] "design" "list"
+    ## List of 9
+    ##  $ design_df     :Classes 'design' and 'data.frame': 32 obs. of  3 variables:
+    ##   ..$ row      : int [1:32] 1 1 1 1 2 2 2 2 3 3 ...
+    ##   ..$ col      : int [1:32] 1 2 3 4 1 2 3 4 1 2 ...
+    ##   ..$ treatment: chr [1:32] "T8" "T1" "T7" "T3" ...
+    ##   ..- attr(*, "out.attrs")=List of 2
+    ##   .. ..$ dim     : Named int [1:2] 8 4
+    ##   .. .. ..- attr(*, "names")= chr [1:2] "row" "col"
+    ##   .. ..$ dimnames:List of 2
+    ##   .. .. ..$ row: chr [1:8] "row=1" "row=2" "row=3" "row=4" ...
+    ##   .. .. ..$ col: chr [1:4] "col=1" "col=2" "col=3" "col=4"
+    ##  $ score         : num 2.29
+    ##  $ scores        : num [1:730] 40 36.3 32.4 28.3 24.1 ...
+    ##  $ temperatures  : num [1:730] 100 99 98 97 96.1 ...
+    ##  $ iterations_run: num 730
+    ##  $ stopped_early : logi TRUE
+    ##  $ treatments    : chr [1:8] "T1" "T2" "T3" "T4" ...
+    ##  $ seed          : num 42
+    ##  $ metadata      :List of 6
+    ##   ..$ levels    : chr "single treatment within whole design"
+    ##   ..$ row_column: chr "row"
+    ##   ..$ col_column: chr "col"
+    ##   ..$ grid_by   : NULL
+    ##   ..$ per_level :List of 1
+    ##   .. ..$ single treatment within whole design:List of 13
+    ##   .. .. ..$ swap            : chr "treatment"
+    ##   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
+    ##   .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x000002b0d2e34660>
+    ##   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
+    ##   .. .. ..$ adj_weight      : num 1
+    ##   .. .. ..$ bal_weight      : num 1
+    ##   .. .. ..$ iterations      : num 10000
+    ##   .. .. ..$ start_temp      : num 100
+    ##   .. .. ..$ cooling_rate    : num 0.99
+    ##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
+    ##     row_column = "row", col_column = "col", ...)
+    ##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90
+    ##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000002b0cae73a50>
+    ##   .. .. ..$ final_score     : num 2.29
+    ##   .. .. ..$ final_components: Named num [1:2] 0 2.29
+    ##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
+    ##   .. .. ..$ optimal_score   : num 2.29
+    ##   .. .. ..$ stop_reason     : chr "optimal"
+    ##   ..$ call      : language speed(data = crd_design, swap = "treatment", seed = 42)
+    ##  - attr(*, "class")= chr [1:2] "design" "list"
 
 #### Visualise the Output
 
@@ -186,7 +188,7 @@ reliability of your results.
 autoplot(crd_result)
 ```
 
-![](speed_files/figure-html/crd-plot2-1.png)
+![](figures/crd-plot2-1.png)
 
 A nicely randomised[^1] and spatially optimal design!
 
@@ -203,36 +205,36 @@ reports a set of structural and evaluation metrics:
 summary(crd_result)
 ```
 
-    Design Summary
-    ==============
-
-    Structure
-    ---------
-    Layout:       8 rows x 4 cols (32 plots)
-    Treatments:   8
-    Replication:  4 each
-    Spatial:      row (8), col (4)
-
-    Optimisation
-    ------------
-    Seed:         42
-    Objective:    objective_function
-    Score:        2.2857  (initial 40 -> final 2.2857)
-                  adjacency  0
-                  balance    2.2857
-    Optimal:      2.2857  (reached)
-    Iterations:   730 / 10,000 (optimal reached)
-    Temperature:  start 100, cooling 0.99
-
-    Evaluation
-    ----------
-    Connected:    connected - treatment estimable given row + col [model (row + col)]
-    Concurrence:  no block factor
-    Blk. spread:  no block factor
-    Repl. span:   worst-case 2 (row), 2 (col) across 8 replicated treatment(s)
-    Efficiency:   not requested (set efficiency = TRUE)
-    Self-adj.:    none
-    Neighbour:    min 0, max 5 over 28 pairs (variance 1.9048), 4 never adjacent
+    ## Design Summary
+    ## ==============
+    ##
+    ## Structure
+    ## ---------
+    ## Layout:       8 rows x 4 cols (32 plots)
+    ## Treatments:   8
+    ## Replication:  4 each
+    ## Spatial:      row (8), col (4)
+    ##
+    ## Optimisation
+    ## ------------
+    ## Seed:         42
+    ## Objective:    objective_function
+    ## Score:        2.2857  (initial 40 -> final 2.2857)
+    ##               adjacency  0
+    ##               balance    2.2857
+    ## Optimal:      2.2857  (reached)
+    ## Iterations:   730 / 10,000 (optimal reached)
+    ## Temperature:  start 100, cooling 0.99
+    ##
+    ## Evaluation
+    ## ----------
+    ## Connected:    connected - treatment estimable given row + col [model (row + col)]
+    ## Concurrence:  no block factor
+    ## Blk. spread:  no block factor
+    ## Repl. span:   worst-case 2 (row), 2 (col) across 8 replicated treatment(s)
+    ## Efficiency:   not requested (set efficiency = TRUE)
+    ## Self-adj.:    none
+    ## Neighbour:    min 0, max 5 over 28 pairs (variance 1.9048), 4 never adjacent
 
 The output is organised into sections:
 
@@ -268,36 +270,36 @@ row–column model metric) is computed only when you ask for it:
 summary(crd_result, efficiency = TRUE)
 ```
 
-    Design Summary
-    ==============
-
-    Structure
-    ---------
-    Layout:       8 rows x 4 cols (32 plots)
-    Treatments:   8
-    Replication:  4 each
-    Spatial:      row (8), col (4)
-
-    Optimisation
-    ------------
-    Seed:         42
-    Objective:    objective_function
-    Score:        2.2857  (initial 40 -> final 2.2857)
-                  adjacency  0
-                  balance    2.2857
-    Optimal:      2.2857  (reached)
-    Iterations:   730 / 10,000 (optimal reached)
-    Temperature:  start 100, cooling 0.99
-
-    Evaluation
-    ----------
-    Connected:    connected - treatment estimable given row + col [model (row + col)]
-    Concurrence:  no block factor
-    Blk. spread:  no block factor
-    Repl. span:   worst-case 2 (row), 2 (col) across 8 replicated treatment(s)
-    Efficiency:   0.8232 (A-efficiency, row-column model)
-    Self-adj.:    none
-    Neighbour:    min 0, max 5 over 28 pairs (variance 1.9048), 4 never adjacent
+    ## Design Summary
+    ## ==============
+    ##
+    ## Structure
+    ## ---------
+    ## Layout:       8 rows x 4 cols (32 plots)
+    ## Treatments:   8
+    ## Replication:  4 each
+    ## Spatial:      row (8), col (4)
+    ##
+    ## Optimisation
+    ## ------------
+    ## Seed:         42
+    ## Objective:    objective_function
+    ## Score:        2.2857  (initial 40 -> final 2.2857)
+    ##               adjacency  0
+    ##               balance    2.2857
+    ## Optimal:      2.2857  (reached)
+    ## Iterations:   730 / 10,000 (optimal reached)
+    ## Temperature:  start 100, cooling 0.99
+    ##
+    ## Evaluation
+    ## ----------
+    ## Connected:    connected - treatment estimable given row + col [model (row + col)]
+    ## Concurrence:  no block factor
+    ## Blk. spread:  no block factor
+    ## Repl. span:   worst-case 2 (row), 2 (col) across 8 replicated treatment(s)
+    ## Efficiency:   0.8232 (A-efficiency, row-column model)
+    ## Self-adj.:    none
+    ## Neighbour:    min 0, max 5 over 28 pairs (variance 1.9048), 4 never adjacent
 
 The returned summary is also a list, so individual metrics can be pulled
 out programmatically:
@@ -308,18 +310,18 @@ s <- summary(crd_result)
 s$per_level[[1]]$score
 ```
 
-    $initial
-    [1] 40
-
-    $final
-    [1] 2.285714
-
-    $optimal
-    [1] 2.285714
-
-    $components
-    adjacency   balance
-     0.000000  2.285714 
+    ## $initial
+    ## [1] 40
+    ##
+    ## $final
+    ## [1] 2.285714
+    ##
+    ## $optimal
+    ## [1] 2.285714
+    ##
+    ## $components
+    ## adjacency   balance
+    ##  0.000000  2.285714
 
 ## Randomised Complete Block Design (RCBD)
 
@@ -354,15 +356,15 @@ rcbd_design <- initialise_design_df(items = paste0("V", 1:6), nrows = 4, ncols =
 head(rcbd_design)
 ```
 
-      row col treatment row_block col_block block
-    1   1   1        V1         1         1     1
-    2   2   1        V1         2         1     2
-    3   3   1        V1         3         1     3
-    4   4   1        V1         4         1     4
-    5   1   2        V2         1         1     1
-    6   2   2        V2         2         1     2
+    ##   row col treatment row_block col_block block
+    ## 1   1   1        V1         1         1     1
+    ## 2   2   1        V1         2         1     2
+    ## 3   3   1        V1         3         1     3
+    ## 4   4   1        V1         4         1     4
+    ## 5   1   2        V2         1         1     1
+    ## 6   2   2        V2         2         1     2
 
-![](speed_files/figure-html/rcbd-plot1-1.png)
+![](figures/rcbd-plot1-1.png)
 
 This is a systematic block layout; each block contains all treatments in
 a repeating pattern. This will now be randomised within blocks.
@@ -377,23 +379,23 @@ rcbd_result <- speed(rcbd_design,
                      seed = 42)
 ```
 
-    row and col are used as row and column, respectively.
+    ## row and col are used as row and column, respectively.
 
-    Optimising level: single treatment within block
-    Optimal score reached at iteration 329 for level single treatment within block 
+    ## Optimising level: single treatment within block
+    ## Optimal score reached at iteration 329 for level single treatment within block
 
 ``` r
 
 rcbd_result
 ```
 
-    Optimised Experimental Design
-    ----------------------------
-    Score: 1.6
-    Iterations Run: 329
-    Stopped Early: TRUE
-    Treatments: V1, V2, V3, V4, V5, V6
-    Seed: 42 
+    ## Optimised Experimental Design
+    ## ----------------------------
+    ## Score: 1.6
+    ## Iterations Run: 329
+    ## Stopped Early: TRUE
+    ## Treatments: V1, V2, V3, V4, V5, V6
+    ## Seed: 42
 
 #### Output of the Optimisation
 
@@ -402,52 +404,54 @@ rcbd_result
 str(rcbd_result)
 ```
 
-    List of 9
-     $ design_df     :Classes 'design' and 'data.frame':    24 obs. of  6 variables:
-      ..$ row      : int [1:24] 1 1 1 1 1 1 2 2 2 2 ...
-      ..$ col      : int [1:24] 1 2 3 4 5 6 1 2 3 4 ...
-      ..$ treatment: chr [1:24] "V4" "V1" "V5" "V6" ...
-      ..$ row_block: num [1:24] 1 1 1 1 1 1 2 2 2 2 ...
-      ..$ col_block: num [1:24] 1 1 1 1 1 1 1 1 1 1 ...
-      ..$ block    : num [1:24] 1 1 1 1 1 1 2 2 2 2 ...
-      ..- attr(*, "out.attrs")=List of 2
-      .. ..$ dim     : Named int [1:2] 4 6
-      .. .. ..- attr(*, "names")= chr [1:2] "row" "col"
-      .. ..$ dimnames:List of 2
-      .. .. ..$ row: chr [1:4] "row=1" "row=2" "row=3" "row=4"
-      .. .. ..$ col: chr [1:6] "col=1" "col=2" "col=3" "col=4" ...
-     $ score         : num 1.6
-     $ scores        : num [1:329] 34 29.6 25.2 21.6 18.4 16.2 13 12.2 8.6 10.4 ...
-     $ temperatures  : num [1:329] 100 99 98 97 96.1 ...
-     $ iterations_run: num 329
-     $ stopped_early : logi TRUE
-     $ treatments    : chr [1:6] "V1" "V2" "V3" "V4" ...
-     $ seed          : num 42
-     $ metadata      :List of 6
-      ..$ levels    : chr "single treatment within block"
-      ..$ row_column: chr "row"
-      ..$ col_column: chr "col"
-      ..$ grid_by   : NULL
-      ..$ per_level :List of 1
-      .. ..$ single treatment within block:List of 13
-      .. .. ..$ swap            : chr "treatment"
-      .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x55625eefdd90>
-      .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
-      .. .. ..$ adj_weight      : num 1
-      .. .. ..$ bal_weight      : num 1
-      .. .. ..$ iterations      : num 10000
-      .. .. ..$ start_temp      : num 100
-      .. .. ..$ cooling_rate    : num 0.99
-      .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-        row_column = "row", col_column = "col", ...)
-      .. .. ..$ final_score     : num 1.6
-      .. .. ..$ final_components: Named num [1:2] 0 1.6
-      .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-      .. .. ..$ optimal_score   : num 1.6
-      .. .. ..$ stop_reason     : chr "optimal"
-      ..$ call      : language speed(data = rcbd_design, swap = "treatment", swap_within = "block", seed = 42)
-     - attr(*, "class")= chr [1:2] "design" "list"
+    ## List of 9
+    ##  $ design_df     :Classes 'design' and 'data.frame': 24 obs. of  6 variables:
+    ##   ..$ row      : int [1:24] 1 1 1 1 1 1 2 2 2 2 ...
+    ##   ..$ col      : int [1:24] 1 2 3 4 5 6 1 2 3 4 ...
+    ##   ..$ treatment: chr [1:24] "V4" "V1" "V5" "V6" ...
+    ##   ..$ row_block: num [1:24] 1 1 1 1 1 1 2 2 2 2 ...
+    ##   ..$ col_block: num [1:24] 1 1 1 1 1 1 1 1 1 1 ...
+    ##   ..$ block    : num [1:24] 1 1 1 1 1 1 2 2 2 2 ...
+    ##   ..- attr(*, "out.attrs")=List of 2
+    ##   .. ..$ dim     : Named int [1:2] 4 6
+    ##   .. .. ..- attr(*, "names")= chr [1:2] "row" "col"
+    ##   .. ..$ dimnames:List of 2
+    ##   .. .. ..$ row: chr [1:4] "row=1" "row=2" "row=3" "row=4"
+    ##   .. .. ..$ col: chr [1:6] "col=1" "col=2" "col=3" "col=4" ...
+    ##  $ score         : num 1.6
+    ##  $ scores        : num [1:329] 34 29.6 25.2 21.6 18.4 16.2 13 12.2 8.6 10.4 ...
+    ##  $ temperatures  : num [1:329] 100 99 98 97 96.1 ...
+    ##  $ iterations_run: num 329
+    ##  $ stopped_early : logi TRUE
+    ##  $ treatments    : chr [1:6] "V1" "V2" "V3" "V4" ...
+    ##  $ seed          : num 42
+    ##  $ metadata      :List of 6
+    ##   ..$ levels    : chr "single treatment within block"
+    ##   ..$ row_column: chr "row"
+    ##   ..$ col_column: chr "col"
+    ##   ..$ grid_by   : NULL
+    ##   ..$ per_level :List of 1
+    ##   .. ..$ single treatment within block:List of 13
+    ##   .. .. ..$ swap            : chr "treatment"
+    ##   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
+    ##   .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x000002b0d8c40d98>
+    ##   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
+    ##   .. .. ..$ adj_weight      : num 1
+    ##   .. .. ..$ bal_weight      : num 1
+    ##   .. .. ..$ iterations      : num 10000
+    ##   .. .. ..$ start_temp      : num 100
+    ##   .. .. ..$ cooling_rate    : num 0.99
+    ##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
+    ##     row_column = "row", col_column = "col", ...)
+    ##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90
+    ##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000002b0cae73a50>
+    ##   .. .. ..$ final_score     : num 1.6
+    ##   .. .. ..$ final_components: Named num [1:2] 0 1.6
+    ##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
+    ##   .. .. ..$ optimal_score   : num 1.6
+    ##   .. .. ..$ stop_reason     : chr "optimal"
+    ##   ..$ call      : language speed(data = rcbd_design, swap = "treatment", swap_within = "block", seed = 42)
+    ##  - attr(*, "class")= chr [1:2] "design" "list"
 
 #### Visualise the Output
 
@@ -456,7 +460,7 @@ str(rcbd_result)
 autoplot(rcbd_result)
 ```
 
-![](speed_files/figure-html/rcbd-plot2-1.png)
+![](figures/rcbd-plot2-1.png)
 
 A well-randomised and spatially efficient RCBD layout.
 
@@ -491,15 +495,15 @@ latin_square_design <- initialise_design_df(items = 5, nrows = 5, ncols = 5)
 head(latin_square_design)
 ```
 
-      row col treatment
-    1   1   1        T1
-    2   2   1        T2
-    3   3   1        T3
-    4   4   1        T4
-    5   5   1        T5
-    6   1   2        T1
+    ##   row col treatment
+    ## 1   1   1        T1
+    ## 2   2   1        T2
+    ## 3   3   1        T3
+    ## 4   4   1        T4
+    ## 5   5   1        T5
+    ## 6   1   2        T1
 
-![](speed_files/figure-html/latin-square-plot1-1.png)
+![](figures/latin-square-plot1-1.png)
 
 This is a systematic Latin square layout; each treatment appears once
 per row and column. The design will now be randomised.
@@ -518,24 +522,24 @@ latin_square_result <- speed(latin_square_design,
                              seed = 42)
 ```
 
-    row and col are used as row and column, respectively.
+    ## row and col are used as row and column, respectively.
 
-    Optimising level: single treatment within whole design
-    Level: single treatment within whole design Iteration: 1000 Score: 1 Best: 1 Since Improvement: 308
-    Optimal score reached at iteration 1040 for level single treatment within whole design 
+    ## Optimising level: single treatment within whole design
+    ## Level: single treatment within whole design Iteration: 1000 Score: 1 Best: 1 Since Improvement: 308
+    ## Optimal score reached at iteration 1040 for level single treatment within whole design
 
 ``` r
 
 latin_square_result
 ```
 
-    Optimised Experimental Design
-    ----------------------------
-    Score: 0
-    Iterations Run: 1041
-    Stopped Early: TRUE
-    Treatments: T1, T2, T3, T4, T5
-    Seed: 42 
+    ## Optimised Experimental Design
+    ## ----------------------------
+    ## Score: 0
+    ## Iterations Run: 1041
+    ## Stopped Early: TRUE
+    ## Treatments: T1, T2, T3, T4, T5
+    ## Seed: 42
 
 #### Output of the Optimisation
 
@@ -547,49 +551,51 @@ perfect Latin Square solution.
 str(latin_square_result)
 ```
 
-    List of 9
-     $ design_df     :Classes 'design' and 'data.frame':    25 obs. of  3 variables:
-      ..$ row      : int [1:25] 1 1 1 1 1 2 2 2 2 2 ...
-      ..$ col      : int [1:25] 1 2 3 4 5 1 2 3 4 5 ...
-      ..$ treatment: chr [1:25] "T3" "T2" "T5" "T1" ...
-      ..- attr(*, "out.attrs")=List of 2
-      .. ..$ dim     : Named int [1:2] 5 5
-      .. .. ..- attr(*, "names")= chr [1:2] "row" "col"
-      .. ..$ dimnames:List of 2
-      .. .. ..$ row: chr [1:5] "row=1" "row=2" "row=3" "row=4" ...
-      .. .. ..$ col: chr [1:5] "col=1" "col=2" "col=3" "col=4" ...
-     $ score         : num 0
-     $ scores        : num [1:1041] 45 39 37 33.5 30.5 32.5 32 30.5 26.5 29 ...
-     $ temperatures  : num [1:1041] 100 99 98 97 96.1 ...
-     $ iterations_run: num 1041
-     $ stopped_early : logi TRUE
-     $ treatments    : chr [1:5] "T1" "T2" "T3" "T4" ...
-     $ seed          : num 42
-     $ metadata      :List of 6
-      ..$ levels    : chr "single treatment within whole design"
-      ..$ row_column: chr "row"
-      ..$ col_column: chr "col"
-      ..$ grid_by   : NULL
-      ..$ per_level :List of 1
-      .. ..$ single treatment within whole design:List of 13
-      .. .. ..$ swap            : chr "treatment"
-      .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x55626012c378>
-      .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
-      .. .. ..$ adj_weight      : num 1
-      .. .. ..$ bal_weight      : num 1
-      .. .. ..$ iterations      : num 10000
-      .. .. ..$ start_temp      : num 100
-      .. .. ..$ cooling_rate    : num 0.99
-      .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-        row_column = "row", col_column = "col", ...)
-      .. .. ..$ final_score     : num 0
-      .. .. ..$ final_components: Named num [1:2] 0 0
-      .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-      .. .. ..$ optimal_score   : num 0
-      .. .. ..$ stop_reason     : chr "optimal"
-      ..$ call      : language speed(data = latin_square_design, swap = "treatment", seed = 42)
-     - attr(*, "class")= chr [1:2] "design" "list"
+    ## List of 9
+    ##  $ design_df     :Classes 'design' and 'data.frame': 25 obs. of  3 variables:
+    ##   ..$ row      : int [1:25] 1 1 1 1 1 2 2 2 2 2 ...
+    ##   ..$ col      : int [1:25] 1 2 3 4 5 1 2 3 4 5 ...
+    ##   ..$ treatment: chr [1:25] "T3" "T2" "T5" "T1" ...
+    ##   ..- attr(*, "out.attrs")=List of 2
+    ##   .. ..$ dim     : Named int [1:2] 5 5
+    ##   .. .. ..- attr(*, "names")= chr [1:2] "row" "col"
+    ##   .. ..$ dimnames:List of 2
+    ##   .. .. ..$ row: chr [1:5] "row=1" "row=2" "row=3" "row=4" ...
+    ##   .. .. ..$ col: chr [1:5] "col=1" "col=2" "col=3" "col=4" ...
+    ##  $ score         : num 0
+    ##  $ scores        : num [1:1041] 45 39 37 33.5 30.5 32.5 32 30.5 26.5 29 ...
+    ##  $ temperatures  : num [1:1041] 100 99 98 97 96.1 ...
+    ##  $ iterations_run: num 1041
+    ##  $ stopped_early : logi TRUE
+    ##  $ treatments    : chr [1:5] "T1" "T2" "T3" "T4" ...
+    ##  $ seed          : num 42
+    ##  $ metadata      :List of 6
+    ##   ..$ levels    : chr "single treatment within whole design"
+    ##   ..$ row_column: chr "row"
+    ##   ..$ col_column: chr "col"
+    ##   ..$ grid_by   : NULL
+    ##   ..$ per_level :List of 1
+    ##   .. ..$ single treatment within whole design:List of 13
+    ##   .. .. ..$ swap            : chr "treatment"
+    ##   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
+    ##   .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x000002b0ca4538c0>
+    ##   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
+    ##   .. .. ..$ adj_weight      : num 1
+    ##   .. .. ..$ bal_weight      : num 1
+    ##   .. .. ..$ iterations      : num 10000
+    ##   .. .. ..$ start_temp      : num 100
+    ##   .. .. ..$ cooling_rate    : num 0.99
+    ##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
+    ##     row_column = "row", col_column = "col", ...)
+    ##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90
+    ##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000002b0cae73a50>
+    ##   .. .. ..$ final_score     : num 0
+    ##   .. .. ..$ final_components: Named num [1:2] 0 0
+    ##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
+    ##   .. .. ..$ optimal_score   : num 0
+    ##   .. .. ..$ stop_reason     : chr "optimal"
+    ##   ..$ call      : language speed(data = latin_square_design, swap = "treatment", seed = 42)
+    ##  - attr(*, "class")= chr [1:2] "design" "list"
 
 #### Visualise the Output
 
@@ -598,7 +604,7 @@ str(latin_square_result)
 autoplot(latin_square_result)
 ```
 
-![](speed_files/figure-html/latin-square-plot2-1.png)
+![](figures/latin-square-plot2-1.png)
 
 A well-randomised and spatially efficient Latin square layout.
 
@@ -647,17 +653,17 @@ split_plot_design <- initialise_split_design_df(splits = splits, rep_dim = c(4, 
 head(split_plot_design)
 ```
 
-      row col block wholeplot wholeplot_treatment subplot subplot_treatment
-    1   1   1     1         1                   A       1                 a
-    2   2   1     1         2                   B       5                 a
-    3   3   1     1         3                   C       9                 a
-    4   4   1     2         4                   A      13                 a
-    5   5   1     2         5                   B      17                 a
-    6   6   1     2         6                   C      21                 a
+    ##   row col block wholeplot wholeplot_treatment subplot subplot_treatment
+    ## 1   1   1     1         1                   A       1                 a
+    ## 2   2   1     1         2                   B       5                 a
+    ## 3   3   1     1         3                   C       9                 a
+    ## 4   4   1     2         4                   A      13                 a
+    ## 5   5   1     2         5                   B      17                 a
+    ## 6   6   1     2         6                   C      21                 a
 
-![](speed_files/figure-html/split-plot-plot1-1.png)
+![](figures/split-plot-plot1-1.png)
 
-![](speed_files/figure-html/split-plot-plot1-2.png)
+![](figures/split-plot-plot1-2.png)
 
 This is a systematic split plot layout; each treatment appears once per
 block for whole plot treatments, and once per whole plot for sub-plot
@@ -687,29 +693,29 @@ optimise <- list(
 split_plot_result <- speed(split_plot_design, optimise = optimise, seed = 42)
 ```
 
-    row and col are used as row and column, respectively.
+    ## row and col are used as row and column, respectively.
 
-    Optimising level: wp
-    Level: wp Iteration: 1000 Score: 100 Best: 100 Since Improvement: 1000
-    Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000
-    Early stopping at iteration 2000 for level wp
-    Optimising level: sp
-    Optimal score reached at iteration 570 for level sp 
+    ## Optimising level: wp
+    ## Level: wp Iteration: 1000 Score: 100 Best: 100 Since Improvement: 1000
+    ## Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000
+    ## Early stopping at iteration 2000 for level wp
+    ## Optimising level: sp
+    ## Optimal score reached at iteration 570 for level sp
 
 ``` r
 
 split_plot_result
 ```
 
-    Optimised Experimental Design
-    ----------------------------
-    Score: 100
-    Iterations Run: 2572
-    Stopped Early: TRUE TRUE
-    Treatments:
-      wp: A, B, C
-      sp: a, b, c, d
-    Seed: 42 
+    ## Optimised Experimental Design
+    ## ----------------------------
+    ## Score: 100
+    ## Iterations Run: 2572
+    ## Stopped Early: TRUE TRUE
+    ## Treatments:
+    ##   wp: A, B, C
+    ##   sp: a, b, c, d
+    ## Seed: 42
 
 #### Output of the Optimisation
 
@@ -723,77 +729,81 @@ to assess the quality of optimisation at each hierarchy level.
 str(split_plot_result)
 ```
 
-    List of 9
-     $ design_df     :Classes 'design' and 'data.frame':    48 obs. of  7 variables:
-      ..$ row                : int [1:48] 1 1 1 1 2 2 2 2 3 3 ...
-      ..$ col                : int [1:48] 1 2 3 4 1 2 3 4 1 2 ...
-      ..$ block              : num [1:48] 1 1 1 1 1 1 1 1 1 1 ...
-      ..$ wholeplot          : num [1:48] 1 1 1 1 2 2 2 2 3 3 ...
-      ..$ wholeplot_treatment: chr [1:48] "C" "C" "C" "C" ...
-      ..$ subplot            : num [1:48] 1 2 3 4 5 6 7 8 9 10 ...
-      ..$ subplot_treatment  : chr [1:48] "a" "b" "c" "d" ...
-      ..- attr(*, "out.attrs")=List of 2
-      .. ..$ dim     : Named int [1:2] 12 4
-      .. .. ..- attr(*, "names")= chr [1:2] "row" "col"
-      .. ..$ dimnames:List of 2
-      .. .. ..$ row: chr [1:12] "row= 1" "row= 2" "row= 3" "row= 4" ...
-      .. .. ..$ col: chr [1:4] "col=1" "col=2" "col=3" "col=4"
-     $ score         : num 100
-     $ scores        :List of 2
-      ..$ wp: num [1:2001] 100 104 104 104 104 104 104 104 100 100 ...
-      ..$ sp: num [1:571] 188 169 151 133 125 ...
-     $ temperatures  :List of 2
-      ..$ wp: num [1:2001] 100 99 98 97 96.1 ...
-      ..$ sp: num [1:571] 100 99 98 97 96.1 ...
-     $ iterations_run: num 2572
-     $ stopped_early : Named logi [1:2] TRUE TRUE
-      ..- attr(*, "names")= chr [1:2] "wp" "sp"
-     $ treatments    :List of 2
-      ..$ wp: chr [1:3] "A" "B" "C"
-      ..$ sp: chr [1:4] "a" "b" "c" "d"
-     $ seed          : num 42
-     $ metadata      :List of 6
-      ..$ levels    : chr [1:2] "wp" "sp"
-      ..$ row_column: chr "row"
-      ..$ col_column: chr "col"
-      ..$ grid_by   : NULL
-      ..$ per_level :List of 2
-      .. ..$ wp:List of 13
-      .. .. ..$ swap            : chr "wholeplot_treatment"
-      .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x556261435358>
-      .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
-      .. .. ..$ adj_weight      : num 1
-      .. .. ..$ bal_weight      : num 1
-      .. .. ..$ iterations      : num 10000
-      .. .. ..$ start_temp      : num 100
-      .. .. ..$ cooling_rate    : num 0.99
-      .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-        row_column = "row", col_column = "col", ...)
-      .. .. ..$ final_score     : num 100
-      .. .. ..$ final_components: Named num [1:2] 36 64
-      .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-      .. .. ..$ optimal_score   : num 4
-      .. .. ..$ stop_reason     : chr "no_improvement"
-      .. ..$ sp:List of 13
-      .. .. ..$ swap            : chr "subplot_treatment"
-      .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
-      .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x556261435358>
-      .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
-      .. .. ..$ adj_weight      : num 1
-      .. .. ..$ bal_weight      : num 1
-      .. .. ..$ iterations      : num 10000
-      .. .. ..$ start_temp      : num 100
-      .. .. ..$ cooling_rate    : num 0.99
-      .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
-        row_column = "row", col_column = "col", ...)
-      .. .. ..$ final_score     : num 0
-      .. .. ..$ final_components: Named num [1:2] 0 0
-      .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
-      .. .. ..$ optimal_score   : num 0
-      .. .. ..$ stop_reason     : chr "optimal"
-      ..$ call      : language speed(data = split_plot_design, optimise = optimise, seed = 42)
-     - attr(*, "class")= chr [1:2] "design" "list"
+    ## List of 9
+    ##  $ design_df     :Classes 'design' and 'data.frame': 48 obs. of  7 variables:
+    ##   ..$ row                : int [1:48] 1 1 1 1 2 2 2 2 3 3 ...
+    ##   ..$ col                : int [1:48] 1 2 3 4 1 2 3 4 1 2 ...
+    ##   ..$ block              : num [1:48] 1 1 1 1 1 1 1 1 1 1 ...
+    ##   ..$ wholeplot          : num [1:48] 1 1 1 1 2 2 2 2 3 3 ...
+    ##   ..$ wholeplot_treatment: chr [1:48] "C" "C" "C" "C" ...
+    ##   ..$ subplot            : num [1:48] 1 2 3 4 5 6 7 8 9 10 ...
+    ##   ..$ subplot_treatment  : chr [1:48] "a" "b" "c" "d" ...
+    ##   ..- attr(*, "out.attrs")=List of 2
+    ##   .. ..$ dim     : Named int [1:2] 12 4
+    ##   .. .. ..- attr(*, "names")= chr [1:2] "row" "col"
+    ##   .. ..$ dimnames:List of 2
+    ##   .. .. ..$ row: chr [1:12] "row= 1" "row= 2" "row= 3" "row= 4" ...
+    ##   .. .. ..$ col: chr [1:4] "col=1" "col=2" "col=3" "col=4"
+    ##  $ score         : num 100
+    ##  $ scores        :List of 2
+    ##   ..$ wp: num [1:2001] 100 104 104 104 104 104 104 104 100 100 ...
+    ##   ..$ sp: num [1:571] 188 169 151 133 125 ...
+    ##  $ temperatures  :List of 2
+    ##   ..$ wp: num [1:2001] 100 99 98 97 96.1 ...
+    ##   ..$ sp: num [1:571] 100 99 98 97 96.1 ...
+    ##  $ iterations_run: num 2572
+    ##  $ stopped_early : Named logi [1:2] TRUE TRUE
+    ##   ..- attr(*, "names")= chr [1:2] "wp" "sp"
+    ##  $ treatments    :List of 2
+    ##   ..$ wp: chr [1:3] "A" "B" "C"
+    ##   ..$ sp: chr [1:4] "a" "b" "c" "d"
+    ##  $ seed          : num 42
+    ##  $ metadata      :List of 6
+    ##   ..$ levels    : chr [1:2] "wp" "sp"
+    ##   ..$ row_column: chr "row"
+    ##   ..$ col_column: chr "col"
+    ##   ..$ grid_by   : NULL
+    ##   ..$ per_level :List of 2
+    ##   .. ..$ wp:List of 13
+    ##   .. .. ..$ swap            : chr "wholeplot_treatment"
+    ##   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
+    ##   .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x000002b0d0b8f0e0>
+    ##   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
+    ##   .. .. ..$ adj_weight      : num 1
+    ##   .. .. ..$ bal_weight      : num 1
+    ##   .. .. ..$ iterations      : num 10000
+    ##   .. .. ..$ start_temp      : num 100
+    ##   .. .. ..$ cooling_rate    : num 0.99
+    ##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
+    ##     row_column = "row", col_column = "col", ...)
+    ##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90
+    ##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000002b0cae73a50>
+    ##   .. .. ..$ final_score     : num 100
+    ##   .. .. ..$ final_components: Named num [1:2] 36 64
+    ##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
+    ##   .. .. ..$ optimal_score   : num 4
+    ##   .. .. ..$ stop_reason     : chr "no_improvement"
+    ##   .. ..$ sp:List of 13
+    ##   .. .. ..$ swap            : chr "subplot_treatment"
+    ##   .. .. ..$ spatial_factors :Class 'formula'  language ~row + col
+    ##   .. .. .. .. ..- attr(*, ".Environment")=<environment: 0x000002b0d0b8f0e0>
+    ##   .. .. ..$ spatial_cols    : chr [1:2] "row" "col"
+    ##   .. .. ..$ adj_weight      : num 1
+    ##   .. .. ..$ bal_weight      : num 1
+    ##   .. .. ..$ iterations      : num 10000
+    ##   .. .. ..$ start_temp      : num 100
+    ##   .. .. ..$ cooling_rate    : num 0.99
+    ##   .. .. ..$ obj_function    :function (layout_df, swap, spatial_cols, adj_weight = 1, bal_weight = 1,
+    ##     row_column = "row", col_column = "col", ...)
+    ##   .. .. .. ..- attr(*, "srcref")= 'srcref' int [1:8] 41 23 90 1 23 1 41 90
+    ##   .. .. .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000002b0cae73a50>
+    ##   .. .. ..$ final_score     : num 0
+    ##   .. .. ..$ final_components: Named num [1:2] 0 0
+    ##   .. .. .. ..- attr(*, "names")= chr [1:2] "adjacency" "balance"
+    ##   .. .. ..$ optimal_score   : num 0
+    ##   .. .. ..$ stop_reason     : chr "optimal"
+    ##   ..$ call      : language speed(data = split_plot_design, optimise = optimise, seed = 42)
+    ##  - attr(*, "class")= chr [1:2] "design" "list"
 
 #### Visualise the Output
 
@@ -802,14 +812,14 @@ str(split_plot_result)
 autoplot(split_plot_result, treatments = "wholeplot_treatment")
 ```
 
-![](speed_files/figure-html/split-plot-plot2-1.png)
+![](figures/split-plot-plot2-1.png)
 
 ``` r
 
 autoplot(split_plot_result, treatments = "subplot_treatment", block = "wholeplot")
 ```
 
-![](speed_files/figure-html/split-plot-plot2-2.png)
+![](figures/split-plot-plot2-2.png)
 
 This design has now been optimised at both the whole plot level and the
 sub-plot level.
@@ -839,13 +849,13 @@ variety_trial$variety_name <- unname(varieties[variety_trial$treatment])
 head(variety_trial)
 ```
 
-      row col treatment variety_name
-    1   1   1        T1      Scepter
-    2   2   1        T2        Vixen
-    3   3   1        T3      Calibre
-    4   4   1        T4     Rockstar
-    5   5   1        T5     Ballista
-    6   6   1        T6      Denison
+    ##   row col treatment variety_name
+    ## 1   1   1        T1      Scepter
+    ## 2   2   1        T2        Vixen
+    ## 3   3   1        T3      Calibre
+    ## 4   4   1        T4     Rockstar
+    ## 5   5   1        T5     Ballista
+    ## 6   6   1        T6      Denison
 
 Optimising without `linked_cols` moves `treatment` but leaves
 `variety_name` sitting in its original row order, so the pairing between
@@ -856,23 +866,23 @@ the two is lost:
 unlinked <- speed(variety_trial, swap = "treatment", seed = 42)
 ```
 
-    row and col are used as row and column, respectively.
+    ## row and col are used as row and column, respectively.
 
-    Optimising level: single treatment within whole design
-    Optimal score reached at iteration 738 for level single treatment within whole design 
+    ## Optimising level: single treatment within whole design
+    ## Optimal score reached at iteration 738 for level single treatment within whole design
 
 ``` r
 
 head(unlinked$design_df)
 ```
 
-      row col treatment variety_name
-    1   1   1        T1      Scepter
-    2   1   2        T4      Scepter
-    3   1   3        T5      Scepter
-    4   1   4        T2      Scepter
-    5   2   1        T5        Vixen
-    6   2   2        T6        Vixen
+    ##   row col treatment variety_name
+    ## 1   1   1        T1      Scepter
+    ## 2   1   2        T4      Scepter
+    ## 3   1   3        T5      Scepter
+    ## 4   1   4        T2      Scepter
+    ## 5   2   1        T5        Vixen
+    ## 6   2   2        T6        Vixen
 
 Naming the column in `linked_cols` carries it along with the treatment
 it belongs to:
@@ -885,23 +895,23 @@ linked <- speed(variety_trial,
                 seed = 42)
 ```
 
-    row and col are used as row and column, respectively.
+    ## row and col are used as row and column, respectively.
 
-    Optimising level: single treatment within whole design
-    Optimal score reached at iteration 738 for level single treatment within whole design 
+    ## Optimising level: single treatment within whole design
+    ## Optimal score reached at iteration 738 for level single treatment within whole design
 
 ``` r
 
 head(linked$design_df)
 ```
 
-      row col treatment variety_name
-    1   1   1        T1      Scepter
-    2   1   2        T4     Rockstar
-    3   1   3        T5     Ballista
-    4   1   4        T2        Vixen
-    5   2   1        T5     Ballista
-    6   2   2        T6      Denison
+    ##   row col treatment variety_name
+    ## 1   1   1        T1      Scepter
+    ## 2   1   2        T4     Rockstar
+    ## 3   1   3        T5     Ballista
+    ## 4   1   4        T2        Vixen
+    ## 5   2   1        T5     Ballista
+    ## 6   2   2        T6      Denison
 
 Every code is now back with its own cultivar:
 
@@ -910,13 +920,13 @@ Every code is now back with its own cultivar:
 unique(linked$design_df[, c("treatment", "variety_name")])
 ```
 
-      treatment variety_name
-    1        T1      Scepter
-    2        T4     Rockstar
-    3        T5     Ballista
-    4        T2        Vixen
-    6        T6      Denison
-    9        T3      Calibre
+    ##   treatment variety_name
+    ## 1        T1      Scepter
+    ## 2        T4     Rockstar
+    ## 3        T5     Ballista
+    ## 4        T2        Vixen
+    ## 6        T6      Denison
+    ## 9        T3      Calibre
 
 Linked columns take no part in scoring, so adding them cannot change the
 design that is found. The two runs above produce exactly the same
@@ -927,7 +937,7 @@ layout:
 identical(unlinked$design_df$treatment, linked$design_df$treatment)
 ```
 
-    [1] TRUE
+    ## [1] TRUE
 
 They are also returned in their original position and with their
 original type - no extra columns appear in the output.
@@ -985,35 +995,35 @@ optimise_linked <- list(
 linked_split <- speed(split_plot_linked, optimise = optimise_linked, seed = 42)
 ```
 
-    row and col are used as row and column, respectively.
+    ## row and col are used as row and column, respectively.
 
-    Optimising level: wp
-    Level: wp Iteration: 1000 Score: 100 Best: 100 Since Improvement: 1000
-    Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000
-    Early stopping at iteration 2000 for level wp
-    Optimising level: sp
-    Optimal score reached at iteration 570 for level sp 
+    ## Optimising level: wp
+    ## Level: wp Iteration: 1000 Score: 100 Best: 100 Since Improvement: 1000
+    ## Level: wp Iteration: 2000 Score: 100 Best: 100 Since Improvement: 2000
+    ## Early stopping at iteration 2000 for level wp
+    ## Optimising level: sp
+    ## Optimal score reached at iteration 570 for level sp
 
 ``` r
 
 unique(linked_split$design_df[, c("wholeplot_treatment", "irrigation")])
 ```
 
-      wholeplot_treatment irrigation
-    1                   C       None
-    5                   A       Drip
-    9                   B      Flood
+    ##   wholeplot_treatment irrigation
+    ## 1                   C       None
+    ## 5                   A       Drip
+    ## 9                   B      Flood
 
 ``` r
 
 unique(linked_split$design_df[, c("subplot_treatment", "variety")])
 ```
 
-      subplot_treatment variety
-    1                 a Scepter
-    2                 b   Vixen
-    3                 c Calibre
-    4                 d Denison
+    ##   subplot_treatment variety
+    ## 1                 a Scepter
+    ## 2                 b   Vixen
+    ## 3                 c Calibre
+    ## 4                 d Denison
 
 > **Note**
 >

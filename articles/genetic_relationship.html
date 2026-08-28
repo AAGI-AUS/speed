@@ -92,11 +92,9 @@
 </h3>
 <p>The default <code>speed</code> adjacency score asks <em>“are these two cells the same treatment?”</em>. Pairs that match contribute <code>1</code>; pairs that differ contribute <code>0</code>. Sometimes that’s too coarse: two distinct treatments may still be “close” to each other, and placing them next to each other carries some of the cost of a true repeat.</p>
 <p>The <code>relationship</code> argument lets the simulated-annealing loop look up a graded similarity from a user-supplied matrix instead of hard-coding <code>1</code> for matches and <code>0</code> for non-matches. This vignette walks through a blocked design with sixteen treatments split into four groups whose within-group relatedness varies from “tightly related” to “unrelated”.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://biometryhub.github.io/speed/">speed</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span></code></pre></div>
-</div>
 </section><section class="level2"><h3 id="when-to-use">When to Use<a class="anchor" aria-label="anchor" href="#when-to-use"></a>
 </h3>
 <ul>
@@ -141,8 +139,7 @@
 </tbody>
 </table>
 <p>The trial uses an <code>8 × 8</code> grid divided into four <code>4 × 4</code> blocks.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"T"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">16</span><span class="op">)</span></span>
 <span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>, <span class="va">items</span><span class="op">)</span></span>
 <span></span>
@@ -156,41 +153,33 @@
 <span><span class="va">design_df</span><span class="op">$</span><span class="va">group</span> <span class="op">&lt;-</span> <span class="va">groups</span><span class="op">[</span><span class="va">design_df</span><span class="op">$</span><span class="va">treatment</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">design_df</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  row col treatment row_block col_block block group
-1   1   1        T1         1         1     1     A
-2   2   1        T2         1         1     1     A
-3   3   1        T3         1         1     1     A
-4   4   1        T4         1         1     1     A
-5   5   1        T1         2         1     2     A
-6   6   1        T2         2         1     2     A</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">##   row col treatment row_block col_block block group</span></span>
+<span><span class="co">## 1   1   1        T1         1         1     1     A</span></span>
+<span><span class="co">## 2   2   1        T2         1         1     1     A</span></span>
+<span><span class="co">## 3   3   1        T3         1         1     1     A</span></span>
+<span><span class="co">## 4   4   1        T4         1         1     1     A</span></span>
+<span><span class="co">## 5   5   1        T1         2         1     2     A</span></span>
+<span><span class="co">## 6   6   1        T2         2         1     2     A</span></span></code></pre>
 <p>Plotting these factors shows the initial layout of the treatments and their group.</p>
-<div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">design_df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"design"</span>, <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">design_df</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">p_treat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">design_df</span>, treatments <span class="op">=</span> <span class="st">"treatment"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Treatments"</span><span class="op">)</span></span>
 <span><span class="va">p_group</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">design_df</span>, treatments <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Groups"</span><span class="op">)</span></span>
 <span><span class="va">p_treat</span> <span class="op">+</span> <span class="va">p_group</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-init" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-init" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-init-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="genetic_relationship_files/figure-html/fig-init-1.png" width="672">
+<img src="figures/fig-init-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-init-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 1: Initial systematic layout: treatments and groups, with block boundaries.
 </figcaption></figure>
 </div>
-</div>
-</div>
 </section><section class="level2"><h3 id="building-the-relationship-matrix">Building the Relationship Matrix<a class="anchor" aria-label="anchor" href="#building-the-relationship-matrix"></a>
 </h3>
 <p>The relationship matrix is a numeric matrix with rownames and colnames covering every value of the swap column. Each entry is the contribution of having that pair adjacent. The diagonal is typically <code>1</code> (self-pair = identity). Off-diagonal entries are usually in <code>[0, 1]</code>; here we encode four within-group levels and zero between-group similarity.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">items</span><span class="op">)</span></span>
 <span><span class="va">rel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">n</span>, <span class="va">n</span>, dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">items</span>, <span class="va">items</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">within</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">0.8</span>, B <span class="op">=</span> <span class="fl">0.4</span>, C <span class="op">=</span> <span class="fl">0.1</span>, D <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span></span>
@@ -199,9 +188,7 @@ Figure 1: Initial systematic layout: treatments and groups, with block boundari
 <span>  <span class="va">rel</span><span class="op">[</span><span class="va">ids</span>, <span class="va">ids</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">within</span><span class="op">[[</span><span class="va">g</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">rel</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">1</span></span></code></pre></div>
-</div>
-<div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rel_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">as.data.frame.table</a></span><span class="op">(</span><span class="va">rel</span>, responseName <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">rel_long</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"row"</span>, <span class="st">"col"</span><span class="op">)</span></span>
 <span></span>
@@ -221,22 +208,18 @@ Figure 1: Initial systematic layout: treatments and groups, with block boundari
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-relationship" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-relationship" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-relationship-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="genetic_relationship_files/figure-html/fig-relationship-1.png" width="576">
+<img src="figures/fig-relationship-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-relationship-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 2: Relationship matrix as a heatmap. Diagonal cells are self-pairs (<code>1</code>); each <code>4 × 4</code> block on the diagonal corresponds to a group, with brightness encoding within-group similarity.
 </figcaption></figure>
 </div>
-</div>
-</div>
 </section><section class="level2"><h3 id="running-the-optimisation">Running the Optimisation<a class="anchor" aria-label="anchor" href="#running-the-optimisation"></a>
 </h3>
 <p>We run <code><a href="../reference/speed.html">speed()</a></code> twice with the same seed: first using the default identity-only adjacency, then with the relationship matrix (<code>relationship = rel</code>).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">default_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span></span>
 <span>  <span class="va">design_df</span>,</span>
 <span>  swap <span class="op">=</span> <span class="st">"treatment"</span>,</span>
@@ -255,31 +238,25 @@ Figure 2: Relationship matrix as a heatmap. Diagonal cells are self-pairs (<cod
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">default_result</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 4.266667
-Iterations Run: 872
-Stopped Early: TRUE
-Treatments: T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16
-Seed: 42 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 4.266667</span></span>
+<span><span class="co">## Iterations Run: 872</span></span>
+<span><span class="co">## Stopped Early: TRUE</span></span>
+<span><span class="co">## Treatments: T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16</span></span>
+<span><span class="co">## Seed: 42</span></span></code></pre>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">related_result</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 4.266667
-Iterations Run: 3511
-Stopped Early: TRUE
-Treatments: T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16
-Seed: 42 </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 4.266667</span></span>
+<span><span class="co">## Iterations Run: 3511</span></span>
+<span><span class="co">## Stopped Early: TRUE</span></span>
+<span><span class="co">## Treatments: T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16</span></span>
+<span><span class="co">## Seed: 42</span></span></code></pre>
 </section><section class="level2"><h3 id="visualising-the-output">Visualising the Output<a class="anchor" aria-label="anchor" href="#visualising-the-output"></a>
 </h3>
-<div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">default_result</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">group</span> <span class="op">&lt;-</span> <span class="va">groups</span><span class="op">[</span><span class="va">default_result</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">treatment</span><span class="op">]</span></span>
 <span><span class="va">related_result</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">group</span> <span class="op">&lt;-</span> <span class="va">groups</span><span class="op">[</span><span class="va">related_result</span><span class="op">$</span><span class="va">design_df</span><span class="op">$</span><span class="va">treatment</span><span class="op">]</span></span>
 <span></span>
@@ -288,34 +265,27 @@ Seed: 42 </code></pre>
 <span><span class="va">p_rel_g</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">related_result</span>, treatments <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"speed + relationship: groups"</span><span class="op">)</span></span>
 <span><span class="va">p_def_g</span> <span class="op">+</span> <span class="va">p_rel_g</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-final-group" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-final-group" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-final-group-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="genetic_relationship_files/figure-html/fig-final-group-1.png" width="960">
+<img src="figures/fig-final-group-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-final-group-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 3: Group view: default identity-only adjacency vs. relationship-aware adjacency.
 </figcaption></figure>
 </div>
-</div>
-</div>
-<div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_def_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">default_result</span>, treatments <span class="op">=</span> <span class="st">"treatment"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Default speed: treatments"</span><span class="op">)</span></span>
 <span><span class="va">p_rel_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">related_result</span>, treatments <span class="op">=</span> <span class="st">"treatment"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"speed + relationship: treatments"</span><span class="op">)</span></span>
 <span><span class="va">p_def_t</span> <span class="op">+</span> <span class="va">p_rel_t</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-final-treat" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-final-treat" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-final-treat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="genetic_relationship_files/figure-html/fig-final-treat-1.png" width="960">
+<img src="figures/fig-final-treat-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-final-treat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 4: Treatment view: default identity-only adjacency vs. relationship-aware adjacency.
 </figcaption></figure>
-</div>
-</div>
 </div>
 <p>The default optimisation only avoids same-treatment adjacency; related treatments from the same group are still free to sit next to each other. The relationship-aware optimisation pushes whole groups apart, with the strongest pressure on group <code>A</code> (within-similarity <code>0.8</code>) and no pressure at all on group <code>D</code> (<code>0.0</code>).</p>
 </section></section><section class="section level2"><h2 id="per-pair-similarities">Per-Pair Similarities<a class="anchor" aria-label="anchor" href="#per-pair-similarities"></a>
@@ -323,8 +293,7 @@ Figure 4: Treatment view: default identity-only adjacency vs. relationship-awa
 <section class="level2"><h3 id="setting-up-the-design-1">Setting Up the Design<a class="anchor" aria-label="anchor" href="#setting-up-the-design-1"></a>
 </h3>
 <p>Eight varieties <code>V01</code>–<code>V08</code> are evaluated on a <code>4 × 8</code> grid divided into two <code>4 × 4</code> blocks, with two replicates of every variety per block. Unlike the previous example, there is no group structure - every pair of varieties carries its own similarity coefficient.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">items2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"V"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span></span>
 <span><span class="va">design_df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initialise_design_df.html">initialise_design_df</a></span><span class="op">(</span></span>
 <span>  items <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">items2</span>, <span class="fl">4</span><span class="op">)</span>,</span>
@@ -335,21 +304,17 @@ Figure 4: Treatment view: default identity-only adjacency vs. relationship-awa
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">design_df2</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  row col treatment row_block col_block block
-1   1   1        V1         1         1     1
-2   2   1        V2         1         1     1
-3   3   1        V3         1         1     1
-4   4   1        V4         1         1     1
-5   1   2        V5         1         1     1
-6   2   2        V6         1         1     1</code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">##   row col treatment row_block col_block block</span></span>
+<span><span class="co">## 1   1   1        V1         1         1     1</span></span>
+<span><span class="co">## 2   2   1        V2         1         1     1</span></span>
+<span><span class="co">## 3   3   1        V3         1         1     1</span></span>
+<span><span class="co">## 4   4   1        V4         1         1     1</span></span>
+<span><span class="co">## 5   1   2        V5         1         1     1</span></span>
+<span><span class="co">## 6   2   2        V6         1         1     1</span></span></code></pre>
 </section><section class="level2"><h3 id="building-the-relationship-matrix-1">Building the Relationship Matrix<a class="anchor" aria-label="anchor" href="#building-the-relationship-matrix-1"></a>
 </h3>
 <p>We populate the upper triangle with random similarities in <code>[0, 0.9]</code>, mirror it for symmetry, and pin the diagonal to <code>1</code>. The result is a relationship matrix in which every off-diagonal entry is distinct - there is no plateau for the optimiser to exploit, so each pair contributes its own adjacency cost.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">items2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">rel2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">n_v</span>, <span class="va">n_v</span>, dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">items2</span>, <span class="va">items2</span><span class="op">)</span><span class="op">)</span></span>
@@ -357,9 +322,7 @@ Figure 4: Treatment view: default identity-only adjacency vs. relationship-awa
 <span><span class="va">rel2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lower.tri.html" class="external-link">upper.tri</a></span><span class="op">(</span><span class="va">rel2</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n_v</span> <span class="op">*</span> <span class="op">(</span><span class="va">n_v</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span>
 <span><span class="va">rel2</span> <span class="op">&lt;-</span> <span class="va">rel2</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">rel2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">rel2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">1</span></span></code></pre></div>
-</div>
-<div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rel2_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">as.data.frame.table</a></span><span class="op">(</span><span class="va">rel2</span>, responseName <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">rel2_long</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"row"</span>, <span class="st">"col"</span><span class="op">)</span></span>
 <span></span>
@@ -379,22 +342,18 @@ Figure 4: Treatment view: default identity-only adjacency vs. relationship-awa
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-relationship-cor" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-relationship-cor" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-relationship-cor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="genetic_relationship_files/figure-html/fig-relationship-cor-1.png" width="576">
+<img src="figures/fig-relationship-cor-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-relationship-cor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 5: Per-pair relationship matrix as a heatmap. Every off-diagonal cell is unique; the diagonal is fixed at <code>1</code>.
 </figcaption></figure>
 </div>
-</div>
-</div>
 </section><section class="level2"><h3 id="running-the-optimisation-1">Running the Optimisation<a class="anchor" aria-label="anchor" href="#running-the-optimisation-1"></a>
 </h3>
 <p>We run <code><a href="../reference/speed.html">speed()</a></code> twice with the same seed: first using the default identity-only adjacency, then with the per-pair relationship matrix (<code>relationship = rel2</code>) and a stronger balance weight set through <code><a href="../reference/optim_params.html">optim_params()</a></code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">default_result2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/speed.html">speed</a></span><span class="op">(</span></span>
 <span>  <span class="va">design_df2</span>,</span>
 <span>  swap <span class="op">=</span> <span class="st">"treatment"</span>,</span>
@@ -414,51 +373,41 @@ Figure 5: Per-pair relationship matrix as a heatmap. Every off-diagonal cell is
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">default_result2</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 2.285714
-Iterations Run: 758
-Stopped Early: TRUE
-Treatments: V1, V2, V3, V4, V5, V6, V7, V8
-Seed: 112 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 2.285714</span></span>
+<span><span class="co">## Iterations Run: 758</span></span>
+<span><span class="co">## Stopped Early: TRUE</span></span>
+<span><span class="co">## Treatments: V1, V2, V3, V4, V5, V6, V7, V8</span></span>
+<span><span class="co">## Seed: 112</span></span></code></pre>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">related_result2</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Optimised Experimental Design
-----------------------------
-Score: 16.30073
-Iterations Run: 3435
-Stopped Early: TRUE
-Treatments: V1, V2, V3, V4, V5, V6, V7, V8
-Seed: 112 </code></pre>
-</div>
-</div>
+<pre><code><span><span class="co">## Optimised Experimental Design</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## Score: 16.30073</span></span>
+<span><span class="co">## Iterations Run: 3435</span></span>
+<span><span class="co">## Stopped Early: TRUE</span></span>
+<span><span class="co">## Treatments: V1, V2, V3, V4, V5, V6, V7, V8</span></span>
+<span><span class="co">## Seed: 112</span></span></code></pre>
 </section><section class="level2"><h3 id="visualising-the-output-1">Visualising the Output<a class="anchor" aria-label="anchor" href="#visualising-the-output-1"></a>
 </h3>
-<div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_def_t2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">default_result2</span>, treatments <span class="op">=</span> <span class="st">"treatment"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Default speed: treatments"</span><span class="op">)</span></span>
 <span><span class="va">p_rel_t2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">related_result2</span>, treatments <span class="op">=</span> <span class="st">"treatment"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"speed + relationship: treatments"</span><span class="op">)</span></span>
 <span><span class="va">p_def_t2</span> <span class="op">+</span> <span class="va">p_rel_t2</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-final-treat-cor" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-final-treat-cor" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-final-treat-cor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="genetic_relationship_files/figure-html/fig-final-treat-cor-1.png" width="960">
+<img src="figures/fig-final-treat-cor-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-final-treat-cor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 6: Treatment view: default identity-only adjacency vs. relationship-aware adjacency under per-pair similarities.
 </figcaption></figure>
 </div>
-</div>
-</div>
 <p>The default optimisation treats every non-self adjacency as equally costly. With a relationship matrix, the algorithm can separate the similar varieties - neighbours of any given variety tend to be the varieties with the smallest entries in its row of <code>rel2</code>.</p>
 <p>The placements of the closely related pairs of treatments:</p>
-<div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot a layout where cells with NA treatments are greyed and the rest</span></span>
 <span><span class="co"># are labelled in red.</span></span>
 <span><span class="va">plot_highlighted_layout</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">layout_df</span><span class="op">)</span> <span class="op">{</span></span>
@@ -509,16 +458,13 @@ Figure 6: Treatment view: default identity-only adjacency vs. relationship-awa
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span>
 <span><span class="va">plots</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-close-treatments-cor" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-close-treatments-cor" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="default">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-close-treatments-cor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="genetic_relationship_files/figure-html/fig-close-treatments-cor-1.png" width="672">
+<img src="figures/fig-close-treatments-cor-1.png" class="quarto-figure quarto-figure-default">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-close-treatments-cor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 7: Optimised layout. Only varieties involved in the high-similarity pairs are shown.
 </figcaption></figure>
-</div>
-</div>
 </div>
 <p>Without a relationship matrix, these related treatments can be placed next to each other. This can be optimised by providing such matrix.</p>
 <!--
@@ -530,68 +476,44 @@ Because the relationship matrix appears in both calls, we use
 result.
 
 
-::: {.cell}
-
-```{.r .cell-code}
+``` r
 prepped <- prep_relationship(rel)
 
 # Identity-only score: counts only same-treatment adjacencies.
 calculate_adjacency_score(default_result$design_df, swap = "treatment")
 ```
 
-::: {.cell-output .cell-output-stdout}
-
 ```
-[1] 0
+## [1] 0
 ```
 
-
-:::
-
-```{.r .cell-code}
+``` r
 calculate_adjacency_score(related_result$design_df, swap = "treatment")
 ```
 
-::: {.cell-output .cell-output-stdout}
-
 ```
-[1] 0
+## [1] 0
 ```
 
-
-:::
-
-```{.r .cell-code}
+``` r
 # Relationship-aware score: also counts (down-weighted) related-pair
 # adjacencies.
 calculate_adjacency_score(default_result$design_df, swap = "treatment",
                           relationship = prepped)
 ```
 
-::: {.cell-output .cell-output-stdout}
-
 ```
-[1] 6.8
+## [1] 6.8
 ```
 
-
-:::
-
-```{.r .cell-code}
+``` r
 calculate_adjacency_score(related_result$design_df, swap = "treatment",
                           relationship = prepped)
 ```
 
-::: {.cell-output .cell-output-stdout}
-
 ```
-[1] 0
+## [1] 0
 ```
-
-
-:::
-:::
-
 
 Both designs avoid same-treatment neighbours equally well, but under the
 relationship-aware metric the second design is materially better -
