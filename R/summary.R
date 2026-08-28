@@ -1130,8 +1130,7 @@ print.summary.design <- function(x, ...) {
   }
 
   # Why the run ended is the single most useful signal here, so it's
-  # colour-highlighted either way. `frozen` is neither convergence nor a cap:
-  # the level gave up because nothing could be swapped.
+  # colour-highlighted either way. `frozen` is neither convergence nor a cap.
   ran_to_cap <- crayon::bold(crayon::magenta("(ran to cap)"))
   stop_reason <- switch(
     o$stop_reason,
