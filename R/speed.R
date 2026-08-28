@@ -239,11 +239,7 @@ speed <- function(data,
   .verify_level_columns(data, optimise)
   .verify_linked_cols(data, optimise, linked_cols, named_levels)
 
-  # convert to factors. Only the columns the optimisation reads, so the rest -
-  # linked columns among them - keep whatever class they came in with. The
-  # resolved row and column names are added because a level names the grid via
-  # `grid_factors`, which holds what the user asked for rather than what
-  # `infer_row_col()` matched it to.
+  # convert only the columns the optimisation reads to factors
   factored <- to_factor(data, c(
     unlist(lapply(optimise, .level_optimised_cols)),
     row_column,
@@ -351,10 +347,7 @@ speed_hierarchical <- function(data, optimise, quiet, seed, ...) {
     stop_at_optimal <- optimise_params$stop_at_optimal
     spatial_cols <- all.vars(opt$spatial_factors)
 
-    # A level searches from the best design found so far, not from wherever the
-    # previous level's annealing happened to stop. `best_design` is what is
-    # returned, so starting anywhere else optimises - and diagnoses, via
-    # `swappable_groups()` below - a design the user never sees.
+    # A level searches from the best design from the previous level
     current_design <- best_design
 
     # Calculate initial score for this level
@@ -386,9 +379,8 @@ speed_hierarchical <- function(data, optimise, quiet, seed, ...) {
     stop_reason <- "iterations"
     n_kept <- opt$iterations
 
-    # Nothing at this level can move, and no swap it could make would change
-    # that, so the level is settled without searching. The starting score is
-    # still recorded, as it is the score the level ends on.
+    # Nothing at this level can move, so the level is settled without searching.
+    # The starting score is still recorded, as it is the score the level ends on.
     frozen <- length(groups$swappable) == 0
     if (frozen) {
       if (!quiet) cat("No swaps possible for level", level, "\n")
@@ -462,9 +454,7 @@ speed_hierarchical <- function(data, optimise, quiet, seed, ...) {
             "\n")
       }
 
-      # Early stopping. Zero is the lowest score any design can reach, so that is
-      # optimal rather than merely out of improvements, even where no lower bound
-      # could be derived to stop at above.
+      # Zero is the most optimal score any design can reach.
       reached_zero <- new_score < .Machine$double.eps
       if (reached_zero || iter - last_improvement_iter >= opt$early_stop_iterations) {
         if (!quiet) {
