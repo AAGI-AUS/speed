@@ -28,3 +28,6 @@ codemeta.json
 CLAUDE.md
 .claude
 Rplots.pdf
+^\.gitattributes$
+^tools$
+\.qmd\.orig$

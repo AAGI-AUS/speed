@@ -18,5 +18,6 @@ Rplots.pdf
 *\.txt
 *\.xlsx
 **/*.quarto_ipynb
-scratch/
 bench-out/
+*/vignette-cache
+.claude
