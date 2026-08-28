@@ -20,11 +20,9 @@ each converted column (for restoring via \code{\link[=to_types]{to_types()}})
 }
 }
 \description{
-Converts the named columns to factors, which is what the SA loop requires.
-Names not present in \code{df} are ignored, so a caller may pass the \code{"1"} /
-\code{"none"} placeholder used for a level with no \code{swap_within} boundary. Columns
-outside \code{cols} are left untouched and are not recorded in \code{input_types}, so
-\code{\link[=to_types]{to_types()}} returns them exactly as they came in - the only way to preserve
-a class \code{\link[=base_type]{base_type()}} cannot rebuild, such as \code{Date}.
+Converts the named columns to factors. Names not present in \code{df} are
+ignored, so a caller may pass the \code{"1"} / \code{"none"} placeholder used for a
+level with no \code{swap_within} boundary. Columns outside \code{cols} are left
+untouched.
 }
 \keyword{internal}

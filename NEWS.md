@@ -11,6 +11,8 @@
 
 ## Minor Changes
 
+- The startup version check now only runs in interactive sessions. Set the `SPEED_NO_VERSION_CHECK`
+  environment variable to disable it entirely.
 - `summary()` now reports why each level stopped - the optimum was reached, no further improvement was
   found, no swap was possible, or the iteration cap was hit. The reason is also recorded as `stop_reason`
   in each level's metadata.
@@ -19,6 +21,8 @@
 
 ## Bug Fixes
 
+- `speed()` now gives a clear error when `grid_factors` is malformed, instead of failing with
+  "missing value where TRUE/FALSE needed".
 - A two sided formula passed to `spatial_factors` is now rejected instead of silently accepted, and
   hierarchical designs now run the same `spatial_factors`, `iterations` and `seed` checks as simple ones.
 - Named lists for hierarchical arguments such as `iterations` are now split per level under the `optimise`
