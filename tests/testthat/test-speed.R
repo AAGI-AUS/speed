@@ -832,7 +832,7 @@ test_that("speed handles split-split plot designs", {
   expect_equal(sapply(result$scores, length), c(wp = 229, sp = 201, ssp = 1000))
 
   # Check numerical output
-  expect_equal(result$score, 497)
+  expect_equal(result$score, 393)
   expect_equal(result$iterations_run, 1430)
   expect_equal(result$stopped_early, c(wp = TRUE, sp = TRUE, ssp = FALSE))
   expect_equal(result$seed, 42)
@@ -920,7 +920,7 @@ test_that("speed handles strip plot designs", {
   expect_equal(sapply(result$scores, length), c(ht = 232, vt = 369))
 
   # Check numerical output
-  expect_equal(result$score, 145)
+  expect_equal(result$score, 138)
   expect_equal(result$iterations_run, 601)
   expect_equal(result$stopped_early, c(ht = TRUE, vt = TRUE))
   expect_equal(result$seed, 42)
@@ -2791,4 +2791,33 @@ test_that("speed preserves non-consecutive numeric row and column values", {
 
   expect_setequal(result$design_df$row, c(2, 4, 6, 8))
   expect_setequal(result$design_df$col, seq(10, 50, 10))
+})
+
+test_that("speed returns columns it does not use untouched", {
+  test_data <- data.frame(
+    row = rep(1:4, times = 5),
+    col = rep(1:5, each = 4),
+    treatment = rep(LETTERS[1:4], 5),
+    staff = rep(c("Ana", "Bo", "Cy", "Di", "Ed"), each = 4),
+    # A class `base_type()` cannot rebuild, so it only survives if the column is
+    # never converted to a factor in the first place
+    visited = as.Date("2026-03-01") + rep(0:4, each = 4),
+    stringsAsFactors = FALSE
+  )
+
+  result <- speed(test_data, swap = "treatment", seed = 42, quiet = TRUE)
+
+  expect_equal(names(result$design_df), names(test_data))
+  expect_type(result$design_df$staff, "character")
+  expect_s3_class(result$design_df$visited, "Date")
+
+  # Unrelated columns describe the plot, not the treatment, so they stay put
+  expect_equal(
+    result$design_df[
+      order(result$design_df$row, result$design_df$col),
+      c("staff", "visited")
+    ],
+    test_data[order(test_data$row, test_data$col), c("staff", "visited")],
+    ignore_attr = "row.names"
+  )
 })

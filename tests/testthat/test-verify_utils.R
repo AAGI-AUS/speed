@@ -76,6 +76,21 @@ test_that(".verify_speed_inputs works correctly", {
     "spatial_factors must be a one sided formula"
   )
 
+  # Test error: spatial_factors is a two sided formula
+  expect_error(
+    .verify_speed_inputs(
+      data = test_data,
+      swap = "treatment",
+      swap_within = "block",
+      spatial_factors = treatment ~ row + col,
+      iterations = 100,
+      early_stop_iterations = 50,
+      quiet = TRUE,
+      seed = 123
+    ),
+    "spatial_factors must be a one sided formula"
+  )
+
   # Test error: spatial factor column doesn't exist
   expect_error(
     .verify_speed_inputs(
@@ -684,4 +699,39 @@ test_that("speed() errors instead of altering replication when swap_all = TRUE",
     quiet = TRUE
   )
   expect_equal(c(table(result$design_df$treatment)), c(table(df$treatment)))
+})
+
+test_that("a level naming a missing column is refused, not run as frozen", {
+  df <- data.frame(
+    row = rep(1:4, times = 5),
+    col = rep(1:5, each = 4),
+    treatment = rep(LETTERS[1:4], 5),
+    stringsAsFactors = FALSE
+  )
+
+  # `optimise` bypasses both per-shape checkers, so without an explicit check a
+  # bad `swap_within` leaves nothing to group by and the level reports as frozen
+  expect_error(
+    speed(
+      df,
+      swap = "treatment",
+      optimise = list(a = list(swap = "treatment", swap_within = "nope")),
+      iterations = 5,
+      seed = 1,
+      quiet = TRUE
+    ),
+    "'nope' not found in"
+  )
+
+  expect_error(
+    speed(
+      df,
+      swap = "treatment",
+      optimise = list(a = list(swap = "nope")),
+      iterations = 5,
+      seed = 1,
+      quiet = TRUE
+    ),
+    "'nope' not found in"
+  )
 })
