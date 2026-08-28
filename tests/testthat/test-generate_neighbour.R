@@ -113,7 +113,6 @@ test_that("a multi swap only exchanges equally replicated treatments", {
 })
 
 test_that("a multi swap draws from both replication classes", {
-  levels_ <- levels(prep_group$treatment)
   pairs <- character(0)
 
   for (seed in 1:20) {
@@ -126,9 +125,9 @@ test_that("a multi swap draws from both replication classes", {
       TRUE
     )
 
-    # `swapped_items` records factor codes rather than labels
+    # `swapped_items` records treatment labels
     swapped <- res$swapped_items[res$swapped_items != ""]
-    pairs <- c(pairs, paste(sort(levels_[as.integer(swapped)]), collapse = ""))
+    pairs <- c(pairs, paste(sort(swapped), collapse = ""))
   }
 
   # A/B are the two-plot class and C/D the three-plot class; a pair spanning

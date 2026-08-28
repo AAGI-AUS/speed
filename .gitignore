@@ -19,3 +19,4 @@ Rplots.pdf
 *\.xlsx
 **/*.quarto_ipynb
 */vignette-cache
+.claude
