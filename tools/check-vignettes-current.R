@@ -1,19 +1,19 @@
 # Fail if a pre-computed vignette is stale.
 #
-# Nothing forces `data-raw/precompute-vignettes.R` to be re-run, so an edited
+# Nothing forces `tools/precompute-vignettes.R` to be re-run, so an edited
 # `.qmd.orig` can silently ship alongside a stale `.qmd`. Compare each source
 # against the hash recorded when the `.qmd` was last generated.
 #
-#     Rscript data-raw/check-vignettes-current.R
+#     Rscript tools/check-vignettes-current.R
 
 vig_dir <- "vignettes"
-manifest <- file.path("data-raw", "vignette-hashes.txt")
+manifest <- file.path("tools", "vignette-hashes.txt")
 
 if (!file.exists(manifest)) {
   stop(
     "No ",
     manifest,
-    ". Run: Rscript data-raw/precompute-vignettes.R",
+    ". Run: Rscript tools/precompute-vignettes.R",
     call. = FALSE
   )
 }
@@ -78,7 +78,7 @@ if (length(problems)) {
   stop(
     "Pre-computed vignettes are out of date:\n",
     paste0("  - ", problems, collapse = "\n"),
-    "\n\nRe-run: Rscript data-raw/precompute-vignettes.R",
+    "\n\nRe-run: Rscript tools/precompute-vignettes.R",
     call. = FALSE
   )
 }

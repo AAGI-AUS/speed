@@ -7,7 +7,7 @@
 # Run from the package root after changing any `.qmd.orig`, then commit the
 # regenerated `.qmd`, `vignettes/figures/` and `vignette-hashes.txt`:
 #
-#     Rscript data-raw/precompute-vignettes.R
+#     Rscript tools/precompute-vignettes.R
 
 pkgload::load_all(quiet = TRUE)
 
@@ -51,10 +51,10 @@ withr::with_dir(vig_dir, {
   # knitr defaults to pdf outside an HTML context; these vignettes render to
   # HTML, where a pdf figure will not display
   # `cache: true` chunks would otherwise write `vignettes/cache/`, which ends up
-  # in the tarball; keep it in data-raw/, which is not shipped
+  # in the tarball; keep it in tools/, which is not shipped
   knitr::opts_chunk$set(
     fig.path = paste0(fig_dir, "/"),
-    cache.path = "../data-raw/vignette-cache/",
+    cache.path = "../tools/vignette-cache/",
     dev = "png",
     dpi = 96
   )
@@ -72,7 +72,7 @@ withr::with_dir(vig_dir, {
 })
 
 # Record what each `.qmd` was generated from, so staleness is detectable. Kept
-# in data-raw/ rather than vignettes/ so it does not ship in the tarball. CR
+# in tools/ rather than vignettes/ so it does not ship in the tarball. CR
 # bytes are stripped so a CRLF working tree hashes the same as an LF checkout;
 # `check-vignettes-current.R` must strip them the same way.
 hashes <- vapply(
@@ -88,7 +88,7 @@ hashes <- vapply(
 )
 writeLines(
   sprintf("%s  %s", hashes, orig),
-  file.path("data-raw", "vignette-hashes.txt")
+  file.path("tools", "vignette-hashes.txt")
 )
 
 message(
@@ -96,5 +96,5 @@ message(
   vig_dir,
   "/",
   fig_dir,
-  "/ and data-raw/vignette-hashes.txt"
+  "/ and tools/vignette-hashes.txt"
 )

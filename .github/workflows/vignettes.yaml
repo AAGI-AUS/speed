@@ -11,7 +11,7 @@ on:
   push:
     paths:
       - "vignettes/**.qmd.orig"
-      - "data-raw/precompute-vignettes.R"
+      - "tools/precompute-vignettes.R"
       - ".github/workflows/vignettes.yaml"
 
 name: vignettes.yaml
@@ -58,7 +58,7 @@ jobs:
 
       # Re-runs every chunk in the .qmd.orig sources; fails on any error.
       - name: Execute vignette sources
-        run: Rscript data-raw/precompute-vignettes.R
+        run: Rscript tools/precompute-vignettes.R
 
       # The generated .qmd must still render to HTML on this platform.
       - name: Render the generated vignettes

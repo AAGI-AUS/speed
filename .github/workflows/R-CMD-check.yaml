@@ -22,7 +22,7 @@ jobs:
           use-public-rspm: true
 
       - name: Check pre-computed vignettes are up to date
-        run: Rscript data-raw/check-vignettes-current.R
+        run: Rscript tools/check-vignettes-current.R
 
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}

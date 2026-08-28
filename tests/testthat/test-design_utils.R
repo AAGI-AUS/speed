@@ -222,6 +222,39 @@ test_that("speed() stops a level once every swap group is frozen", {
     )
   )
   expect_length(run(single_treatment)$scores$lvl2, 1)
+
+  # A frozen level says so unless silenced
+  expect_output(
+    suppressWarnings(speed(
+      df,
+      swap = "lines",
+      optimise = list(
+        lvl1 = list(swap_within = "block", swap_all = TRUE, iterations = 20),
+        lvl2 = list(swap_within = "site", swap_all = TRUE, iterations = 500)
+      ),
+      early_stop_iterations = 500,
+      optimise_params = optim_params(stop_at_optimal = FALSE),
+      seed = 2,
+      quiet = FALSE
+    )),
+    "No swaps possible for level lvl2"
+  )
+})
+
+test_that(".warn_unequal_replication names one group and counts the rest", {
+  expect_silent(.warn_unequal_replication(character(0), "lvl1", "site"))
+
+  expect_warning(
+    .warn_unequal_replication("a", "lvl1", "site"),
+    "at level 'lvl1' within 'site' group a, because",
+    fixed = TRUE
+  )
+
+  expect_warning(
+    .warn_unequal_replication(c("a", "b", "c"), "lvl1", "site"),
+    "group a, and in 2 other group(s), because",
+    fixed = TRUE
+  )
 })
 
 test_that("a level searches from the best design found, not the last accepted", {
