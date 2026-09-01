@@ -10,7 +10,6 @@ shuffle_items(
   groups,
   seed = NULL,
   linked_cols = NULL,
-  fixed = NULL,
   swap_all = FALSE
 )
 }
@@ -28,9 +27,6 @@ reproducibility of results (default: \code{NULL}).}
 \item{linked_cols}{Character vector of column names moved in lockstep with
 the \code{swap} column, so that a value paired with a treatment stays paired with
 it. \code{NULL} (default) moves the \code{swap} column alone.}
-
-\item{fixed}{Logical vector marking plots to leave where they are. \code{NULL}
-(default) holds back only the plots carrying no treatment.}
 
 \item{swap_all}{Whether to swap all matching items or a single item at a time
 (default: FALSE)}

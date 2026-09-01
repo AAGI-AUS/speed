@@ -721,35 +721,30 @@ initialise_multiple_designs_df <- function(items, designs, design_col) {
 #' @inheritParams generate_neighbour
 #' @inheritParams speed
 #' @param groups Factor giving the group each plot is shuffled within.
-#' @param fixed Logical vector marking plots to leave where they are. `NULL`
-#'   (default) holds back only the plots carrying no treatment.
 #'
 #' @return A data frame with the items shuffled
 #'
 #' @keywords internal
 # fmt: skip
-shuffle_items <- function(design, swap, groups, seed = NULL, linked_cols = NULL, fixed = NULL,
-                          swap_all = FALSE) {
+shuffle_items <- function(design, swap, groups, seed = NULL, linked_cols = NULL, swap_all = FALSE) {
   if (!is.null(seed)) {
     set.seed(seed)
   }
 
-  # A plot with no treatment is a gap in the design rather than something to
-  # move, matching `generate_neighbour()`, which never swaps one
-  movable <- !(fixed %||% is.na(design[[swap]]))
+  movable <- !is.na(design[[swap]])
 
   if (isTRUE(swap_all)) {
-    return(shuffle_labels(design, swap, groups, linked_cols, movable))
+    return(shuffle_item_sets(design, swap, groups, linked_cols, movable))
   }
 
-  return(shuffle_plots(design, swap, groups, linked_cols, movable))
+  return(shuffle_single_items(design, swap, groups, linked_cols, movable))
 }
 
-#' Shuffle the plots within each group
+#' Shuffle one plot at a time within each group
 #' @inheritParams shuffle_items
 #' @param movable Logical vector marking the plots free to move.
 #' @keywords internal
-shuffle_plots <- function(design, swap, groups, linked_cols, movable) {
+shuffle_single_items <- function(design, swap, groups, linked_cols, movable) {
   for (group in levels(groups)) {
     # A plot in no group drops out: `NA == group` is `NA`, which `which()` drops
     plots <- which(groups == group & movable)
@@ -764,12 +759,12 @@ shuffle_plots <- function(design, swap, groups, linked_cols, movable) {
   return(design)
 }
 
-#' Shuffle the treatment labels between the plot sets holding them
-#' @inheritParams shuffle_plots
+#' Shuffle whole sets of like-treatment plots within each group
+#' @inheritParams shuffle_single_items
 #' @keywords internal
-shuffle_labels <- function(design, swap, groups, linked_cols, movable) {
-  # Read before any assignment, so a linked value follows its treatment to the
-  # plots that treatment moves to rather than to one already moved
+shuffle_item_sets <- function(design, swap, groups, linked_cols, movable) {
+  # Read upfront, so a linked value is taken from the plots a treatment came
+  # from rather than from ones already written to
   linked <- design[linked_cols]
 
   for (group in levels(groups)) {
@@ -778,21 +773,17 @@ shuffle_labels <- function(design, swap, groups, linked_cols, movable) {
     treatments <- unique(labels)
     counts <- tabulate(match(labels, treatments), length(treatments))
 
-    # Exchanging labels of unequal replication would change the replication of
-    # the design, so each is only permuted among those it is tied with.
-    # `.verify_swap_all_replication()` leaves one class per group to start with,
-    # but a shuffle at an earlier level can split a later level's.
-    for (class in split(treatments, counts)) {
-      if (length(class) < 2) {
+    # shuffle within groups of equal reps
+    for (eligible in split(treatments, counts)) {
+      if (length(eligible) < 2) {
         next
       }
 
-      permuted <- sample(class)
-      held_by <- lapply(class, function(label) return(plots[labels == label]))
-      for (i in seq_along(class)) {
-        # Equal replication, so the two sets are always the same length
+      permuted <- sample(eligible)
+      held_by <- lapply(eligible, function(label) return(plots[labels == label]))
+      for (i in seq_along(eligible)) {
         design[[swap]][held_by[[i]]] <- permuted[i]
-        from <- held_by[[match(permuted[i], class)]]
+        from <- held_by[[match(permuted[i], eligible)]]
         for (col in linked_cols) {
           design[[col]][held_by[[i]]] <- linked[[col]][from]
         }
@@ -819,15 +810,6 @@ random_initialise <- function(design, optimise, seed = NULL, ...) {
     return(design)
   }
 
-  # A plot left without a treatment at any level is a gap no level's search ever
-  # moves, so a shuffle must not move it either - otherwise the gap lands
-  # somewhere else and the design starts from a different layout than the one
-  # given.
-  fixed <- Reduce(
-    `|`,
-    lapply(optimise, function(opt) return(is.na(design[[opt$swap]])))
-  )
-
   # A level shuffles within its own groups and every earlier level's, so a later
   # shuffle cannot undo the grouping an earlier one kept.
   swap_within <- vapply(
@@ -841,6 +823,9 @@ random_initialise <- function(design, optimise, seed = NULL, ...) {
 
   best_score <- Inf
   best_design <- design
+  if (!is.null(seed)) {
+    set.seed(seed)
+  }
   for (i in seq_len(random_initialisation)) {
     shuffled_design <- design
     for (level in seq_along(optimise)) {
@@ -849,9 +834,7 @@ random_initialise <- function(design, optimise, seed = NULL, ...) {
         shuffled_design,
         opt$swap,
         groups[[level]],
-        seed = seed + i - 1,
         linked_cols = opt$linked_cols,
-        fixed = fixed,
         swap_all = opt$swap_all
       )
     }

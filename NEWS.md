@@ -21,6 +21,8 @@
 
 ## Bug Fixes
 
+- `speed()` no longer fails with "supplied seed is not a valid integer" when `seed` is left unset in a
+  session that has not yet used the random number generator.
 - `optim_params(random_initialisation = )` no longer moves plots holding no treatment, so a design with
   missing plots keeps the same gaps it started with.
 - `optim_params(random_initialisation = )` now shuffles treatment labels rather than plots at a

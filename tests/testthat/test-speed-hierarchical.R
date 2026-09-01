@@ -282,7 +282,7 @@ test_that("speed handles MET with unequal site dimensions", {
     early_stop_iterations = 5000,
     optimise = optimise,
     optimise_params = optim_params(
-      random_initialisation = TRUE,
+      random_initialisation = 50,
       adj_weight = 0
     ),
     seed = 112,
