@@ -21,6 +21,11 @@
 
 ## Bug Fixes
 
+- `optim_params(random_initialisation = )` no longer moves plots holding no treatment, so a design with
+  missing plots keeps the same gaps it started with.
+- `optim_params(random_initialisation = )` now shuffles treatment labels rather than plots at a
+  `swap_all = TRUE` level, so it no longer breaks up the wholeplots or strips of a split-plot or
+  strip-plot design.
 - `speed()` now gives a clear error when `grid_factors` is malformed, instead of failing with
   "missing value where TRUE/FALSE needed".
 - A two sided formula passed to `spatial_factors` is now rejected instead of silently accepted, and

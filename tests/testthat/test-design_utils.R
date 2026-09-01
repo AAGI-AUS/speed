@@ -454,3 +454,51 @@ test_that("speed() does not warn when every group can swap", {
     )
   )
 })
+
+test_that("shuffle_labels only exchanges equally replicated treatments", {
+  design <- data.frame(
+    block = factor(rep(1, 7)),
+    treatment = factor(c("A", "A", "B", "B", "C", "D", NA))
+  )
+  movable <- !is.na(design$treatment)
+
+  for (seed in 1:20) {
+    set.seed(seed)
+    shuffled <- shuffle_labels(
+      design,
+      "treatment",
+      design$block,
+      NULL,
+      movable
+    )
+
+    # Replication is unchanged, so no treatment has moved to a set of a
+    # different size, and the plot with no treatment still has none
+    expect_equal(table(shuffled$treatment), table(design$treatment))
+    expect_true(is.na(shuffled$treatment[7]))
+
+    # The two plots a doubly replicated treatment held stay one set
+    expect_equal(shuffled$treatment[1], shuffled$treatment[2])
+    expect_equal(shuffled$treatment[3], shuffled$treatment[4])
+    expect_setequal(as.character(shuffled$treatment[1:4]), c("A", "B"))
+    expect_setequal(as.character(shuffled$treatment[5:6]), c("C", "D"))
+  }
+})
+
+test_that("shuffle_labels leaves a group holding one treatment alone", {
+  design <- data.frame(
+    block = factor(c(1, 1, 2, 2)),
+    treatment = factor(c("A", "A", "B", "C"))
+  )
+
+  set.seed(1)
+  shuffled <- shuffle_labels(
+    design,
+    "treatment",
+    design$block,
+    NULL,
+    rep(TRUE, 4)
+  )
+
+  expect_equal(shuffled$treatment[1:2], design$treatment[1:2])
+})

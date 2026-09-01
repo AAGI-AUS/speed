@@ -30,6 +30,192 @@ test_that("speed handles irregular layouts with missing plots", {
   vdiffr::expect_doppelganger("speed_missing_plots", autoplot(result))
 })
 
+test_that("random initialisation leaves missing plots where they are", {
+  irregular_data <- data.frame(
+    row = rep(1:4, each = 3),
+    col = rep(1:3, times = 4),
+    block = rep(1:2, each = 6),
+    treatment = rep(LETTERS[1:3], 4)
+  )
+
+  irregular_data$treatment[c(1, 9, 11)] <- NA
+
+  result <- speed(
+    data = irregular_data,
+    swap = "treatment",
+    swap_within = "block",
+    spatial_factors = ~ row + col,
+    iterations = 100,
+    optimise_params = optim_params(random_initialisation = 5),
+    seed = 42,
+    quiet = TRUE
+  )
+
+  # The shuffle permutes treatments, not plots, so a plot holding no treatment
+  # keeps holding none
+  expect_identical(
+    which(is.na(result$design_df$treatment)),
+    which(is.na(irregular_data$treatment))
+  )
+  expect_equal(
+    sort(result$design_df$treatment),
+    sort(irregular_data$treatment)
+  )
+})
+
+test_that("random initialisation holds a plot missing at any level", {
+  # `sp` is missing on the plots of one wholeplot, `wp` on the plots of another
+  split_data <- data.frame(
+    row = rep(1:12, each = 4),
+    col = rep(1:4, times = 12),
+    block = rep(1:4, each = 12),
+    wholeplot = rep(1:12, each = 4),
+    wholeplot_treatment = rep(rep(LETTERS[1:3], each = 4), times = 4),
+    subplot_treatment = rep(letters[1:4], 12)
+  )
+  split_data$subplot_treatment[split_data$wholeplot == 2] <- NA
+  split_data$wholeplot_treatment[split_data$wholeplot == 7] <- NA
+
+  result <- speed(
+    split_data,
+    swap = list(wp = "wholeplot_treatment", sp = "subplot_treatment"),
+    swap_within = list(wp = "block", sp = "wholeplot"),
+    iterations = 100,
+    optimise_params = optim_params(random_initialisation = 5),
+    seed = 42,
+    quiet = TRUE
+  )
+
+  for (column in c("wholeplot_treatment", "subplot_treatment")) {
+    expect_identical(
+      which(is.na(result$design_df[[column]])),
+      which(is.na(split_data[[column]]))
+    )
+  }
+})
+
+test_that("random initialisation keeps a swap_all design's units whole", {
+  split_data <- data.frame(
+    row = rep(1:12, each = 4),
+    col = rep(1:4, times = 12),
+    block = rep(1:4, each = 12),
+    wholeplot = rep(1:12, each = 4),
+    wholeplot_treatment = rep(rep(LETTERS[1:3], each = 4), times = 4),
+    subplot_treatment = rep(letters[1:4], 12)
+  )
+
+  result <- speed(
+    split_data,
+    swap = list(wp = "wholeplot_treatment", sp = "subplot_treatment"),
+    swap_within = list(wp = "block", sp = "wholeplot"),
+    swap_all = TRUE,
+    iterations = 200,
+    optimise_params = optim_params(random_initialisation = 5),
+    seed = 42,
+    quiet = TRUE
+  )
+  design_df <- result$design_df
+
+  # `swap_all` moves whole sets of like-treatment plots, so every wholeplot
+  # still holds one wholeplot treatment across all four of its plots
+  per_wholeplot <- tapply(
+    as.character(design_df$wholeplot_treatment),
+    design_df$wholeplot,
+    function(x) return(length(unique(x)))
+  )
+  expect_true(all(per_wholeplot == 1))
+
+  # The treatment set of each block, and of the design, is unchanged
+  expect_equal(
+    table(design_df$block, design_df$wholeplot_treatment),
+    table(split_data$block, split_data$wholeplot_treatment)
+  )
+
+  # The shuffle still moves something, rather than passing the design through
+  expect_false(identical(
+    as.character(design_df$wholeplot_treatment),
+    as.character(split_data$wholeplot_treatment)
+  ))
+})
+
+test_that("random initialisation keeps swap_all strips whole", {
+  df_strip <- data.frame(
+    row = rep(1:12, each = 6),
+    col = rep(1:6, times = 12),
+    block = rep(rep(1:2, each = 3), times = 4) + rep(0:2 * 2, each = 24),
+    vertical_treatment = rep(rep(LETTERS[1:3], times = 2), times = 12),
+    horizontal_treatment = rep(rep(letters[1:4], each = 6), times = 3)
+  )
+
+  result <- speed(
+    df_strip,
+    swap = list(ht = "horizontal_treatment", vt = "vertical_treatment"),
+    swap_within = list(ht = "block", vt = "block"),
+    swap_all = TRUE,
+    iterations = list(ht = 100, vt = 100),
+    optimise_params = optim_params(random_initialisation = 5),
+    seed = 42,
+    quiet = TRUE
+  )
+  design_df <- result$design_df
+
+  # A strip runs the width of its block, so each holds a single treatment
+  strips <- list(
+    vertical_treatment = paste(design_df$block, design_df$col),
+    horizontal_treatment = paste(design_df$block, design_df$row)
+  )
+  for (column in names(strips)) {
+    per_strip <- tapply(
+      as.character(design_df[[column]]),
+      strips[[column]],
+      function(x) return(length(unique(x)))
+    )
+    expect_true(all(per_strip == 1))
+  }
+})
+
+test_that("random initialisation keeps linked_cols paired under swap_all", {
+  split_data <- data.frame(
+    row = rep(1:12, each = 4),
+    col = rep(1:4, times = 12),
+    block = rep(1:4, each = 12),
+    wholeplot = rep(1:12, each = 4),
+    wholeplot_treatment = rep(rep(LETTERS[1:3], each = 4), times = 4)
+  )
+  split_data$wholeplot_name <- paste0(
+    "trt-",
+    tolower(split_data$wholeplot_treatment)
+  )
+
+  result <- speed(
+    split_data,
+    swap = "wholeplot_treatment",
+    swap_within = "block",
+    linked_cols = "wholeplot_name",
+    swap_all = TRUE,
+    iterations = 200,
+    optimise_params = optim_params(random_initialisation = 5),
+    seed = 42,
+    quiet = TRUE
+  )
+
+  # One name per treatment, and the same one it started with. A label moved
+  # without its linked column would show up as an extra pair here.
+  pairing <- function(design_df) {
+    pairs <- unique(data.frame(
+      treatment = as.character(design_df$wholeplot_treatment),
+      name = as.character(design_df$wholeplot_name)
+    ))
+    return(pairs[order(pairs$treatment), ])
+  }
+
+  expect_equal(
+    pairing(result$design_df),
+    pairing(split_data),
+    ignore_attr = "row.names"
+  )
+})
+
 test_that("speed handles multiple spatial factors", {
   multi_factor_data <- data.frame(
     row = rep(1:5, each = 5),
