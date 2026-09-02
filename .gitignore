@@ -20,3 +20,4 @@ Rplots.pdf
 **/*.quarto_ipynb
 */vignette-cache
 .claude
+scratch/

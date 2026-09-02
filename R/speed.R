@@ -71,7 +71,8 @@
 #' - **treatments** - Vector of unique treatments (for simple designs) or
 #'   named list of treatment vectors (for hierarchical designs)
 #' - **seed** - Random seed used for reproducibility of the design. If not set
-#'   in the function, the seed is set to the third element of `.Random.seed`.
+#'   in the function, the seed is set to the third element of `.Random.seed`, or
+#'   drawn at random if the RNG has not been used yet.
 #' - **metadata** - A list describing how the design was produced: the captured
 #'   `call`, the ordered `levels`, the resolved `row_column` / `col_column`
 #'   names, and a `per_level` list recording each level's swap variable,
@@ -314,7 +315,7 @@ speed <- function(data,
 speed_hierarchical <- function(data, optimise, quiet, seed, ...) {
   # Set seed for reproducibility
   if (is.null(seed)) {
-    seed <- .GlobalEnv$.Random.seed[3]
+    seed <- .GlobalEnv$.Random.seed[3] %||% sample.int(.Machine$integer.max, 1)
   }
 
   hierarchy_levels <- names(optimise)
