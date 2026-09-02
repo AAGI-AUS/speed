@@ -80,8 +80,6 @@ treatments:
 ``` r
 
 library(speed)
-#> A newer version of speed is available on GitHub (installed: 0.0.10, available: 0.0.11).
-#> Update with: devtools::install_github("biometryhub/speed")
 
 # Create a simple design with 3 replicates of 4 treatments
 df <- data.frame(
@@ -94,9 +92,7 @@ df <- data.frame(
 result <- speed(df, "treatment", seed = 42)
 #> row and col are used as row and column, respectively.
 #> Optimising level: single treatment within whole design 
-#> Level: single treatment within whole design Iteration: 1000 Score: 1 Best: 1 Since Improvement: 475 
-#> Level: single treatment within whole design Iteration: 2000 Score: 1 Best: 1 Since Improvement: 1475 
-#> Early stopping at iteration 2525 for level single treatment within whole design
+#> Optimal score reached at iteration 526 for level single treatment within whole design
 
 # Plot the optimised design
 autoplot(result)
@@ -111,7 +107,9 @@ autoplot(result)
 plot_progress(result)
 ```
 
-![](reference/figures/README-example-2.png)![](reference/figures/README-example-3.png)
+![](reference/figures/README-example-2.png)
+
+![](reference/figures/README-example-3.png)
 
 ### Blocked design
 
@@ -136,9 +134,7 @@ result <- speed(df,
 )
 #> row and col are used as row and column, respectively.
 #> Optimising level: single treatment within block 
-#> Level: single treatment within block Iteration: 1000 Score: 2.571429 Best: 2.571429 Since Improvement: 543 
-#> Level: single treatment within block Iteration: 2000 Score: 2.571429 Best: 2.571429 Since Improvement: 1543 
-#> Early stopping at iteration 2457 for level single treatment within block
+#> Optimal score reached at iteration 458 for level single treatment within block
 
 # Plot the design with block boundaries
 autoplot(result)
@@ -191,25 +187,29 @@ for details).
 
 ## Citation
 
-If you use `speed` in your research, please cite:
+If you use `speed` in your work, please cite it by using:
+
+``` r
+
+citation("speed")
+```
 
 ``` R
-Warning in citation("speed"): could not determine year for 'speed' from package
-DESCRIPTION file
-To cite package 'speed' in publications use:
-
-  Rogers S, Pipattungsakul W, Taylor J (????). _speed: Generate
-  Spatially Efficient Experimental Designs_. R package version 0.0.10,
-  <https://biometryhub.github.io/speed/>.
-
-A BibTeX entry for LaTeX users is
-
-  @Manual{,
-    title = {speed: Generate Spatially Efficient Experimental Designs},
-    author = {Sam Rogers and Wasin Pipattungsakul and Julian Taylor},
-    note = {R package version 0.0.10},
-    url = {https://biometryhub.github.io/speed/},
-  }
+#> To cite package 'speed' in publications use:
+#> 
+#>   Rogers S, Pipattungsakul W, Taylor J (2026). _speed: Generate
+#>   Spatially Efficient Experimental Designs_. R package version 0.0.11,
+#>   <https://biometryhub.github.io/speed/>.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {speed: Generate Spatially Efficient Experimental Designs},
+#>     author = {Sam Rogers and Wasin Pipattungsakul and Julian Taylor},
+#>     year = {2026},
+#>     note = {R package version 0.0.11},
+#>     url = {https://biometryhub.github.io/speed/},
+#>   }
 ```
 
 ## License

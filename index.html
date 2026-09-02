@@ -159,8 +159,6 @@
 <p>A simple example optimising a 4×3 completely randomised design with 4 treatments:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://biometryhub.github.io/speed/">speed</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; A newer version of speed is available on GitHub (installed: 0.0.10, available: 0.0.11).</span></span>
-<span><span class="co">#&gt; Update with: devtools::install_github("biometryhub/speed")</span></span>
 <span></span>
 <span><span class="co"># Create a simple design with 3 replicates of 4 treatments</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -173,18 +171,17 @@
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/speed.html">speed</a></span><span class="op">(</span><span class="va">df</span>, <span class="st">"treatment"</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
 <span><span class="co">#&gt; row and col are used as row and column, respectively.</span></span>
 <span><span class="co">#&gt; Optimising level: single treatment within whole design </span></span>
-<span><span class="co">#&gt; Level: single treatment within whole design Iteration: 1000 Score: 1 Best: 1 Since Improvement: 475 </span></span>
-<span><span class="co">#&gt; Level: single treatment within whole design Iteration: 2000 Score: 1 Best: 1 Since Improvement: 1475 </span></span>
-<span><span class="co">#&gt; Early stopping at iteration 2525 for level single treatment within whole design</span></span>
+<span><span class="co">#&gt; Optimal score reached at iteration 526 for level single treatment within whole design</span></span>
 <span></span>
 <span><span class="co"># Plot the optimised design</span></span>
 <span><span class="fu"><a href="reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-example-1.png" alt="" width="100%"></p>
+<p><img src="reference/figures/README-example-1.png" style="width:100.0%"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># View optimisation progress</span></span>
 <span><span class="fu"><a href="reference/plot_progress.html">plot_progress</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-example-2.png" alt="" width="100%"><img src="reference/figures/README-example-3.png" alt="" width="100%"></p>
+<p><img src="reference/figures/README-example-2.png" style="width:100.0%"></p>
+<p><img src="reference/figures/README-example-3.png" style="width:100.0%"></p>
 </div>
 <div class="section level3">
 <h3 id="blocked-design">Blocked design<a class="anchor" aria-label="anchor" href="#blocked-design"></a>
@@ -208,13 +205,11 @@
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; row and col are used as row and column, respectively.</span></span>
 <span><span class="co">#&gt; Optimising level: single treatment within block </span></span>
-<span><span class="co">#&gt; Level: single treatment within block Iteration: 1000 Score: 2.571429 Best: 2.571429 Since Improvement: 543 </span></span>
-<span><span class="co">#&gt; Level: single treatment within block Iteration: 2000 Score: 2.571429 Best: 2.571429 Since Improvement: 1543 </span></span>
-<span><span class="co">#&gt; Early stopping at iteration 2457 for level single treatment within block</span></span>
+<span><span class="co">#&gt; Optimal score reached at iteration 458 for level single treatment within block</span></span>
 <span></span>
 <span><span class="co"># Plot the design with block boundaries</span></span>
 <span><span class="fu"><a href="reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-blocks-1.png" alt="" width="100%"></p>
+<p><img src="reference/figures/README-blocks-1.png" style="width:100.0%"></p>
 </div>
 <div class="section level3">
 <h3 id="more-examples">More Examples<a class="anchor" aria-label="anchor" href="#more-examples"></a>
@@ -257,23 +252,24 @@
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<p>If you use <code>speed</code> in your research, please cite:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>Warning <span class="cf">in</span> <span class="fu">citation</span>(<span class="st">"speed"</span>)<span class="sc">:</span> could not determine year <span class="cf">for</span> <span class="st">'speed'</span> from package</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>DESCRIPTION file</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>To cite package <span class="st">'speed'</span> <span class="cf">in</span> publications use<span class="sc">:</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  Rogers S, Pipattungsakul W, Taylor <span class="fu">J</span> (????). _speed<span class="sc">:</span> Generate</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  Spatially Efficient Experimental Designs_. R package version <span class="dv">0</span>.<span class="fl">0.10</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>biometryhub.github.io<span class="sc">/</span>speed<span class="sc">/</span><span class="er">&gt;</span>.</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="sc">@</span>Manual{,</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>    title <span class="ot">=</span> {speed<span class="sc">:</span> Generate Spatially Efficient Experimental Designs},</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>    author <span class="ot">=</span> {Sam Rogers and Wasin Pipattungsakul and Julian Taylor},</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">0</span>.<span class="fl">0.10</span>},</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>biometryhub.github.io<span class="sc">/</span>speed<span class="sc">/</span>},</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  }</span></code></pre></div>
+<p>If you use <code>speed</code> in your work, please cite it by using:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"speed"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">#&gt; To cite package 'speed' in publications use:</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt;   Rogers S, Pipattungsakul W, Taylor J (2026). _speed: Generate</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;   Spatially Efficient Experimental Designs_. R package version 0.0.11,</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt;   &lt;https://biometryhub.github.io/speed/&gt;.</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt;   @Manual{,</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt;     title = {speed: Generate Spatially Efficient Experimental Designs},</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt;     author = {Sam Rogers and Wasin Pipattungsakul and Julian Taylor},</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt;     year = {2026},</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt;     note = {R package version 0.0.11},</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt;     url = {https://biometryhub.github.io/speed/},</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt;   }</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
