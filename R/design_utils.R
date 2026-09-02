@@ -712,26 +712,82 @@ initialise_multiple_designs_df <- function(items, designs, design_col) {
 
 #' Shuffle Items in A Group
 #'
+#' @description
+#' A shuffle has to move what the search moves, or it starts the search from a
+#' design the search itself could never reach. `swap_all` exchanges whole sets
+#' of like-treatment plots, so it shuffles treatment labels between those sets;
+#' a single swap exchanges plots, so it shuffles the plots.
+#'
 #' @inheritParams generate_neighbour
 #' @inheritParams speed
+#' @param groups Factor giving the group each plot is shuffled within.
 #'
 #' @return A data frame with the items shuffled
 #'
 #' @keywords internal
 # fmt: skip
-shuffle_items <- function(design, swap, swap_within, seed = NULL, linked_cols = NULL) {
+shuffle_items <- function(design, swap, groups, seed = NULL, linked_cols = NULL, swap_all = FALSE) {
   if (!is.null(seed)) {
     set.seed(seed)
   }
 
-  for (i in levels(design[[swap_within]])) {
-    swap_within_filter <- design[[swap_within]] == i & !is.na(design[[swap_within]])
-    items <- design[swap_within_filter, ][[swap]]
-    perm <- sample.int(length(items))
-    design[swap_within_filter, ][[swap]] <- items[perm]
+  movable <- !is.na(design[[swap]])
+
+  if (isTRUE(swap_all)) {
+    return(shuffle_item_sets(design, swap, groups, linked_cols, movable))
+  }
+
+  return(shuffle_single_items(design, swap, groups, linked_cols, movable))
+}
+
+#' Shuffle one plot at a time within each group
+#' @inheritParams shuffle_items
+#' @param movable Logical vector marking the plots free to move.
+#' @keywords internal
+shuffle_single_items <- function(design, swap, groups, linked_cols, movable) {
+  for (group in levels(groups)) {
+    # A plot in no group drops out: `NA == group` is `NA`, which `which()` drops
+    plots <- which(groups == group & movable)
+    permuted <- plots[sample.int(length(plots))]
+    design[[swap]][plots] <- design[[swap]][permuted]
     for (col in linked_cols) {
       # The same permutation, so a linked value stays with its treatment
-      design[swap_within_filter, ][[col]] <- design[swap_within_filter, ][[col]][perm]
+      design[[col]][plots] <- design[[col]][permuted]
+    }
+  }
+
+  return(design)
+}
+
+#' Shuffle whole sets of like-treatment plots within each group
+#' @inheritParams shuffle_single_items
+#' @keywords internal
+shuffle_item_sets <- function(design, swap, groups, linked_cols, movable) {
+  # Read upfront, so a linked value is taken from the plots a treatment came
+  # from rather than from ones already written to
+  linked <- design[linked_cols]
+
+  for (group in levels(groups)) {
+    plots <- which(groups == group & movable)
+    labels <- as.character(design[[swap]][plots])
+    treatments <- unique(labels)
+    counts <- tabulate(match(labels, treatments), length(treatments))
+
+    # shuffle within groups of equal reps
+    for (eligible in split(treatments, counts)) {
+      if (length(eligible) < 2) {
+        next
+      }
+
+      permuted <- sample(eligible)
+      held_by <- lapply(eligible, function(label) return(plots[labels == label]))
+      for (i in seq_along(eligible)) {
+        design[[swap]][held_by[[i]]] <- permuted[i]
+        from <- held_by[[match(permuted[i], eligible)]]
+        for (col in linked_cols) {
+          design[[col]][held_by[[i]]] <- linked[[col]][from]
+        }
+      }
     }
   }
 
@@ -754,38 +810,32 @@ random_initialise <- function(design, optimise, seed = NULL, ...) {
     return(design)
   }
 
-  if (length(optimise) > 1) {
-    groups <- c()
-    for (i in seq_along(optimise)) {
-      groups <- c(groups, optimise[[i]]$swap_within)
-      if (i == 1) {
-        next
-      }
-
-      now <- as.numeric(Sys.time())
-      dummy_col <- paste0(paste(groups, collapse = "_"), "_", now)
-      optimise[[i]]$swap_within <- dummy_col
-      design[[dummy_col]] <- apply(
-        design[, groups],
-        1,
-        paste,
-        collapse = "-"
-      ) |>
-        factor()
-    }
-  }
+  # A level shuffles within its own groups and every earlier level's, so a later
+  # shuffle cannot undo the grouping an earlier one kept.
+  swap_within <- vapply(
+    optimise,
+    function(opt) return(opt$swap_within),
+    character(1)
+  )
+  groups <- lapply(seq_along(optimise), function(i) {
+    return(interaction(design[swap_within[seq_len(i)]], drop = TRUE))
+  })
 
   best_score <- Inf
   best_design <- design
+  if (!is.null(seed)) {
+    set.seed(seed)
+  }
   for (i in seq_len(random_initialisation)) {
     shuffled_design <- design
-    for (opt in optimise) {
+    for (level in seq_along(optimise)) {
+      opt <- optimise[[level]]
       shuffled_design <- shuffle_items(
         shuffled_design,
         opt$swap,
-        opt$swap_within,
-        seed + i - 1,
-        opt$linked_cols
+        groups[[level]],
+        linked_cols = opt$linked_cols,
+        swap_all = opt$swap_all
       )
     }
 
@@ -814,10 +864,6 @@ random_initialise <- function(design, optimise, seed = NULL, ...) {
       best_score <- current_score
       best_design <- shuffled_design
     }
-  }
-
-  for (opt in optimise[-1]) {
-    best_design[[opt$swap_within]] <- NULL
   }
 
   return(best_design)

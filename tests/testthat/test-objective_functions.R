@@ -682,7 +682,7 @@ test_that("objective_function_factorial works", {
     paste(Var1, Var2, sep = "-")
   )
   df <- initialise_design_df(treatments, 24, 3, 8, 3)
-  df <- shuffle_items(df, "treatment", "block", 112)
+  df <- shuffle_items(df, "treatment", factor(df$block), 112)
 
   subtreatments <- strsplit(as.character(df$treatment), "-") |>
     unlist() |>
@@ -718,7 +718,7 @@ test_that("objective_function_factorial drops the component a zero weight switch
     paste(Var1, Var2, sep = "-")
   )
   df <- initialise_design_df(treatments, 24, 3, 8, 3)
-  df <- shuffle_items(df, "treatment", "block", 112)
+  df <- shuffle_items(df, "treatment", factor(df$block), 112)
 
   full <- objective_function_factorial(df, "treatment", c("row", "col"))
 
@@ -760,7 +760,7 @@ test_that("objective_function_factorial falls back to objective_function with in
     paste(Var1, Var2, sep = "-")
   )
   df <- initialise_design_df(treatments, 24, 3, 8, 3)
-  df <- shuffle_items(df, "treatment", "block", 112)
+  df <- shuffle_items(df, "treatment", factor(df$block), 112)
 
   expected_score <- objective_function(df, "treatment", c("row", "col"))$score
 
