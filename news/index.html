@@ -65,6 +65,12 @@
 <div class="section level3">
 <h3 id="bug-fixes-0-0-11">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-11"></a></h3>
 <ul><li>
+<code><a href="../reference/speed.html">speed()</a></code> no longer fails with “supplied seed is not a valid integer” when <code>seed</code> is left unset in a session that has not yet used the random number generator and <code>random_initialisation</code> is toggled on.</li>
+<li>
+<code>optim_params(random_initialisation = )</code> no longer moves plots holding no treatment.</li>
+<li>
+<code>optim_params(random_initialisation = )</code> now respects <code>swap_all = TRUE</code>, so it no longer breaks up the wholeplots or strips of a split-plot or strip-plot design.</li>
+<li>
 <code><a href="../reference/speed.html">speed()</a></code> now gives a clear error when <code>grid_factors</code> is malformed, instead of failing with “missing value where TRUE/FALSE needed”.</li>
 <li>A two sided formula passed to <code>spatial_factors</code> is now rejected instead of silently accepted, and hierarchical designs now run the same <code>spatial_factors</code>, <code>iterations</code> and <code>seed</code> checks as simple ones.</li>
 <li>Named lists for hierarchical arguments such as <code>iterations</code> are now split per level under the <code>optimise</code> argument, as they already were when <code>swap</code> was a named list. A level the list leaves out now takes that argument’s own default rather than the default for <code>spatial_factors</code>.</li>

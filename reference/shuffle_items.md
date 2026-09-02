@@ -1,11 +1,22 @@
 # Shuffle Items in A Group
 
-Shuffle Items in A Group
+A shuffle has to move what the search moves, or it starts the search
+from a design the search itself could never reach. `swap_all` exchanges
+whole sets of like-treatment plots, so it shuffles treatment labels
+between those sets; a single swap exchanges plots, so it shuffles the
+plots.
 
 ## Usage
 
 ``` r
-shuffle_items(design, swap, swap_within, seed = NULL, linked_cols = NULL)
+shuffle_items(
+  design,
+  swap,
+  groups,
+  seed = NULL,
+  linked_cols = NULL,
+  swap_all = FALSE
+)
 ```
 
 ## Arguments
@@ -19,10 +30,9 @@ shuffle_items(design, swap, swap_within, seed = NULL, linked_cols = NULL)
   Column name of the treatment to swap, or named list for hierarchical
   designs
 
-- swap_within:
+- groups:
 
-  Column name defining groups within which to swap treatments, or named
-  list for hierarchical designs
+  Factor giving the group each plot is shuffled within.
 
 - seed:
 
@@ -34,6 +44,11 @@ shuffle_items(design, swap, swap_within, seed = NULL, linked_cols = NULL)
   Character vector of column names moved in lockstep with the `swap`
   column, so that a value paired with a treatment stays paired with it.
   `NULL` (default) moves the `swap` column alone.
+
+- swap_all:
+
+  Whether to swap all matching items or a single item at a time
+  (default: FALSE)
 
 ## Value
 
