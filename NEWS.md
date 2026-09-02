@@ -22,12 +22,10 @@
 ## Bug Fixes
 
 - `speed()` no longer fails with "supplied seed is not a valid integer" when `seed` is left unset in a
-  session that has not yet used the random number generator.
-- `optim_params(random_initialisation = )` no longer moves plots holding no treatment, so a design with
-  missing plots keeps the same gaps it started with.
-- `optim_params(random_initialisation = )` now shuffles treatment labels rather than plots at a
-  `swap_all = TRUE` level, so it no longer breaks up the wholeplots or strips of a split-plot or
-  strip-plot design.
+  session that has not yet used the random number generator and `random_initialisation` is toggled on.
+- `optim_params(random_initialisation = )` no longer moves plots holding no treatment.
+- `optim_params(random_initialisation = )` now respects `swap_all = TRUE`, so it no longer breaks up the
+  wholeplots or strips of a split-plot or strip-plot design.
 - `speed()` now gives a clear error when `grid_factors` is malformed, instead of failing with
   "missing value where TRUE/FALSE needed".
 - A two sided formula passed to `spatial_factors` is now rejected instead of silently accepted, and
