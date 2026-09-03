@@ -51,7 +51,8 @@ The `speed` package optimises spatial experimental designs by rearranging treatm
 
 You can install the development version of speed from [GitHub](https://github.com/biometryhub/speed) with any of the following options:
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 # pak
 if (!require("pak", quietly = TRUE)) install.packages("pak")
 pak::pak("biometryhub/speed")
@@ -86,7 +87,8 @@ See [news](https://biometryhub.github.io/speed/news/index.html).
 
 A simple example optimising a 4×3 completely randomised design with 4 treatments:
 
-```{r example}
+```{r}
+#| label: example
 library(speed)
 
 # Create a simple design with 3 replicates of 4 treatments
@@ -110,7 +112,8 @@ plot_progress(result)
 
 You can also optimise designs within blocks:
 
-```{r blocks}
+```{r}
+#| label: blocks
 # Create a design with blocks
 df <- data.frame(
   row = rep(1:6, each = 4),
@@ -162,11 +165,16 @@ You can customise the objective function and optimisation parameters to suit spe
 
 If you use `speed` in your work, please cite it by using:
 
-```{r citation, eval=FALSE, comment=""}
+```{r}
+#| label: citation
+#| eval: false 
 citation("speed")
 ```
 
-```{r citation_run, echo=FALSE, warning=FALSE}
+```{r}
+#| label: citation_run
+#| echo: false
+#| warning: false
 # CRAN populates the publication date automatically, so DESCRIPTION
 # deliberately has no Date field. Without one, citation() can't determine a
 # year and warns, printing "(????)". To render a tidy citation here, copy the
